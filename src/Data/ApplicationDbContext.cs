@@ -97,6 +97,7 @@ namespace BES.Data
 
 
         public DbSet<BES.Areas.Procurement.Models.Lot> Lot { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.ActivityDetailWork> ActivityDetailWork { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
 
@@ -137,5 +138,6 @@ namespace BES.Data
         public DbSet<BES.Models.Data.Indicator> Indicator { get; set; }
         public DbSet<BES.Models.Data.IndicatorTracking> IncdicatorTracking { get; set; }
         public DbSet<BES.Models.Data.TeacherProfile> TeacherProfile { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.WorkSchool> WorkSchool { get; set; }
     }
 }

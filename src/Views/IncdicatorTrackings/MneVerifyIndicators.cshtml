@@ -99,7 +99,7 @@
                 @*ReUpload*@
                 <td>
                     @{
-                        if (item.IsUpload == true && item.Verified == false)
+                        if (item.IsUpload == true && item.Verified == false && item.ImageURL!=null)
                         {
                             if (item.ReUpload == true)
                             {
@@ -116,11 +116,12 @@
                     }
 
                 </td>
+               
                 @*Verified*@
 
                 <td>
                     @{
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true && item.ImageURL != null)
                         {
                             if (item.Verified == true)
                             {
@@ -139,10 +140,11 @@
 
                 </td>
 
+                @*Verify Buttion*@
                 <td>
 
                     @{
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true && item.ImageURL != null)
                         {
                             if (item.isEvidence == true)
                             {
@@ -174,7 +176,7 @@
                 </td>
                 <td>
                     @{
-                        if (item.IsUpload == true && item.Verified == false && item.ReUpload == false)
+                        if (item.IsUpload == true && item.ImageURL != null && item.Verified == false && item.ReUpload == false )
                         {
                             <input type="submit" id="button" value="Verify" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
 

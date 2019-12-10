@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.WorkSchool>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualCost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityDetailWork)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityDetailWork.ActivityDetailWorkID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.School.SName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.WorkSchoolID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.WorkSchoolID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.WorkSchoolID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

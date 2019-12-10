@@ -101,7 +101,13 @@
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="~/img/EU-Logo2.png" class="user-image" alt="User Image">
-                    <span class="hidden-xs">@ProfileManager.CurrentUser.UserName</span>
+                    <span class="hidden-xs">
+                        @if (User.Identity.Name != null)
+                        {
+                            <text>@ProfileManager.CurrentUser.UserName</text>
+
+                        }
+                    </span>
                 </a>
                 <ul class="dropdown-menu">
                     <!-- User image -->
@@ -109,7 +115,12 @@
                         <img src="~/img/EU-Logo2.png" class="img-circle" alt="User Image">
 
                         <p>
-                            @ProfileManager.CurrentUser.UserName
+                            @if (User.Identity.Name != null)
+                            {
+                                <text>@ProfileManager.CurrentUser.UserName</text>
+
+                            }
+                            
                             <small>Member since Nov. 2012</small>
                         </p>
                     </li>

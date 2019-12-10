@@ -1,0 +1,46 @@
+﻿@model BES.Areas.Procurement.Models.WorkSchool
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>WorkSchool</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="WorkSchoolID" />
+            <div class="form-group">
+                <label asp-for="ActivityDetailWorkID" class="control-label"></label>
+                <select asp-for="ActivityDetailWorkID" class="form-control" asp-items="ViewBag.ActivityDetailWorkID"></select>
+                <span asp-validation-for="ActivityDetailWorkID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <select asp-for="SchoolID" class="form-control" asp-items="ViewBag.SchoolID"></select>
+                <span asp-validation-for="SchoolID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EstimatedCost" class="control-label"></label>
+                <input asp-for="EstimatedCost" class="form-control" />
+                <span asp-validation-for="EstimatedCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActualCost" class="control-label"></label>
+                <input asp-for="ActualCost" class="form-control" />
+                <span asp-validation-for="ActualCost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

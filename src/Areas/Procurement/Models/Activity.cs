@@ -17,13 +17,14 @@ namespace BES.Areas.Procurement.Models
         [DisplayName("Procurement Head")]
         public short ProcurementPlanID { get; set; }
         [Required]
-        [DisplayName("Activity Number")]
-        public short ActivityNo { get; set; }
-
+        [DisplayName("Step Reference No")]
+        public string StepReferenceNo { get; set; }
         [DisplayName("Activity Name")]
-        public string Name { get; set; }
+        public string Name { get; set; }  
         [DisplayName("Lots Required")]
         public short  LotTotal { get; set; }
+        [DisplayName("Total Schools")]
+        public short SchoolTotal { get; set; }
         [DisplayName("Procurement For")]
         public short ProcurementFor { get; set; }
         [Required]

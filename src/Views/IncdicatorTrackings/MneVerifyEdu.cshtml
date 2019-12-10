@@ -6,7 +6,7 @@
 <section class="content-header">
     <div class="row">
         <h1>
-            Verify Education Section Evidences 
+            Verify @ViewBag.Section Section Evidences 
             @*<small>BES</small>*@
         </h1>
         @*<div class="col-sm-10">
@@ -91,7 +91,7 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink("Verify", "MneVerifyIndicators", new { id = item.SchoolID, SecID = "926982" })
+                            @Html.ActionLink("Verify", "MneVerifyIndicators", new { id = item.SchoolID, SecID = @ViewBag.id })
                         </td>
                     </tr>
                 }

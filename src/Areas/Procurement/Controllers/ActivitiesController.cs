@@ -45,27 +45,27 @@ namespace BES.Areas.Procurement.Controllers
             //ZongSMS obj = new ZongSMS("","","","");
             //obj.SendSingleSMS("");
 
-            var ActivitySequence = _context.Activity.Where(a => a.ProcurementPlanID == PPID).OrderBy(a=>a.ActivityNo).Select(a => a.ActivityNo).ToList();
+            var ActivitySequence = _context.Activity.Where(a => a.ProcurementPlanID == PPID).OrderBy(a=>a.StepReferenceNo).Select(a => a.StepReferenceNo).ToList();
             var ActivityOnStep = (from c in _context.ActivityDetail
-                           group c by c.Activity.ActivityNo into g
+                           group c by c.Activity.StepReferenceNo into g
                            select new
                            {
-                               ActivityNo = g.Key,                               
+                               StepReferenceNo = g.Key,                               
                                SerailNo = g.Max(a => a.Step.SerailNo)
-                           }).OrderBy(a=>a.ActivityNo).ToList();
+                           }).OrderBy(a=>a.StepReferenceNo).ToList();
 
             int counter = 0;
             List<short> finalList = new List<short>();
             foreach(var val in ActivitySequence)
             {
-                if(ActivityOnStep.Count > counter && val == ActivityOnStep.ElementAt(counter).ActivityNo)
+                if(ActivityOnStep.Count > counter && val == ActivityOnStep.ElementAt(counter).StepReferenceNo)
                 {
                     finalList.Add(ActivityOnStep.ElementAt(counter).SerailNo ?? 0);
                     counter++;
                 }
                 else
                 {
-                    finalList.Add(0);
+                    finalList.Add(0); 
                 }               
             }
             ViewBag.ActivitySequence = ActivitySequence;
@@ -181,24 +181,36 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(short id,[Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedDate,CreatedBy,UpdatedBy,UpdatedDate,ProjectNo")] Activity activity)
+        public async Task<IActionResult> Create(short id,[Bind("ActivityID,ProcurementPlanID,StepReferenceNo,Name,LotTotal,SchoolTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedDate,CreatedBy,UpdatedBy,UpdatedDate,ProjectNo")] Activity activity)
         {
             if (ModelState.IsValid)
             {               
-                var val = _context.Activity.Count(a => a.ActivityNo == activity.ActivityNo && a.ProcurementPlanID == id);
+                var val = _context.Activity.Count(a => a.StepReferenceNo == activity.StepReferenceNo && a.ProcurementPlanID == id);
                 if (val == 0)
                 {
                     activity.ActualCost = 0;
                     activity.CreatedDate = DateTime.Now;
                     activity.Status = 1;
                     activity.ProcurementPlanID = id;
+                    if(id == 2)
+                    {
+                        activity.LotTotal = 1;                        
+                    }
                     _context.Add(activity);
                     await _context.SaveChangesAsync();
+                    if (activity.ProcurementPlanID == 2)// where 2 is Works
+                    {
+                        ActivityDetailWork Obj = new ActivityDetailWork();
+                        Obj.ActivityID = _context.Activity.Max(a => a.ActivityID);
+                        Obj.TotalSchool = activity.SchoolTotal;
+                        _context.Add(Obj);
+                        await _context.SaveChangesAsync();
+                    }                    
                     return RedirectToAction(nameof(Index),new { PPID = id });                    
                 }
                 else
                 {
-                    ViewBag.Error = "Activity No." + activity.ActivityNo.ToString() + " already exist!";
+                    ViewBag.Error = "Activity No." + activity.StepReferenceNo.ToString() + " already exist!";
                 }
             }
             ViewBag.ReviewType = new SelectList(new[]
@@ -233,7 +245,7 @@ namespace BES.Areas.Procurement.Controllers
             }
             ViewData["MethodID"] = new SelectList(_context.Method, "MethodID", "Name", activity.MethodID);
             ViewData["ProjectNo"] = new SelectList(_context.Project, "ProjectNo", "ProjectName", activity.ProjectNo);
-            ViewData["ProcurementPlanID"] = new SelectList(_context.ProcurementPlan, "ProcurementPlanID", "Name", activity.ProcurementPlanID);
+            ViewData["ProcurementPlanID"] = new SelectList(_context.ProcurementPlan.Where(a=>a.ProcurementPlanID == activity.ProcurementPlanID), "ProcurementPlanID", "Name");
             ViewBag.ReviewType = new SelectList(new[]
                    {
                          new { Id = "Prior Review", Name = "Prior Review" },
@@ -253,7 +265,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("ActivityID,ProcurementPlanID,ActivityNo,Name,LotTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedBy,CreatedDate,UpdatedDate,ProjectNo")] Activity activity)
+        public async Task<IActionResult> Edit(short id, [Bind("ActivityID,ProcurementPlanID,ActivityNo,StepReferenceNo,Name,LotTotal,SchoolTotal,ProcurementFor,Description,EstimatedCost,ActualCost,MethodID,ReviewType,Status,IsCenceled,Remarks,CreatedBy,CreatedDate,UpdatedDate,ProjectNo")] Activity activity)
         {
             if (id != activity.ActivityID)
             {

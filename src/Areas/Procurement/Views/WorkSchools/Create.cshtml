@@ -1,0 +1,93 @@
+﻿@model BES.Areas.Procurement.Models.WorkSchool
+
+@{
+    ViewData["Title"] = "Create";
+}
+<section class="content">
+    <text style="color:indianred;font-weight:bold">@ViewBag.Error</text>
+    @{
+        if (ViewBag.CurrentSchool < ViewBag.SchoolTotal)
+        {
+            <h3>Select Schools of Activity: @ViewBag.AName</h3>
+            <hr />
+            <div class="row">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ActivityDetailWorkID" />
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">Select District</label>
+                            <select id="DistrictID" class="form-control" asp-items="ViewBag.DistrictID"></select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" value="Add School" class="btn btn-default" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="SchoolID" class="control-label"></label>
+                            <select asp-for="SchoolID" class="form-control" asp-items="ViewBag.SchoolID"></select>
+                        </div>
+                        @*<div class="form-group">
+                                <label asp-for="ActualCost" class="control-label"></label>
+                                <input asp-for="ActualCost" class="form-control" />
+                                <span asp-validation-for="ActualCost" class="text-danger"></span>
+                            </div>*@
+                    </div>
+                    @*<div class="col-md-2">
+                        <div class="form-group">
+                            <label asp-for="EstimatedCost" class="control-label"></label>
+                            <input asp-for="EstimatedCost" class="form-control" />
+                            <span asp-validation-for="EstimatedCost" class="text-danger"></span>
+                        </div>
+                    </div>*@
+                </form>
+            </div>
+
+            }
+        }
+            <div>
+                <h4 class="box-title">
+                    <text style="font-weight:bold">List of already included school in current Activity </text>
+                </h4>
+            </div>
+            <div class="col-md-1" id="divLoading">
+                <img src="~/img/sspinner.gif" width="40" height="40" />
+            </div>
+
+            <span style="font-size:14px;background-color:cornflowerblue;color:white;padding:5px;margin-left:5px">Total Lot: @ViewBag.SchoolTotal Added Schools: @ViewBag.CurrentSchool Remaining Schools: @ViewBag.RemainingSchool</span>
+            <div id="dynamicContentContainer" style="margin:5px"></div>
+            <div>                
+                <a asp-action="Edit" asp-area="Procurement" asp-controller="Activities" asp-route-id="@ViewBag.AID">Back to List</a>
+            </div>
+        </section>
+
+@section Scripts {    
+
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "WorkSchools")', { id: @Model.ActivityDetailWorkID }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+
+        $('#DistrictID').change(function () {
+            var url = '@Url.Content("~/Procurement/")' + "WorkSchools/GetSchools";
+            var ddlsource = "#DistrictID";
+            $.getJSON(url, { DistrictID: $(ddlsource).val() }, function (data) {
+                var items = '';
+
+                $("#SchoolID").empty();
+                $.each(data, function (i, school) {
+                    items += "<option value='" + school.value + "'>" + school.text + "</option>";
+                });
+                $("#SchoolID").html(items);
+            });
+        });
+    </script>
+
+}

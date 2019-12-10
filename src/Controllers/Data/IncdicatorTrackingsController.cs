@@ -105,14 +105,7 @@ namespace BES.Controllers.Data
             var sch = _context.Schools.Find(id);
             ViewBag.Sname = sch.SName;
 
-            if (SecID == 926982)
-            {
-                ViewBag.Section = "Education Section";
-            }
-            else if (SecID == 352769)
-            {
-                ViewBag.Section = "Development Section";
-            }
+           
             var indiTrack = _context.IncdicatorTracking.Where(a => a.SchoolID == id);
             var applicationDbContext = from Indicator in _context.Indicator
                                        join IncdicatorTracking in indiTrack on Indicator.IndicatorID equals IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
@@ -138,22 +131,42 @@ namespace BES.Controllers.Data
                                            isFeeder = Indicator.IsFeeder,
                                            isNextLevel = Indicator.IsNextLevel,
                                            EvidanceType = Indicator.EvidanceType,
-                                           ReUpload = Proj_IncdicatorTracking.ReUpload
+                                           ReUpload = Proj_IncdicatorTracking.ReUpload,
+                                           School= sch
+                                           
                                            //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
 
                                            // Proj_Indicator.SequenceNo
                                        };
-            switch (sch.type)
+
+            if (SecID == 926982)
             {
-                case 1:
-                    applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
-                    break;
-                case 2:
-                    applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
-                    break;
-                case 3:
-                    applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
-                    break;
+                ViewBag.Section = "Education Section";
+                switch (sch.type)
+                {
+                    case 1:
+                        applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
+                        break;
+                    case 2:
+                        applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
+                        break;
+                    case 3:
+                        applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
+                        break;
+                }
+
+            }
+            else if (SecID == 352769)
+            {
+                ViewBag.Section = "Development Section";
+                if(sch.NewConstruction==false)
+                {   // remove Soil test and Master Plan
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 26 && a.IndicatorID != 27);
+                }
+                if(sch.ExternalDevelopment==false)
+                {
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 31);
+                }
             }
             //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
             //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
@@ -161,6 +174,7 @@ namespace BES.Controllers.Data
             //{
             //    if(indi.SchoolID!=id ||)
             //}
+            
             ViewData["ids"] = applicationDbContext.Select(a => a.IndicatorID).ToArray();
             return View(applicationDbContext.ToList());
         }
@@ -192,7 +206,11 @@ namespace BES.Controllers.Data
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePost(int sID, int iID, DateTime EDate, bool reupload)
         {
-            // Save uploaded files
+            Indicator indicator = _context.Indicator.Find(iID);
+            
+            if(indicator.IsEvidenceRequire==true)
+            { }
+                // Save uploaded files
             var files = Request.Form.Files;
 
             string District = _context.Schools.Include(a => a.UC.Tehsil.District)
@@ -204,7 +222,7 @@ namespace BES.Controllers.Data
 
             //string sPath = Path.Combine(rootPath + District + "/" + iID + "/", sID.ToString());
             string sPath = Path.Combine(rootPath + District + "/" + iID + "/");
-            if (!System.IO.Directory.Exists(sPath))
+            if (!System.IO.Directory.Exists(sPath) && indicator.IsEvidenceRequire==true)
             {
                 System.IO.Directory.CreateDirectory(sPath);
             }
@@ -228,7 +246,7 @@ namespace BES.Controllers.Data
                 IndiTrack.IsUpload = true;
                 IndiTrack.TotalFilesUploaded = (short)files.Count;
                 IndiTrack.DateOfUpload = EDate;
-                IndiTrack.ImageURL = Path.Combine("/Documents/IndicatorEvidences/", District + "//" + iID);//Server Path
+                IndiTrack.ImageURL = indicator.IsEvidenceRequire? Path.Combine("/Documents/IndicatorEvidences/", District + "//" + iID):null;//Server Path
 
                 if (reupload == true)
                 {// update record
@@ -254,8 +272,17 @@ namespace BES.Controllers.Data
                 // IndiTrack.CreateDate = DateTime.Now;
                 //IndiTrack.CreatedBy = User.Identity.Name;
 
-
-
+                //update school table
+                if (iID > 21 & iID < 25)
+                {
+                    School school = _context.Schools.Find(sID);
+                    switch(iID)
+                    { case 22: school.NewConstruction = true; break;
+                        case 23: school.RepairRennovation = true; break;
+                        case 24: school.ExternalDevelopment = true; break;
+                    }
+                    _context.Update(school);
+                }
 
                 await _context.SaveChangesAsync();
             }
@@ -272,10 +299,26 @@ namespace BES.Controllers.Data
 
         // GET: /IncdicatorTrackings/MneVerifyEdu
         [Authorize(Roles = "Administrator,M&E")]
-        public async Task<IActionResult> MneVerifyEdu()
+        public async Task<IActionResult> MneVerifyEdu(int id)
         {
+            ViewBag.id = id;
+            int PId = id == 926982 ? 4 : 3;
+            ViewBag.SectionID = id;
+            if (id == 926982)
+            {
+                ViewBag.Section = "Education ";
+            }
+            else if (id == 352769)
+            {
+                ViewBag.Section = "Development ";
+            }
+            else
+            {
+                return RedirectToAction("index", "BaselineGenerals");
+            }
             var applicationDbContext = (from Schools in _context.Schools
                                         join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                                        join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID 
                                         join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
                                         join Tehsils in _context.Tehsils
                                               on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
@@ -284,7 +327,7 @@ namespace BES.Controllers.Data
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                          Proj_IncdicatorTracking.Verified == false && Proj_IncdicatorTracking.ReUpload == false
+                                          Proj_IncdicatorTracking.Verified == false && Proj_IncdicatorTracking.ReUpload == false && Indicators.PartnerID==PId
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
@@ -330,18 +373,93 @@ namespace BES.Controllers.Data
         // GET: /IncdicatorTrackings/ReuploadEvidence
         public async Task<IActionResult> ReuploadEvidence(int id)
         {
-            int PId = 0;
+            int PId = 0;// id == 926982 ? 4 : 3;
+
+            ViewBag.id = id;
+            if (id == 926982)
+            {
+                ViewBag.Section = "Education Section";
+                PId = 4;
+            }
+            else if (id == 352769)
+            {
+                ViewBag.Section = "Development Section";
+                PId = 3;
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+           // var IndicatorsFilter = _context.Indicator.Where(a => a.PartnerID == PId);
+            var applicationDbContext = (from Schools in _context.Schools
+                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                                        join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
+                                        join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
+                                        join Tehsils in _context.Tehsils
+                                              on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
+                                          equals new { Tehsils.TehsilID, Column1 = Tehsils.TehsilID }
+                                        join Districts in _context.Districts
+                                              on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
+                                          equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
+                                        where
+                                           Proj_IncdicatorTracking.ReUpload == true && Indicators.PartnerID==PId
+                                        group new { Schools, Districts } by new
+                                        {
+                                            Schools.SchoolID,
+                                            Schools.SName,
+                                            Schools.ClusterBEMIS,
+                                            Schools.type,
+                                            Districts.RegionID,
+                                            Districts.DistrictName
+                                        } into g
+                                        orderby
+                                          g.Key.RegionID,
+                                          g.Key.DistrictName,
+                                          g.Key.type
+                                        select new School
+                                        {
+                                            RegName = g.Key.RegionID.ToString(),
+                                            DisName = g.Key.DistrictName,
+                                            SchoolID = g.Key.SchoolID,
+                                            SName = g.Key.SName,
+                                            ClusterBEMIS = g.Key.ClusterBEMIS,
+                                            type = g.Key.type
+                                        });
+
+            try
+            {
+                string ra = await GetCurrentUserId();
+                //int[] regions = ra.Split(',').Select(int.Parse).ToArray();
+                //string[] regions = ra.Split(','); //.ToArray();
+                //int[] array= Array.ConvertAll(ra, int.Parse);
+                //Console.WriteLine(regions);
+                if (ra.Length > 0)
+                {
+                    applicationDbContext = applicationDbContext.Where(e => e.RegName.Any(r => ra.Contains(r)));
+                }
+            }
+            catch (Exception ex)
+            { }
+
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: /IncdicatorTrackings/VerifidEvidence
+        public async Task<IActionResult> VerifiedEvidence(int id)
+        {
+
+            int PId = 0;// id == 926982 ? 4 : 3;
 
             ViewBag.SectionID = id;
             if (id == 926982)
             {
                 ViewBag.Section = "Education Section";
-                PId = 3;
+                PId = 4;
             }
             else if (id == 352769)
             {
                 ViewBag.Section = "Development Section";
-                PId = 4;
+                PId = 3;
             }
             else
             {
@@ -421,6 +539,7 @@ namespace BES.Controllers.Data
             }
             var applicationDbContext = (from Schools in _context.Schools
                                         join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
+                                        join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
                                         join Ucs in _context.UCs on Schools.UCID equals Ucs.UCID
                                         join Tehsils in _context.Tehsils
                                               on new { Ucs.TehsilID, Column1 = Ucs.TehsilID }
@@ -429,7 +548,7 @@ namespace BES.Controllers.Data
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                           Proj_IncdicatorTracking.Verified == true
+                                           Proj_IncdicatorTracking.Verified == true && Indicators.PartnerID == PId
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
@@ -517,18 +636,37 @@ namespace BES.Controllers.Data
 
                                            // Proj_Indicator.SequenceNo
                                        };
-            switch (sch.type)
+
+            if (SecID == 926982)
             {
-                case 1:
-                    applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
-                    break;
-                case 2:
-                    applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
-                    break;
-                case 3:
-                    applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
-                    break;
+                ViewBag.Section = "Education Section";
+                switch (sch.type)
+                {
+                    case 1:
+                        applicationDbContext = applicationDbContext.Where(a => a.isPotential == true);
+                        break;
+                    case 2:
+                        applicationDbContext = applicationDbContext.Where(a => a.isFeeder == true);
+                        break;
+                    case 3:
+                        applicationDbContext = applicationDbContext.Where(a => a.isNextLevel == true);
+                        break;
+                }
+
             }
+            else if (SecID == 352769)
+            {
+                ViewBag.Section = "Development Section";
+                if (sch.NewConstruction == false)
+                {   // remove Soil test and Master Plan
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID != 26 && a.IndicatorID != 27);
+                }
+                if (sch.ExternalDevelopment == false)
+                {
+                    applicationDbContext = applicationDbContext.Where(a => a.IndicatorID < 31);
+                }
+            }
+           
             //applicationDbContext = applicationDbContext.Where(a => a.SchoolID == id || a.SchoolID == null);
             //List<IndicatorTracking> indicatorTrackings = new List<IndicatorTracking>();
             //foreach(var indi in applicationDbContext)
@@ -579,7 +717,43 @@ namespace BES.Controllers.Data
             return Json(new { success = true, responseText = "Sucessfully Updated" }); //, sID = sID, SecID = SecID });
         }
 
+        public async Task<IActionResult> DevInfo(int id)
+        {
+            SchoolDevIndicator schoolDevIndicator = new SchoolDevIndicator();
+            School school = _context.Schools.Find(id);
+            schoolDevIndicator.SchoolID = id;
+            schoolDevIndicator.NewRooms = school.NewRooms;
+            schoolDevIndicator.RepairRooms = school.RepairRooms;
+            schoolDevIndicator.NewToilets = school.NewToilets;
+            schoolDevIndicator.RepairToilets = school.RepairToilets;
 
+            return PartialView(schoolDevIndicator);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DevInfo(int id, short nr,short rr, short nt, short rt)
+        {
+
+            try
+            {
+                School school = _context.Schools.Find(id);
+                school.NewRooms = nr;
+                school.RepairRooms = rr;
+                school.NewToilets = nt;
+                school.RepairToilets = rt;
+                _context.Update(school);
+                await _context.SaveChangesAsync();
+        }
+            catch (Exception ex)
+            {
+                Console.Write(ex.InnerException.Message);
+                return Json(new { success = false, responseText = ex.InnerException.Message
+    });
+            }
+            //ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", incdicatorTracking.SchoolID);
+            //return RedirectToAction(nameof(Update), new { id = sID, SecID = SecID });
+            return Json(new { success = true, responseText = "Sucessfully Updated" }); //, sID = sID, SecID = SecID });
+       
+        }
 
         // GET: IncdicatorTrackings/Details/5
         public async Task<IActionResult> Details(int? id)

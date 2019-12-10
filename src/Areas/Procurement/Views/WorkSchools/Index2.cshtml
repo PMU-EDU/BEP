@@ -1,0 +1,37 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.WorkSchool>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.School.UC.Tehsil.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.School)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstimatedCost)
+            </th>           
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.School.UC.Tehsil.District.DistrictName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.School.SName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedCost)
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>

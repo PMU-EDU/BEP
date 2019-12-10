@@ -4,6 +4,7 @@
     ViewData["Title"] = "Update";
     int dataLength = Model.Count();
     int ii = 1;
+    int SecID = @ViewBag.SecID;
 }
 @section Styles {
     <!-- bootstrap datepicker -->
@@ -109,7 +110,7 @@
 
                 <td>
                     @{
-                        if (item.IsUpload == true)
+                        if (item.IsUpload == true & item.isEvidence==true)
                         {
                             if (item.EvidanceType == "image/*")
                             {
@@ -193,10 +194,20 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
-            $.get('@Url.Action("Index", "TeacherProfiles")', { id: @Model.Select(a=>a.SchoolID).FirstOrDefault() }, function (content) {
-                $("#dynamicContentContainer").html(content);
-                $("#divLoading").hide();
-            });
+            var SecID=@ViewBag.SecID;
+            //alert(SecID)
+            if (SecID == 926982) {
+                $.get('@Url.Action("Index", "TeacherProfiles")', { id: @Model.Select(a=>a.SchoolID).FirstOrDefault() }, function (content) {
+                    $("#dynamicContentContainer").html(content);
+                    $("#divLoading").hide();
+                });
+            }
+            else if (SecID == 352769) {
+                 $.get('@Url.Action("DevInfo", "IncdicatorTrackings")', { id: @Model.Select(a=>a.SchoolID).FirstOrDefault() }, function (content) {
+                    $("#dynamicContentContainer").html(content);
+                    $("#divLoading").hide();
+                });
+            }
         });
     </script>
     <!-- bootstrap datepicker -->

@@ -13,5 +13,6 @@ namespace BES.Data
         [NotMapped]
         public string Role { get; set; }
         public string RegionalAccess { get; set; }
+       // public ICollection<ApplicationUserRole> UserRoles { get; set; }
     }
 }

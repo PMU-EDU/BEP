@@ -1,0 +1,99 @@
+﻿@using BES.Models.Data
+@model SchoolDevIndicator
+@{
+    ViewData["Title"] = "DevInfo";
+}
+
+<h2>Additional Information</h2>
+@Html.HiddenFor(x => x.SchoolID)
+<table class="table table-striped table-bordered  dataTables-example">
+    <tr>
+        <th>New Rooms</th>
+        <th>Repair Rooms</th>
+        <th>New Toilets</th>
+        <th>Repair Toilets</th>
+        <th></th>
+    </tr>
+    <tr>
+        @if (Model.NewRooms > 0)
+        {
+            <td> <input asp-for="NewRooms" class="form-control" disabled /></td> }
+
+        else
+        {
+            <td> <input asp-for="NewRooms" class="form-control" /></td>}
+        @if (Model.RepairRooms > 0)
+        {
+            <td> <input asp-for="RepairRooms" class="form-control" disabled /></td> }
+        else
+        {
+            <td> <input asp-for="RepairRooms" class="form-control" /></td>}
+
+        @if (Model.NewToilets > 0)
+        {
+            <td> <input asp-for="NewToilets" class="form-control" disabled /></td> }
+        else
+        {
+            <td> <input asp-for="NewToilets" class="form-control" /></td>
+        }
+        @if (Model.RepairToilets > 0)
+        {
+            <td> <input asp-for="RepairToilets" class="form-control" disabled /></td>}
+        else
+        { <td> <input asp-for="RepairToilets" class="form-control" /></td>}
+
+        <td>
+            @if (Model.NewRooms < 1 || Model.RepairRooms < 1 || Model.NewToilets < 1 || Model.RepairToilets < 1)
+            {<input type="submit" id="button" value="Update" class="kk btn btn-primary" onclick="submit_Dev_info()" />
+            }
+        </td>
+        @*<td>@Model.NewRooms</td>
+        <td>@Model.RepairRooms</td>
+        <td>@Model.NewToilets</td>
+        <td>@Model.RepairToilets</td>*@
+    </tr>
+</table>
+
+
+
+<script type="text/javascript">
+
+    function submit_Dev_info() {
+        var model = @Html.Raw(Json.Serialize(Model));
+        //alert("Clicked");
+        var nr = document.getElementById("NewRooms").value;
+        var rr = document.getElementById("RepairRooms").value;
+        var nt = document.getElementById("NewToilets").value;
+        var rt = document.getElementById("RepairToilets").value;
+
+        alert("SID=" +@Model.SchoolID+", Nr=" + nr + ", RR=" + rr + ", NT=" + nt + ", RT=" + rt);
+        //// Adding one more key to FormData object
+                    //fileData.append('username', 'Manas');
+                    $.ajax({
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        data: model,
+                        url: "/IncdicatorTrackings/DevInfo/" +@Model.SchoolID+"?nr="+nr+"&rr="+rr+"&nt="+nt+"&rt="+rt,
+                        dataType: 'json',
+
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.responseText);
+                                window.location.href = "/IncdicatorTrackings/Update/" + @Model.SchoolID + "?SecID=352769";
+                            } else {
+                                // DoSomethingElse()
+                                alert(response.responseText);
+                                //window.location.href =
+                            }
+                        },
+                        error: function (response) {
+                            alert("error!");  //
+                        }
+
+                    });
+                        }
+
+
+
+</script>

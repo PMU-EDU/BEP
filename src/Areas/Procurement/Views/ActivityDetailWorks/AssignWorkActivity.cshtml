@@ -1,0 +1,132 @@
+﻿
+
+
+
+@model IEnumerable<BES.Areas.Procurement.Models.WorkSchool>
+
+
+<style>
+    table, tr, td, th {
+        /*border: 1px solid black;*/
+        border-collapse: collapse;
+    }
+
+    .bullet {
+        display: list-item;
+        list-style: disc inside;
+        margin: 0;
+        font-weight: bolder
+    }   
+</style>
+
+<div class="ibox-content">
+    <form id="form1">
+        <table class="table table-striped dataTables-example" style="margin-bottom:0">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.School.UC.Tehsil.District)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SchoolID)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.School)
+                    </th>
+                    <th style="max-width:90px">
+                        <text>Estimated Amount</text>
+                    </th>
+                    <th style="max-width:90px">
+                        <text>Actual Amount</text>
+                    </th>
+                    <th>Process</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.School.UC.Tehsil.District.DistrictName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SchoolID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.School.SName)
+                    </td>
+                    @{
+                        if (item.ActualCost == null)
+                        {
+                            <td>
+                                <input id="@("EAmount" + item.WorkSchoolID)" type="text" class="form-control" />
+                            </td>
+                            <td>
+                                <input id="@("AAmount" + item.WorkSchoolID)" type="text" class="form-control" />
+                            </td>
+                            <td><input id="@("btn" + item.WorkSchoolID)" style="float:right" type="button" value="Submit" class="btn btn-sm btn-primary" onclick="ActionUpdateAmount(@item.WorkSchoolID)" /></td>
+                            <td><img id="@("img" + item.WorkSchoolID)" src="~/img/cross.png" width="35" height="25" /></td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input id="@("EAmount" + item.WorkSchoolID)" value="@item.EstimatedCost" type="text" class="form-control" readonly="readonly" />
+                            </td>
+                            <td>
+                                <input id="@("AAmount" + item.WorkSchoolID)" value="@item.ActualCost" type="text" class="form-control" readonly="readonly" />
+                            </td>
+                            <td><input id="@("btn" + item.WorkSchoolID)" style="float:right" type="button" value="Submit" class="btn btn-sm btn-primary" disabled="disabled" /></td>
+                            <td><img id="@("img" + item.WorkSchoolID)" src="~/img/tick.png" width="35" height="25" /></td>
+                        }
+                    }
+
+                </tr>
+                }
+            </tbody>            
+        </table>       
+        
+       <div style="float:none;"></div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+    function ActionUpdateAmount(workschoolid) {
+
+        var eAmount = document.getElementById('EAmount' + workschoolid).value;
+        var aAmount = document.getElementById('AAmount' + workschoolid).value;
+        if (eAmount == "" || eAmount == null || eAmount < 0 || aAmount == "" || aAmount == null || aAmount < 0) {
+            alert("Please enter valid amount");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            data: { WorkSchoolId: workschoolid, EAmount: eAmount, AAmount: aAmount },
+            url: "/Procurement/WorkSchools/AssignAmount",
+            dataType: 'json',
+
+            success: function (response) {
+                if (response.success) {
+                    //alert(id)
+                    var btn = document.getElementById("img" + workschoolid);
+                    btn.src = '/img/tick.png';
+                    btn.width = "25";
+                    btn.height = "20";
+                    btn.onclick = "";
+                    $('#EAmount' + workschoolid).prop('readonly', true);
+                    $('#EAmount' + workschoolid).prop('readonly', true);
+                    
+                } else {
+                    // DoSomethingElse()
+                    alert(response.responseText);
+                }
+
+            },
+            error: function (response) {
+                alert("error!");  //
+            }
+
+        });
+    }
+</script>

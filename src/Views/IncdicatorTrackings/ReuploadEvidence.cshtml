@@ -95,11 +95,11 @@
                             @{
                                 if (User.IsInRole("M&E"))
                                 {
-                                    @Html.ActionLink("View", "MneVerifyIndicators", new { id = item.SchoolID, SecID = "926982" })
+                                    @Html.ActionLink("View", "MneVerifyIndicators", new { id = item.SchoolID, SecID = @ViewBag.id })
                                 }
                                 else
                                 {
-                                    @Html.ActionLink("Update", "Update", new { id = item.SchoolID, SecID = "926982" })
+                                    @Html.ActionLink("Update", "Update", new { id = item.SchoolID, SecID = @ViewBag.id })
 
                                 }
                             }
@@ -186,5 +186,6 @@
         });
 
     </script>
+
 
 }

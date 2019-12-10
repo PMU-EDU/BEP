@@ -10,6 +10,7 @@ using BES.Data;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
+using BES.Models.Data;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -161,7 +162,7 @@ namespace BES.Areas.Procurement.Controllers
             }           
             return View(activityDetail);
         }
-
+        
         //[Authorize(Roles = "Procurement")]
         // GET: Procurement/ActivityDetails/Edit/5
         public async Task<IActionResult> Edit(short ActivityID, short StepID)
@@ -179,7 +180,10 @@ namespace BES.Areas.Procurement.Controllers
             if (activityDetail == null)
             {
                 return NotFound();
-            }            
+            }           
+            ViewData["ContractorID"] = new SelectList(_context.Contractor.Where(a => a.ContractorTypeID == 1).ToList(), "ContractorID", "CompanyName");
+            ViewBag.CName = _context.ActivityDetailWork.Include(a=>a.Contractor).Where(a => a.ActivityID == ActivityID).Select(a => a.Contractor.CompanyName).FirstOrDefault();
+            ViewBag.CEDate = _context.ActivityDetailWork.Where(a => a.ActivityID == ActivityID).Select(a => a.ExpiryDate.ToString() ?? "").FirstOrDefault();
             return View(activityDetail);
         }
 
@@ -188,12 +192,8 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
-        {
-            //if (id != activityDetail.ActivityID)
-            //{
-            //    return NotFound();
-            //}
+        public async Task<IActionResult> Edit(string PPName, int ActualCost, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment, DateTime ExpiryDate, short CID)
+        {           
 
             if (ModelState.IsValid)
             {
@@ -235,6 +235,16 @@ namespace BES.Areas.Procurement.Controllers
                     //_context.Update(activityObj);
                     _context.Update(activityDetail);
                     await _context.SaveChangesAsync();
+                    if (activityDetail.StepID == 21)
+                    {
+                        ActivityDetailWork Obj = _context.ActivityDetailWork.Where(a => a.ActivityID == activityDetail.ActivityID).FirstOrDefault();
+                        Obj.ContractorID = CID;
+                        Obj.ExpiryDate = ExpiryDate;                        
+                        _context.Update(Obj);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Edit), new { activityDetail.ActivityID, activityDetail.StepID });
+                    }
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

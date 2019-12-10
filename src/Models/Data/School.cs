@@ -65,6 +65,16 @@ namespace BES.Models.Data
         [DisplayName("Dropped Remarks")]
         public string Remarks { get; set; }
 
+       public int EstimatedCost { get; set; }
+       public int ActucalCost         {get;set;}
+       public short NewRooms            {get;set;}
+       public short RepairRooms         {get;set;}
+       public short NewToilets          {get;set;}
+       public short RepairToilets       {get;set;}
+       public bool NewConstruction     {get;set;}
+       public bool RepairRennovation   {get;set;}
+       public bool ExternalDevelopment {get;set;}
+
         //[DisplayName("Notification Date")]
         // [DataType(DataType.Date)]
         // [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -78,6 +88,15 @@ namespace BES.Models.Data
         public virtual UC UC { get; set; }
     }
 
+    public class SchoolDevIndicator
+    {
+        [Key]
+        public int SchoolID { get; set; }
+        public short NewRooms { get; set; }
+        public short RepairRooms { get; set; }
+        public short NewToilets { get; set; }
+        public short RepairToilets { get; set; }
+    }
     public class SchoolMap
     {
         [Key]
