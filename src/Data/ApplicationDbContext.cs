@@ -64,6 +64,7 @@ namespace BES.Data
                 table.IndicatorID
             });
             builder.Entity<BES.Models.Data.IndicatorDevApp>().HasKey(table => new {
+                table.ImageID,
                 table.SchoolID,
                 table.IndicatorID
             });

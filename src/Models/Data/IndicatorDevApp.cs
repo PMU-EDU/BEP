@@ -11,12 +11,13 @@ namespace BES.Models.Data
     public class IndicatorDevApp
     {
         [Key]
+        public short ImageID { get; set; }
+        [Key]
         public int SchoolID { get; set; }
         [Key]
         public int IndicatorID { get; set; }
-        [Key]
-        public short ImageID { get; set; }
         public string ImagePath { get; set; }
+        public string ImageByte { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public DateTime DateTime { get; set; }

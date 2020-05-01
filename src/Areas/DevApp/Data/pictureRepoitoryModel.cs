@@ -35,6 +35,8 @@ namespace BES.Areas.DevApp.Models
         public string picture_comment { get; set; }
         public double picture_logitude { get; set; }
         public double picture_latitude { get; set; }
+        //Image64 
+        public string picture_path { get; set; }
         public sbyte[] picture_data { get; set; }
     }
 
