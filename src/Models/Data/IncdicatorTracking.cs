@@ -37,6 +37,10 @@ namespace BES.Models.Data
         public string VerifiedBy { get; set; }
         public DateTime? VerifiedDate { get; set; }
 
+        public bool ReVerified { get; set; }
+        public string ReVerifiedBy { get; set; }
+        public DateTime? ReVerifiedDate { get; set; }
+
         [NotMapped]
         public string Indicator { get; set; }
         [NotMapped]

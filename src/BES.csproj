@@ -35,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\DevApp\Models\" />
-    <Folder Include="Areas\DevApp\Views\" />
     <Folder Include="Areas\Education\Controllers\" />
     <Folder Include="Areas\Education\Data\" />
     <Folder Include="Areas\Education\Models\" />
