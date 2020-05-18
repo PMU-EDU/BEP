@@ -1,0 +1,53 @@
+﻿
+@model List<BES.Models.Data.IndicatorDevApp>
+
+@{
+    ViewData["Title"] = "Indicator";
+}
+
+<h2>Indicator</h2>
+
+<h4>ImagesList</h4>
+<hr />
+<div class=" content-wrapper">
+    <form asp-action="Indicator">
+        <div class="row">
+            <div class="col-md-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @{
+                    int check = 0;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <input type="hidden" asp-for="@Model[i].SchoolID" />
+                        <input type="hidden" asp-for="@Model[i].ImageID " />
+                        <input type="hidden" asp-for="@Model[i].IndicatorID " />
+                        <input type="hidden" asp-for="@Model[i].ImagePath " />
+                        <input type="hidden" asp-for="@Model[i].Longitude " />
+                        <input type="hidden" asp-for="@Model[i].Latitude " />
+                        <input type="hidden" asp-for="@Model[i].DateTime " />
+                        <input type="hidden" asp-for="@Model[i].SyncDate " />
+                        <input type="hidden" asp-for="@Model[i].Remarks " />
+
+
+                        <div class="col-lg-3">
+                            <div class="thumbnail">
+                                <div class="@(check == 0 ? "item active" : "item")">
+                                    <img id="@string.Format("myImg{0}", i)" class="img-responsive" src="@Url.Content(Model[i].ImagePath) " style="height:200px;width:240px;" alt=@Model[i].IndicatorID />
+                                    <br />
+                                    <input type="checkbox" asp-for="@Model[i].VerifyRE" /> Verify
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>            <div class="form-group">
+                <input type="submit" value="Submit Verification" class="btn btn-default" />
+            </div>
+
+        </div>
+    </form>
+</div>
+
+

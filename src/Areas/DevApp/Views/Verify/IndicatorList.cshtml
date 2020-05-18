@@ -1,0 +1,252 @@
+﻿@model IEnumerable<BES.Models.Data.IndicatorTracking>
+
+@{
+    ViewData["Title"] = "Update";
+    int dataLength = Model.Count();
+    int ii = 1;
+
+}
+@section Styles {
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="~/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+}
+
+<input type="hidden" id="dataCnt" value="@dataLength" />
+<h2>
+    Verify Evidence of @ViewBag.SchoolName @*Progress Tracking sheet*@
+
+    <br /><small>
+        @ViewBag.Sname
+    </small>
+</h2>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Indicator)
+            </th>
+
+            <th>
+                uploaded Files
+            </th>
+            <th>
+                Date of Uploaded
+            </th>
+
+            <th>
+                RE Verified
+            </th>
+            <th>
+               SDE  Verified
+            </th>
+            <th>
+                @* Verified*@
+            </th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Indicator)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalFilesUploaded) <text> Files </text>
+
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfUpload)
+
+
+                </td>
+
+                <td>@(item.ReVerified==true?"YEs":"No")</td>
+                <td>@(item.DevVerified==true?"YEs":"No")</td>
+                @*Verify Buttion*@
+                <td>
+
+
+                    @{
+                        if (item.IsUpload == true && item.ReVerified == false)
+                        {
+                            @Html.ActionLink("View Images", "Indicator", new { id = item.SchoolID, iid = item.IndicatorID })
+
+                        }
+
+                    }
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@*Partial view of Teachers Profile*@
+@*<div id="dynamicContentContainer" style="margin:5px"></div>*@
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <div id="partial">Loading....</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index", "TeacherProfiles")', { id: @Model.Select(a=>a.SchoolID).FirstOrDefault() }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+    <!-- bootstrap datepicker -->
+    <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    @*<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>*@
+
+    <script type="text/javascript">
+
+        function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
+            var AttachID = "Attach" + iId;
+            var dpID = "datepicker" + iId;
+           // var fileUpload = document.getElementById(iId);
+           // var datepick = document.getElementById(dpID);
+
+            var vid = "verified" + iId;
+            var rid = "reUpload"  + iId;
+
+            var verified = document.getElementById(vid);
+            var reUpload = document.getElementById(rid);
+
+            var flag = true;
+            //var dateVal = datepick.value;
+
+            if (verified.checked == true || reUpload.checked == true)
+            {
+
+                // alert("Checkbox Ready to post");
+               // flag = false;
+            }
+            else {
+                alert("Please check verified or reUpload ")
+                flag = false;
+            }
+
+            //var id = fileInput[0].id;
+            //var files = fileUpload.files;
+
+            if (flag == true) {
+                //var fileData = new FormData();
+                //if (isEvid == true) {
+                //    //alert("Ready to post with Pix");
+
+                //    // Looping over all files and add it to FormData object
+                //    for (var i = 0; i < fileUpload.files.length; i++) {
+                //        fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
+                //    }
+                //}
+                    //// Adding one more key to FormData object
+                    //fileData.append('username', 'Manas');
+                    $.ajax({
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        //data: fileData,
+                        url: "/IncdicatorTrackings/MneVerifyIndicatorsPost?sID=" + sId + "&iId=" + iId + "&verified=" + verified.checked + "&reUpload=" + reUpload.checked,
+                        dataType: 'json',
+
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.responseText);
+                                window.location.href = "/IncdicatorTrackings/MneVerifyIndicators/" + sId + "?SecID=" + SecID;
+                            } else {
+                                // DoSomethingElse()
+                                alert(response.responseText);
+                                //window.location.href =
+                            }
+                        },
+                        error: function (response) {
+                            alert("error!");  //
+                        }
+
+                    });
+
+                @*else {
+                    window.location.assign("/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
+                }*@
+            }
+
+        }
+
+
+    $(document).ready(function () {
+        //Date picker
+        var model = JSON.parse('@Html.Raw(Json.Serialize(Model.Select(a=>a.Indicator).ToList()))');
+        var ids = @Html.Raw(Json.Serialize(ViewData["ids"]));
+        //alert(@ViewBag.SecID);
+        var hiddenLength = document.getElementById("dataCnt");
+
+        for (var i = 0; i < ids.length; i++) {
+           // alert(ids[i]);
+            var dt = "#datepicker" + ids[i];
+            $(dt).datepicker({
+                autoclose: true
+            })
+        }
+        // alert(hiddenLength.value);
+
+
+        //for (var i = 1; i < hiddenLength.value; i++) {
+        //    var dt = "#datepicker" + i;
+        //    $(dt).datepicker({
+        //        autoclose: true
+        //    })
+        //}
+
+
+        $(function () {
+            $('.search').click(function () {
+               //alert("Reached here");
+                var url = $(this).data('url');
+                var route = url;
+                $('#partial').load(route);
+            });
+        });
+        });
+
+        $('#modal-default').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+            var title = button.data('title')+ " Evidances"; //alert(title);
+            modal.find('.modal-title').text(title)
+        });
+    </script>
+}

@@ -13,13 +13,11 @@ namespace BES.Models.Data
 
         [Key]
         public Int16 ESMPSitingID { get; set; }
-      
+
         [Required]
         [DisplayName("School ID")]
         public int SchoolID { get; set; }
 
-        [DisplayName("User")]
-        public Int16 UserID { get; set; }
 
         [DisplayName("Land Mutation")]
         public string a1Landmutation { get; set; }
@@ -30,19 +28,19 @@ namespace BES.Models.Data
         [DisplayName("Flood Path")]
         public bool a3IsFloodPath { get; set; }
 
-        [DisplayName("Is Sline Land")]
+        [DisplayName("Sline Land")]
         public bool a4IsSalineLand { get; set; }
 
-        [DisplayName("Is Cluster Trees ")]
+        [DisplayName("Close to Cluster of Trees ")]
         public bool b1ClusterTrees { get; set; }
 
         [DisplayName("How Many Trees")]
-        public int b2HowManyTrees { get; set; }
+        public int? b2HowManyTrees { get; set; }
 
-        [DisplayName("Is Highway")]
+        [DisplayName("500 feet away from the Highway")]
         public bool c1IsHighway { get; set; }
 
-        [DisplayName("Is Transmission Line")]
+        [DisplayName("Transmission Line Passing ")]
         public bool c2IsTransmissionLine { get; set; }
 
         [DisplayName("Type of TransmissionLine")]
@@ -51,20 +49,20 @@ namespace BES.Models.Data
         [DisplayName("Height of TransmissionLine")]
         public int c4HeightTransmissionLine { get; set; }
 
-        [DisplayName("Electricity Pol In Permises")]
+        [DisplayName("Electricity Pole In Permises")]
         public bool c5ElectricityPolPermises { get; set; }
 
-        [DisplayName("Type of Pol ")]
+        [DisplayName("Type of Pole ")]
         public string c6TypeOfPole { get; set; }
 
-        
+
         [DisplayName("Function Handwash")]
         public bool c7FunctionHandwash { get; set; }
 
         [DisplayName("Washing Repairs")]
         public string c8WashingRepairs { get; set; }
 
-        [DisplayName("Water in School Premises")]
+        [DisplayName("Water source available in School Premises")]
         public bool d1WaterSchoolPremises { get; set; }
 
         [DisplayName("Water Source Type")]

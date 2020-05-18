@@ -11,9 +11,11 @@
 </p>
 
 
-
-<table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-sm " cellspacing="0"
-       width="100%">
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+<table id="dtHorizontalVerticalExample" class="table table-striped table-bordered table-hover dataTables-example">
     <thead>
 
         <tr>
@@ -21,8 +23,8 @@
                 @Html.DisplayNameFor(model => model.School)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.UserID)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.UserID)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.a1Landmutation)
             </th>
@@ -100,8 +102,8 @@
                     @Html.DisplayFor(modelItem => item.School.SName)
                 </td>
                 @*<td>
-                    @Html.DisplayFor(modelItem => item.UserID)
-                </td>*@
+                        @Html.DisplayFor(modelItem => item.UserID)
+                    </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.a1Landmutation)
                 </td>
@@ -169,10 +171,10 @@
                     @Html.DisplayFor(modelItem => item.Verifiedby)
                 </td>
                 @*<td>
-                    <a asp-action="Edit" asp-route-id="@item.ESMPSitingID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ESMPSitingID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ESMPSitingID">Delete</a>
-                </td>*@
+                        <a asp-action="Edit" asp-route-id="@item.ESMPSitingID">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.ESMPSitingID">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.ESMPSitingID">Delete</a>
+                    </td>*@
             </tr>
         }
     </tbody>
@@ -180,22 +182,19 @@
 
 <div id="dynamicContentContainer"></div>
 @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
     <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
 
+
+
     <script type="text/javascript">
-        $(document).ready(function () {
-            // $('#Region-DropdownID').val(null).change();
-            // alert('JQuery Entered')
-            $(document).ready(function () {
-                // $('#Region-DropdownID').val(null).change();
-                // alert('JQuery Entered')
+      
+            $(document).ready(function () {               
                 $('.dataTables-example').DataTable({
-                    "scrollY": 350,
-                    //"processing": true, // for show progress bar
-                    //"bJQueryUI": true,
-                    //"bServerSide": true,
-                    //"sAjaxSource": "SchoolList",
+                    "scrollY": 550,                   
+                    "scrollX": true,
+                    "scrollY": 200,
                     "bPaginate": false,
                     "ordering": false,
                     dom: '<"html5buttons"B>lTfigtp',
@@ -208,20 +207,7 @@
                     ]
                 });
                 //alert('Table Generated')
-            });
-            //alert('Table Generated')
-        });
-
-
-        /////////////////////////////////////////////////////
-        $(document).ready(function () {
-            $('#dtHorizontalVerticalExample').DataTable({
-                "scrollX": true,
-                "scrollY": 200,
-            });
-            $('.dataTables_length').addClass('bs-select');
-        });
-
+            });         
     </script>
 
 }

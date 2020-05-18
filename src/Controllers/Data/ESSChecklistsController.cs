@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using BES.Services.Profile;
 
 
+
 namespace BES.Controllers.Data
 {
     public class ESSChecklistsController : Controller
@@ -43,7 +44,7 @@ namespace BES.Controllers.Data
         //}
 
         // GET: IncdicatorTrackings
-        [Authorize(Roles = "Administrator,Development")]
+        [Authorize(Roles = "Administrator,Education")]
         public async Task<IActionResult> Index2()
         {
            
@@ -99,7 +100,9 @@ namespace BES.Controllers.Data
         // GET: ESSChecklists/Create
         public IActionResult Create(int SchoolID)
         {
+            ESSChecklist obj = new ESSChecklist();
             ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName");
+            obj.Verifiedby = "Kiran Mushtaq";           
             return View();
            
         }
@@ -109,10 +112,10 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ESMPSitingID,SchoolID,UserID,a1Landmutation,a2IsSoilErosion,a3IsFloodPath,a4IsSalineLand,b1ClusterTrees,b2HowManyTrees,c1IsHighway,c2IsTransmissionLine,c3TypeTransmissionLine,c4HeightTransmissionLine,c5ElectricityPolPermises,c6TypeOfPole,c7FunctionHandwash,c8WashingRepairs,d1WaterSchoolPremises,d2WaterSourceType,d3WaterSourceVicinity,d4TypeWaterVicinity,d5DistanceWaterSource,d5Date,Verified,Verifiedby")] ESSChecklist eSSChecklist)
+        public async Task<IActionResult> Create([Bind("ESMPSitingID,SchoolID,a1Landmutation,a2IsSoilErosion,a3IsFloodPath,a4IsSalineLand,b1ClusterTrees,b2HowManyTrees,c1IsHighway,c2IsTransmissionLine,c3TypeTransmissionLine,c4HeightTransmissionLine,c5ElectricityPolPermises,c6TypeOfPole,c7FunctionHandwash,c8WashingRepairs,d1WaterSchoolPremises,d2WaterSourceType,d3WaterSourceVicinity,d4TypeWaterVicinity,d5DistanceWaterSource,d5Date,Verified,Verifiedby")] ESSChecklist eSSChecklist)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 _context.Add(eSSChecklist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -142,7 +145,7 @@ namespace BES.Controllers.Data
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(short id, [Bind("ESMPSitingID,SchoolID,UserID,a1Landmutation,a2IsSoilErosion,a3IsFloodPath,a4IsSalineLand,b1ClusterTrees,b2HowManyTrees,c1IsHighway,c2IsTransmissionLine,c3TypeTransmissionLine,c4HeightTransmissionLine,c5ElectricityPolPermises,c6TypeOfPole,c7FunctionHandwash,c8WashingRepairs,d1WaterSchoolPremises,d2WaterSourceType,d3WaterSourceVicinity,d4TypeWaterVicinity,d5DistanceWaterSource,d5Date,Verified,Verifiedby")] ESSChecklist eSSChecklist)
+        public async Task<IActionResult> Edit(short id, [Bind("ESMPSitingID,SchoolID,a1Landmutation,a2IsSoilErosion,a3IsFloodPath,a4IsSalineLand,b1ClusterTrees,b2HowManyTrees,c1IsHighway,c2IsTransmissionLine,c3TypeTransmissionLine,c4HeightTransmissionLine,c5ElectricityPolPermises,c6TypeOfPole,c7FunctionHandwash,c8WashingRepairs,d1WaterSchoolPremises,d2WaterSourceType,d3WaterSourceVicinity,d4TypeWaterVicinity,d5DistanceWaterSource,d5Date,Verified,Verifiedby")] ESSChecklist eSSChecklist)
         {
             if (id != eSSChecklist.ESMPSitingID)
             {

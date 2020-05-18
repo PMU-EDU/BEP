@@ -8,8 +8,8 @@
 
 <h4>ESSChecklist</h4>
 <hr />
-<div class="row" style="margin:0 15px 0 15px" >
-    <div class="col-md-4" >
+<div class="row" style="margin:0 15px 0 15px">
+    <div class="col-lg-6">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -19,6 +19,7 @@
                 <span asp-validation-for="SchoolID" class="text-danger"></span>
             </div>
 
+            <h4><b><i> <u>Description of Possible Impact on Land and soil</u></i></b></h4>
             <div class="form-group">
                 <label asp-for="a1Landmutation" class="control-label"></label>
                 <select class="form-control" id="a1Landmutation" name="a1Landmutation">
@@ -33,10 +34,10 @@
             </div>
 
             @*<select class="form-control" id="StudentGender" name="StudentGender">
-            <option>Select Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-        </select>*@
+                    <option>Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>*@
 
 
 
@@ -66,20 +67,27 @@
                     </label>
                 </div>
             </div>
+
+            <h4><b><i> <u>Description of Possible Impact on Natural Vegetation</u></i></b></h4>
             <div class="form-group">
                 <div class="checkbox">
+
+
                     <label>
-                        <input asp-for="b1ClusterTrees" /> @Html.DisplayNameFor(model => model.b1ClusterTrees)
+                        <input asp-for="b1ClusterTrees" id="Treecheck" /> @Html.DisplayNameFor(model => model.b1ClusterTrees)
                     </label>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="tbTree" style="display:none">
                 <div class="checkbox">
                     <label>
                         <input asp-for="b2HowManyTrees" /> @Html.DisplayNameFor(model => model.b2HowManyTrees)
                     </label>
                 </div>
             </div>
+
+            <h4><b><i> <u>Description of Possible Impact on Health and Safety</u></i></b></h4>
+
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -157,7 +165,8 @@
             </div>
 
 
-           
+            <h4><b><i> <u>Description of Possible Impact on  Water</u></i></b></h4>
+
             <div class="form-group">
                 <div class="checkbox">
                     <label>
@@ -206,7 +215,7 @@
                     <option>Well</option>
                     <option>WaterPond</option>
                     <option>River</option>
-                    <option>Ohter</option>
+                    <option>Other</option>
                 </select>
 
                 @*<input asp-for="d4TypeWaterVicinity" class="form-control" />*@
@@ -219,7 +228,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="d5Date" class="control-label"></label>
-                <input asp-for="d5Date" class="form-control" />
+                <input asp-for="d5Date" class="form-control" required/>
                 <span asp-validation-for="d5Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -231,14 +240,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Verifiedby" class="control-label"></label>
-                <input asp-for="Verifiedby" class="form-control" />
+                <input asp-for="Verifiedby"  value="Kiran Mushtak" class="form-control" />
                 <span asp-validation-for="Verifiedby" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <input asp-for="UserID" class="form-control" />
-                <span asp-validation-for="UserID" class="text-danger"></span>
-            </div>
+            @*<div class="form-group" >
+                    <label asp-for="UserID" class="control-label"></label>
+                    <input asp-for="UserID" class="form-control" />
+                    <span asp-validation-for="UserID" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
@@ -252,4 +261,35 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("b2HowManyTrees").val(0);
+        });
+        $('#Treecheck').change(function () {
+            if (this.checked) {
+                $("#tbTree").show();
+            }
+            else {
+                $("#tbTree").hide();
+                $("b2HowManyTrees").val(0);
+            }
+        });
+        
+    </script>
 }
+
+@*<script type="text/javascript">
+        $(function () {
+
+            $(".Treecheck").change(function () {
+                if ($(this).is(":checked")) {
+                    $(".TreeCount").show();
+                }
+                else {
+                    $(".TreeCount").hide();
+                }
+            });
+
+        })
+    </script>*@
