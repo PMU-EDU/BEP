@@ -28,7 +28,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview @(Html.IsMenuActive("/Dashboards") ? "active" : "")">
+            @*<li class="treeview @(Html.IsMenuActive("/Dashboards") ? "active" : "")">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboards</span>
                     <span class="pull-right-container">
@@ -54,8 +54,13 @@
                     <li class="@(Html.IsMenuActive("/Settings/Security") ? "active" : "")"><a href="~/Procurement/Activities?PPID=2"><i class="fa fa-user-secret"></i> Work</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/History") ? "active" : "")"><a href="#"><i class="fa fa-history"></i> SCM</a></li>
                 </ul>
-            </li>
-            @*@<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
+            </li>*@
+         
+            
+    
+    
+    
+    @*@<li class="treeview @(Html.IsMenuActive("/Settings") ? "active" : "")">
                 <a href="#">
                     <i class="fa fa-gear"></i>
                     <span>Settings</span>

@@ -32,17 +32,17 @@ namespace BES.Areas.DevApp.Controllers
             List<repositoryDetailList> repositoryDetailList = new List<repositoryDetailList>();
             repositoryDetailList image1 = new repositoryDetailList
             {
-                current_date =  DateTime.Now.ToString(),
+                current_date = DateTime.Now.ToString(),
                 picture_latitude = 11.11,
                 picture_logitude = 22.22,
                 picture_comment = "Picure Comments",
-                picture_data =  new sbyte[] { -1, 2, 3, 4, 5, 6, 7 },
-                
+                picture_data = new sbyte[] { -1, 2, 3, 4, 5, 6, 7 },
+
             };
 
             repositoryDetailList.Add(image1);
             repositoryDetailList.Add(image1);
-           
+
 
 
             pictureRepoitoryModel pictureRepoitory = new pictureRepoitoryModel
@@ -50,9 +50,9 @@ namespace BES.Areas.DevApp.Controllers
                 school_id = 1,
                 indicatorID = 29,
                 current_date = DateTime.Now.ToString(),
-                pr_id=1,
+                pr_id = 1,
                 picture_count = 5,
-               //  repositoryDetailList= repositoryDetailList
+                //  repositoryDetailList= repositoryDetailList
 
             };
             List<pictureRepoitoryModel> IndicatorPictureRepository = new List<pictureRepoitoryModel>();
@@ -68,9 +68,9 @@ namespace BES.Areas.DevApp.Controllers
             schoolIndicatorPictureRepository.Add(SchoolIndicatorRepository);
             schoolIndicatorPictureRepository schoolIndicatorPictureRepositoryList = new schoolIndicatorPictureRepository()
             {
-                schoolIndicatorPictureRepositoryList=schoolIndicatorPictureRepository
+                schoolIndicatorPictureRepositoryList = schoolIndicatorPictureRepository
             };
-            
+
             return schoolIndicatorPictureRepositoryList;
         }
 
@@ -81,7 +81,7 @@ namespace BES.Areas.DevApp.Controllers
             bool status = true;
             string message = "Success";
 
-           // List<IndicatorDevApp> indicatorDevAppList = new List<IndicatorDevApp>();
+            // List<IndicatorDevApp> indicatorDevAppList = new List<IndicatorDevApp>();
             foreach (var RepoList in schoolIndicatorPictureRepositoryList.schoolIndicatorPictureRepositoryList)
             {
                 var repo = RepoList.pictureRepoitoryModel;
@@ -90,7 +90,7 @@ namespace BES.Areas.DevApp.Controllers
                 if (IndicatorTrackingExists(repo.school_id, repo.indicatorID))
                 {
                     status = false;
-                    message = "Record Already Exist of School ID: " + repo.school_id + "and Indicator ID:" + repo.indicatorID;
+                    message = "Record Already Exist of School ID: " + repo.school_id + " and Indicator ID:" + repo.indicatorID;
                     //return Conflict();
                     return Ok(new { status, message });
                 }
@@ -99,7 +99,7 @@ namespace BES.Areas.DevApp.Controllers
                 {
                     IndicatorID = repo.indicatorID,
                     SchoolID = repo.school_id,
-                    DateOfUpload = Convert.ToDateTime( repo.current_date),
+                    DateOfUpload = Convert.ToDateTime(repo.current_date),
                     IsUpload = true,
                     ReUpload = false,
                     Verified = false,
@@ -108,9 +108,9 @@ namespace BES.Areas.DevApp.Controllers
                 };
                 _context.Add(indicatorTracking);
                 var school = _context.Schools.Find(repo.school_id);
-                if (school.NewConstruction && repo.indicatorID<35)
+                if (school.NewConstruction && repo.indicatorID < 35)
                 { school.CurrentStage += 1; }
-                if(school.RepairRennovation && repo.indicatorID>35)
+                if (school.RepairRennovation && repo.indicatorID > 35)
                 {
                     school.RepairRennovationStatus += 1;
                 }
@@ -123,70 +123,71 @@ namespace BES.Areas.DevApp.Controllers
                                .Select(a => a.UC.Tehsil.District.DistrictName).FirstOrDefault();
                 //string 
                 var rootPath = Path.Combine(
-                               Directory.GetCurrentDirectory(), "wwwroot\\Documents\\DevelopmentApp\\");
+                               Directory.GetCurrentDirectory(), "wwwroot");
 
                 //string sPath = Path.Combine(rootPath + District + "/" + iID + "/", sID.ToString());
-                string sPath = Path.Combine(rootPath + District + "/" + repo.indicatorID + "/",repo.school_id.ToString());
-                if (!System.IO.Directory.Exists(sPath) & RepoList.repositoryDetailList.Any() )
+                string sPath = Path.Combine("\\Documents\\DevelopmentApp\\" + District + " / " + repo.indicatorID + "/", repo.school_id.ToString());
+                if (!System.IO.Directory.Exists(rootPath + sPath) & RepoList.repositoryDetailList.Any())
                 {
-                    System.IO.Directory.CreateDirectory(sPath);
+                    System.IO.Directory.CreateDirectory(rootPath + sPath);
                 }
                 List<IndicatorDevApp> IndicatorDevAppList = new List<IndicatorDevApp>();
                 foreach (var repoDetail in RepoList.repositoryDetailList)
                 {
                     //byte[] byteImage = new byte[repoDetail.picture_data.Length];
                     //Buffer.BlockCopy(repoDetail.picture_data, 0, byteImage, 0, repoDetail.picture_data.Length);
-                    string FullPathWithFileName = Path.Combine(sPath,repo.school_id+"-"+ i + ".jpg");
+                    string FullPathWithFileName = Path.Combine(rootPath + sPath, repo.school_id + "-" + i + ".jpg");
                     IndicatorDevApp indicatorDevApp = new IndicatorDevApp
                     {
 
                         ImageID = i++,
                         SchoolID = repo.school_id,
                         IndicatorID = repo.indicatorID,
-                        ImagePath = FullPathWithFileName,
+                        ImagePath = Path.Combine(sPath, repo.school_id + "-" + i + ".jpg"),
                         //ImageByte = repoDetail.picture_path,
                         //ImagePath= repoDetail.picture_path,
                         Longitude = repoDetail.picture_logitude,
                         Latitude = repoDetail.picture_latitude,
-                        DateTime = Convert.ToDateTime( repoDetail.current_date),
+                        DateTime = Convert.ToDateTime(repoDetail.current_date),
                         SyncDate = DateTime.Now,
                         Remarks = repoDetail.picture_comment,
 
                     };
 
                     _context.Add(indicatorDevApp);
-                   // await _context.SaveChangesAsync();
-                    
+                    // await _context.SaveChangesAsync();
+
 
                     using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(repoDetail.picture_path)))
                     {
                         using (Bitmap bm2 = new Bitmap(ms))
                         {
                             //bm2.SetPropertyItem() 
-                            Geotag(bm2,repoDetail.picture_latitude,repoDetail.picture_logitude,Convert.ToDateTime( repoDetail.current_date))
+                            Geotag(bm2, repoDetail.picture_latitude, repoDetail.picture_logitude, Convert.ToDateTime(repoDetail.current_date))
                                 .Save(FullPathWithFileName);
                         }
                     }
                 }
+            }
             try
             {
-                 await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (IndicatorTrackingExists(repo.school_id, repo.indicatorID))
-                {
-                    status = false;
-                    message = "Record Already Exist against this school and Indicator";
-                    //return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                //if (IndicatorTrackingExists(repo.school_id, repo.indicatorID))
+                //{
+                status = false;
+                message = "Record Already Exist against this school and Indicator";
+                //return Conflict();
+                //}
+                //else
+                //{
+                //    throw;
+                //}
             }
- }
-            
+
+
             return Ok(new { status, message });
             //  return CreatedAtAction("GetIndicatorTracking", new { id = indicatorTracking.SchoolID }, indicatorTracking);
         }
@@ -267,10 +268,10 @@ namespace BES.Areas.DevApp.Controllers
                 return new Bitmap(ms);
             }
         }
-        public string SbyteToString (sbyte[] arr)
+        public string SbyteToString(sbyte[] arr)
         {
             string buffer = "[";
-            foreach(var a in arr)
+            foreach (var a in arr)
             {
                 buffer += a.ToString() + ",";
             }
@@ -278,11 +279,12 @@ namespace BES.Areas.DevApp.Controllers
             return buffer;
         }
 
-    
+
         private bool IndicatorTrackingExists(int? SchoolID, int? IndicatorID)
         {
             return _context.IncdicatorTracking.Any(e => e.SchoolID == SchoolID && e.IndicatorID == IndicatorID);
         }
+
 
 
     }
