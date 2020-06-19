@@ -115,9 +115,9 @@ namespace BES.Controllers.Reports
                             //TotalAchieve = summary.PotentailAchieve+summary.FeederAchieve+summary.NLAchieve,
                             TotalAchieve = summary.TotalAchieve == null ? 0 : summary.TotalAchieve,
                             //PotentailTarget = target.Potential,
-                            PotentailTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair : target.PotentialNew) : target.Potential,
-                            FeederTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.FeederRepair : target.FeederNew) : (Indicator.IsFeeder ? target.Feeder : 0),
-                            NLTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.NextLevelRepair : target.NextLevelNew) : (Indicator.IsNextLevel ? target.NextLevel : 0),
+                            PotentailTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID >25  ? (Indicator.IndicatorID > 34 ? target.PotentialRepair : target.PotentialNew):target.PotentialDev) : target.Potential,
+                            FeederTarget = Indicator.IndicatorID > 20    ? (Indicator.IndicatorID > 25 ? (Indicator.IndicatorID > 34 ? target.FeederRepair    : target.FeederNew) : target.FeederDev) : (Indicator.IsFeeder ? target.Feeder : 0),
+                            NLTarget = Indicator.IndicatorID > 20        ? (Indicator.IndicatorID > 25 ? (Indicator.IndicatorID > 34 ? target.NextLevelRepair : target.NextLevelNew) : target.NextLevelDev) : (Indicator.IsNextLevel ? target.NextLevel : 0),
                             TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.TotalRepair : target.TotalNew) : target.TotalTarget
                             // TotalTarget = Indicator.IndicatorID > 20 ? (Indicator.IndicatorID > 35 ? target.PotentialRepair+ target.FeederRepair +target.NextLevelRepair : target.PotentialNew+ target.PotentialRepair+ target.NextLevelNew) : target.Potential+ target.Feeder+ target.NextLevel
                         };

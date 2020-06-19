@@ -54,8 +54,12 @@ namespace BES
                 config.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -._@+"; 
                 config.SignIn.RequireConfirmedEmail = false;
             })
+                .AddRoleManager<RoleManager<IdentityRole>>()
+               // .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+
 
             if (Configuration["Authentication:Facebook:IsEnabled"] == "true")
             {
@@ -104,11 +108,11 @@ namespace BES
             if (Configuration["Email:EmailProvider"] == "SendGrid")
             {
                 services.Configure<SendGridAuthOptions>(Configuration.GetSection("Email:SendGrid"));
-                services.AddSingleton<IMailManager, SendGridMailManager>();
+                services.AddScoped<IMailManager, SendGridMailManager>();
             }
             else
             {
-                services.AddSingleton<IMailManager, EmptyMailManager>();
+                services.AddScoped<IMailManager, EmptyMailManager>();
             }
 
             services.AddScoped<Services.Profile.ProfileManager>();

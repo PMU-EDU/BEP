@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BES.Models.Data.Tool5Detail>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@*<h2>Index</h2>*@
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width:17%">
+                @Html.DisplayNameFor(model => model.ClassID)
+            </th>
+            <th style="width:17%">
+                @Html.DisplayNameFor(model => model.NewEnrolltGirls)
+            </th>
+            <th style="width:17%">
+                @Html.DisplayNameFor(model => model.NewEnrollBoys)
+            </th>
+            <th style="width:17%">
+                @Html.DisplayNameFor(model => model.AttendRegGirls)
+            </th>
+            <th style="width:17%">
+
+                @Html.DisplayNameFor(model => model.AttendRegBoys)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewEnrolltGirls)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewEnrollBoys)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendRegGirls)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendRegBoys)
+            </td>
+         
+            <td>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

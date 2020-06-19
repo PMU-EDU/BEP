@@ -68,6 +68,18 @@ namespace BES.Data
                 table.SchoolID,
                 table.IndicatorID
             });
+
+            builder.Entity<BES.Models.Data.Tool5>().HasKey(table => new{
+                table.SchoolID,
+                table.Quarter
+            });
+
+            builder.Entity<BES.Models.Data.Tool5Detail>().HasKey(table => new {
+                table.SchoolID,
+                table.Quarter,
+                table.ClassID
+            });
+
         }
         //public DbSet<BES.Models.Data.>  { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
@@ -163,5 +175,7 @@ namespace BES.Data
         public DbSet<BES.Areas.LMS.Models.LeaveRequest> LeaveRequest { get; set; }
         public DbSet<BES.Models.Data.TeacherPost> TeacherPost { get; set; }
         public DbSet<BES.Models.ApiDevApp.ApiUser> ApiUser { get; set; }
+        public DbSet<BES.Models.Data.Tool5> Tool5 { get; set; }
+        public DbSet<BES.Models.Data.Tool5Detail> Tool5Detail { get; set; }
     }
 }

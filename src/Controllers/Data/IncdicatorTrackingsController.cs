@@ -226,6 +226,11 @@ namespace BES.Controllers.Data
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdatePost(int sID, int iID, DateTime EDate, bool reupload)
         {
+            DateTime projectDate = DateTime.Parse("1/1/2017");
+            if (EDate< projectDate)
+            {
+                EDate = DateTime.Now;
+            }
             Indicator indicator = _context.Indicator.Find(iID);
 
             if (indicator.IsEvidenceRequire == true)
@@ -391,6 +396,7 @@ namespace BES.Controllers.Data
         //public async Task<IActionResult> MneVerifyIndicators(short id, int SecID)
 
         // GET: /IncdicatorTrackings/ReuploadEvidence
+        [Authorize(Roles = "Administrator,Education,Development")]
         public async Task<IActionResult> ReuploadEvidence(int id)
         {
             int PId = 0;// id == 926982 ? 4 : 3;
@@ -474,6 +480,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: /IncdicatorTrackings/VerifidEvidence
+        [Authorize(Roles = "Administrator,Education,Development,M&E")]
         public async Task<IActionResult> VerifiedEvidence(int id)
         {
 
@@ -557,6 +564,7 @@ namespace BES.Controllers.Data
             return View(await applicationDbContext.ToListAsync());
         }
 
+        [Authorize(Roles = "Administrator,M&E")]
         public IActionResult MneVerifyIndicators(int id, int SecID)
         {
             int PId = SecID == 926982 ? 4 : 3;

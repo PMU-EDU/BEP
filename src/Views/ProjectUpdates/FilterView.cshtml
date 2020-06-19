@@ -191,81 +191,87 @@
     </tbody>
 </table>
 
-@*Procurement Section*@
-<h4>Procurement Section (Progress @ViewBag.ProcPercent %)</h4>
+@{
+    if (ViewBag.Verify == true)
+    {
+        @*Procurement Section*@
+        <h4>Procurement Section (Progress @ViewBag.ProcPercent %)</h4>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Goods Activities
-            </th>
-            <th>
-                Initiated
-            </th>
-            <th>
-                Completed
-            </th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Goods)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Activity)
-                </td>
-                <td>
-                    @(item.Initiated * 100) %
-                </td>
-                <td>
-                    @(item.Completed * 75) %
-                </td>
-                <td>
-                    <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Goods Activities
+                    </th>
+                    <th>
+                        Initiated
+                    </th>
+                    <th>
+                        Completed
+                    </th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Goods)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Activity)
+                        </td>
+                        <td>
+                            @(item.Initiated * 100) %
+                        </td>
+                        <td>
+                            @(item.Completed * 75) %
+                        </td>
+                        <td>
+                            <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-@*Works*@
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Works Activities
-            </th>
-            <th>
-                Initiated
-            </th>
-            <th>
-                Completed
-            </th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in works)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Activity)
-                </td>
-                <td>
-                    @(item.Initiated * 100) %
-                </td>
-                <td>
-                    @(item.Completed * 75) %
-                </td>
-                <td>
-                    <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+        @*Works*@
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Works Activities
+                    </th>
+                    <th>
+                        Initiated
+                    </th>
+                    <th>
+                        Completed
+                    </th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in works)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Activity)
+                        </td>
+                        <td>
+                            @(item.Initiated * 100) %
+                        </td>
+                        <td>
+                            @(item.Completed * 75) %
+                        </td>
+                        <td>
+                            <text>@(item.Initiated * 25 + item.Completed * 75) %</text>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    }
+}
 
 <!-- Modal1 -->
 <div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-hidden="true" style="z-index: 1400">

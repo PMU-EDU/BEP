@@ -4,6 +4,21 @@
     ViewData["Title"] = "Home page";
 }
 
+@{
+
+
+    if (User.IsInRole("RE"))
+    {
+        Response.Redirect("/devapp/verify/schoollist");
+    }
+    else
+    {
+        Response.Redirect("ResultFramework/");
+
+    }
+
+}
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>

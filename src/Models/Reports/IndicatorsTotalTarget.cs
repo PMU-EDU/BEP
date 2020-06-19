@@ -21,5 +21,9 @@ namespace BES.Models.Reports
      public int TotalNew { get;set;}
      public int TotalRepair { get;set;}
      public int TotalTarget { get;set; }
+
+        public int PotentialDev { get; set; }
+        public int FeederDev { get; set; }
+        public int NextLevelDev { get; set; }
     }
 }

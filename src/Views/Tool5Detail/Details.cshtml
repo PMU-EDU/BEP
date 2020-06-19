@@ -1,0 +1,78 @@
+﻿@model BES.Models.Data.Tool5Detail
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Tool5Detail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NewEnrolltGirls)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewEnrolltGirls)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NewEnrollBoys)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewEnrollBoys)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendRegGirls)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AttendRegGirls)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AttendRegBoys)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AttendRegBoys)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.School)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.School.SName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClassID)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

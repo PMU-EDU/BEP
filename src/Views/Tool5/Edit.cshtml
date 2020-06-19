@@ -1,0 +1,91 @@
+﻿@model BES.Models.Data.Tool5
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Verify Data</h2>
+
+<h4>Tool 5</h4>
+<hr />
+<div class="row">
+    <form asp-action="Edit">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SchoolID" />
+            <input type="hidden" asp-for="Quarter" />
+            <input type="hidden" asp-for="ProjectYear" />
+            <input type="hidden" asp-for="Date" />
+            <input type="hidden" asp-for="VisitorName" />
+            <input type="hidden" asp-for="CreatedBy" />
+            <input type="hidden" asp-for="CreatedDate" />
+
+            <div class="col-md-2">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <input asp-for="SchoolID" class="form-control" disabled="disabled" />
+                <span asp-validation-for="SchoolID" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="School" class="control-label"></label>
+                <input asp-for="School.SName" class="form-control" disabled="disabled" />
+                <span asp-validation-for="School.SName" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Quarter" class="control-label"></label>
+                <input asp-for="Quarter" class="form-control" disabled="disabled" />
+                <span asp-validation-for="Quarter" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" disabled="disabled" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="VisitorName" class="control-label"></label>
+                <input asp-for="VisitorName" class="form-control" />
+                <span asp-validation-for="VisitorName" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ReCollectData" /> @Html.DisplayNameFor(model => model.ReCollectData)
+                        </label>
+                    </div>
+                </div>*@
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="dynamicContentContainer" style="margin:5px"></div>
+            </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Verified" /> @Html.DisplayNameFor(model => model.Verified)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+</form>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index","Tool5Detail")', { id: @Model.SchoolID, q:@Model.Quarter }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

@@ -126,7 +126,7 @@ namespace BES.Areas.DevApp.Controllers
                                Directory.GetCurrentDirectory(), "wwwroot");
 
                 //string sPath = Path.Combine(rootPath + District + "/" + iID + "/", sID.ToString());
-                string sPath = Path.Combine("\\Documents\\DevelopmentApp\\" + District + " / " + repo.indicatorID + "/", repo.school_id.ToString());
+                string sPath = Path.Combine("\\Documents\\DevelopmentApp\\" + District + "/" + repo.indicatorID + "/", repo.school_id.ToString());
                 if (!System.IO.Directory.Exists(rootPath + sPath) & RepoList.repositoryDetailList.Any())
                 {
                     System.IO.Directory.CreateDirectory(rootPath + sPath);
@@ -140,7 +140,6 @@ namespace BES.Areas.DevApp.Controllers
                     IndicatorDevApp indicatorDevApp = new IndicatorDevApp
                     {
 
-                        ImageID = i++,
                         SchoolID = repo.school_id,
                         IndicatorID = repo.indicatorID,
                         ImagePath = Path.Combine(sPath, repo.school_id + "-" + i + ".jpg"),
@@ -151,6 +150,7 @@ namespace BES.Areas.DevApp.Controllers
                         DateTime = Convert.ToDateTime(repoDetail.current_date),
                         SyncDate = DateTime.Now,
                         Remarks = repoDetail.picture_comment,
+                        ImageID = i++,
 
                     };
 
@@ -173,7 +173,7 @@ namespace BES.Areas.DevApp.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException)
+            catch (Exception ex)
             {
                 //if (IndicatorTrackingExists(repo.school_id, repo.indicatorID))
                 //{
