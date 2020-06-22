@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text;
 
 namespace BES.Areas.DevApp.Controllers
 {
@@ -155,7 +156,7 @@ namespace BES.Areas.DevApp.Controllers
                     };
 
                     _context.Add(indicatorDevApp);
-                    // await _context.SaveChangesAsync();
+                     await _context.SaveChangesAsync();
 
 
                     using (MemoryStream ms = new MemoryStream(Convert.FromBase64String(repoDetail.picture_path)))
@@ -171,7 +172,7 @@ namespace BES.Areas.DevApp.Controllers
             }
             try
             {
-                await _context.SaveChangesAsync();
+               // await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -194,12 +195,15 @@ namespace BES.Areas.DevApp.Controllers
 
         static Image Geotag(Image original, double lat, double lng, DateTime dateTime)
         {
+
+            Encoding _Encoding = Encoding.UTF8;
+
             // These constants come from the CIPA DC-008 standard for EXIF 2.3
             const short ExifTypeByte = 1;
             const short ExifTypeAscii = 2;
             const short ExifTypeRational = 5;
 
-            const int ExifTagGPSVersionID = 0x0000;
+            const int ExifTagGPSVersionID = 0x9000;
             const int ExifTagGPSLatitudeRef = 0x0001;
             const int ExifTagGPSLatitude = 0x0002;
             const int ExifTagGPSLongitudeRef = 0x0003;
@@ -224,12 +228,20 @@ namespace BES.Areas.DevApp.Controllers
             ms.Seek(0, SeekOrigin.Begin);
 
             Image img = Image.FromStream(ms);
-            AddProperty(img, ExifTagGPSVersionID, ExifTypeByte, new byte[] { 2, 3, 0, 0 });
+            //AddProperty(img, ExifTagGPSVersionID, ExifTypeAscii, new byte[] { 0,2,1,0, });
+                // AddProperty(img, 271, ExifTypeAscii, Encoding.ASCII.GetBytes("Android"));
+                 AddProperty(img, 271, ExifTypeAscii, _Encoding.GetBytes("Android" + '\0'));
+
+        
+
+
             AddProperty(img, ExifTagGPSLatitudeRef, ExifTypeAscii, new byte[] { (byte)latHemisphere, 0 });
             AddProperty(img, ExifTagGPSLatitude, ExifTypeRational, ConvertToRationalTriplet(lat));
             AddProperty(img, ExifTagGPSLongitudeRef, ExifTypeAscii, new byte[] { (byte)lngHemisphere, 0 });
             AddProperty(img, ExifTagGPSLongitude, ExifTypeRational, ConvertToRationalTriplet(lng));
-            AddProperty(img, ExifTagGPSDateStamp, ExifTypeAscii, BitConverter.GetBytes(dateTime.Ticks));
+            //AddProperty(img, 306, ExifTypeAscii, BitConverter.GetBytes(dateTime.Ticks));
+            AddProperty(img, 0x9004, ExifTypeAscii, _Encoding.GetBytes(dateTime.ToString("yyyy:MM:dd HH:mm:ss") + '\0'));
+            AddProperty(img, 0x9003, ExifTypeAscii, _Encoding.GetBytes(dateTime.ToString("yyyy:MM:dd HH:mm:ss") + '\0'));
             return img;
         }
 

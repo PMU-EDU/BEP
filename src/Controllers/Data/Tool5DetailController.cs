@@ -20,8 +20,9 @@ namespace BES.Controllers.Data
         }
 
         // GET: Tool5Detail
-        public async Task<IActionResult> Index(int id, short q)
+        public async Task<IActionResult> Index(int id, short q, short v)
         {
+            ViewBag.View = v;
             var applicationDbContext = _context.Tool5Detail.Where(a=>a.SchoolID==id && a.Quarter==q ).Include(t => t.School);
             return PartialView(await applicationDbContext.ToListAsync());
         }
@@ -97,14 +98,14 @@ namespace BES.Controllers.Data
         }
 
         // GET: Tool5Detail/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id, short q)
         {
-            if (id == null)
+            if (id <1)
             {
                 return NotFound();
             }
 
-            var tool5Detail = await _context.Tool5Detail.FindAsync(id);
+            var tool5Detail = await _context.Tool5Detail.FirstAsync(a=>a.SchoolID==id && a.Quarter==q);
             if (tool5Detail == null)
             {
                 return NotFound();
@@ -130,6 +131,8 @@ namespace BES.Controllers.Data
             {
                 try
                 {
+                    tool5Detail.UpdatedBy = User.Identity.Name;
+                    tool5Detail.UpdatedDate = DateTime.Now;
                     _context.Update(tool5Detail);
                     await _context.SaveChangesAsync();
                 }
@@ -144,7 +147,7 @@ namespace BES.Controllers.Data
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Create", "Tool5Detail", new { id = tool5Detail.SchoolID, q = tool5Detail.Quarter });
             }
             ViewData["SchoolID"] = new SelectList(_context.Schools, "SchoolID", "SName", tool5Detail.SchoolID);
             ViewData["ClassID"] = new SelectList(_context.SchoolClasses, "ClassID", "ClassID", tool5Detail.ClassID);

@@ -14,7 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="SchoolID" />
             <input type="hidden" asp-for="Quarter" />
-            <input type="hidden" asp-for="ClassID" />
+            <input type="hidden" asp-for="CreatedBy" />
+            <input type="hidden" asp-for="CreatedDate" />
+
+
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <input asp-for="SchoolID" class="form-control"  disabled="disabled"/>
+                <span asp-validation-for="SchoolID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quarter" class="control-label"></label>
+                <input asp-for="Quarter" class="form-control"disabled="disabled" />
+                <span asp-validation-for="Quarter" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="NewEnrolltGirls" class="control-label"></label>
                 <input asp-for="NewEnrolltGirls" class="form-control" />
@@ -35,26 +48,8 @@
                 <input asp-for="AttendRegBoys" class="form-control" />
                 <span asp-validation-for="AttendRegBoys" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
-                <span asp-validation-for="CreatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedBy" class="control-label"></label>
-                <input asp-for="UpdatedBy" class="form-control" />
-                <span asp-validation-for="UpdatedBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedDate" class="control-label"></label>
-                <input asp-for="UpdatedDate" class="form-control" />
-                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-            </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
@@ -62,7 +57,4 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 

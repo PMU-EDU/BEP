@@ -46,11 +46,13 @@
                 @{
                     if (Model.ClassID == ViewBag.MaxClass)
                     {
-                        @Html.ActionLink("Next", "Edit","Tool5", new { id = Model.SchoolID, q = Model.Quarter })
+                        @*@Html.ActionLink("Next", "Edit", "Tool5", new { id = Model.SchoolID, q = Model.Quarter })*@
+                        <a asp-controller="Tool5" asp-action="Edit" asp-route-id=@Model.SchoolID asp-route-q=@Model.Quarter class="btn btn-success search">Next</a> @*of @subtotal*@
+
                     }
                     else
                     {
-                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="submit" value="Save" class="btn btn-Primary" />
 
                     }
                 }

@@ -8,6 +8,7 @@ using BES.Models.ApiDevApp;
 using BES.Models.Data;
 using BES.Data;
 using Microsoft.EntityFrameworkCore;
+using BES.Areas.DevApp.Models;
 
 namespace BES.Controllers.ApiDevApp
 {

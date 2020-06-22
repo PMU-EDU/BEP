@@ -52,6 +52,14 @@
             </td>
          
             <td>
+                @{
+                    if (ViewBag.View != 1)
+                    {
+                        <a asp-controller="Tool5Detail" asp-action="edit" asp-route-id=@item.SchoolID asp-route-q=@item.Quarter class="btn btn-primary search">Edit</a> @*of @subtotal*@
+
+                    }
+                }
+
             </td>
         </tr>
 }
