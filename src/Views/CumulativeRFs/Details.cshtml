@@ -1,0 +1,66 @@
+﻿@model BES.Models.Reports.CumulativeRF
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CumulativeRF</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IndicatorName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IndicatorName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GPEOrginalTarget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GPEOrginalTarget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GPERevisedTarget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GPERevisedTarget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GPERevisedAchieved)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GPERevisedAchieved)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GPEUnMetTarget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GPEUnMetTarget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EUTarget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EUTarget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EUAchieved)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EUAchieved)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CumulativeTarget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CumulativeTarget)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IndiID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Models.Data;
 using BES.Areas.LMS.Models;
+using BES.Models.Reports;
 
 namespace BES.Data
 {
@@ -177,5 +178,6 @@ namespace BES.Data
         public DbSet<BES.Models.ApiDevApp.ApiUser> ApiUser { get; set; }
         public DbSet<BES.Models.Data.Tool5> Tool5 { get; set; }
         public DbSet<BES.Models.Data.Tool5Detail> Tool5Detail { get; set; }
+        public DbSet<BES.Models.Reports.CumulativeRF> CumulativeRF { get; set; }
     }
 }

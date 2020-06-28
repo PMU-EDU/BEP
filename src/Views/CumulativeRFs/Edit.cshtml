@@ -1,0 +1,66 @@
+﻿@model BES.Models.Reports.CumulativeRF
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>CumulativeRF</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IndiID" />
+            <div class="form-group">
+                <label asp-for="IndicatorName" class="control-label"></label>
+                <input asp-for="IndicatorName" class="form-control" />
+                <span asp-validation-for="IndicatorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GPEOrginalTarget" class="control-label"></label>
+                <input asp-for="GPEOrginalTarget" class="form-control" />
+                <span asp-validation-for="GPEOrginalTarget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GPERevisedTarget" class="control-label"></label>
+                <input asp-for="GPERevisedTarget" class="form-control" />
+                <span asp-validation-for="GPERevisedTarget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GPERevisedAchieved" class="control-label"></label>
+                <input asp-for="GPERevisedAchieved" class="form-control" />
+                <span asp-validation-for="GPERevisedAchieved" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GPEUnMetTarget" class="control-label"></label>
+                <input asp-for="GPEUnMetTarget" class="form-control" />
+                <span asp-validation-for="GPEUnMetTarget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EUTarget" class="control-label"></label>
+                <input asp-for="EUTarget" class="form-control" />
+                <span asp-validation-for="EUTarget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EUAchieved" class="control-label"></label>
+                <input asp-for="EUAchieved" class="form-control" />
+                <span asp-validation-for="EUAchieved" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CumulativeTarget" class="control-label"></label>
+                <input asp-for="CumulativeTarget" class="form-control" />
+                <span asp-validation-for="CumulativeTarget" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

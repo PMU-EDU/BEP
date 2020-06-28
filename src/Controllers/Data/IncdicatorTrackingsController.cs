@@ -396,7 +396,7 @@ namespace BES.Controllers.Data
         //public async Task<IActionResult> MneVerifyIndicators(short id, int SecID)
 
         // GET: /IncdicatorTrackings/ReuploadEvidence
-        [Authorize(Roles = "Administrator,Education,Development")]
+        [Authorize(Roles = "Administrator,M&E,Education,Development")]
         public async Task<IActionResult> ReuploadEvidence(int id)
         {
             int PId = 0;// id == 926982 ? 4 : 3;

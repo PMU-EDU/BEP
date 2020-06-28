@@ -8,18 +8,31 @@
             <div class="pull-left image">
                 <img src="~/img/EU-Logo2.png" class="img-circle" alt="User Image">
             </div>
-            <div class="pull-left info">
-                <p>
-                    @if (User.Identity.Name != null)
-                    {
-                        <text>@ProfileManager.CurrentUser.UserName</text>
 
-                    }
-                </p>
+            @{
+                if (ProfileManager.CurrentUser != null)
+                {
+                    <div class="pull-left info">
+
+                        <p>@ProfileManager.CurrentUser.UserName</p>
+                        @*<p>@ProfileManager.CurrentUser.UserName</p>*@
+
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                }}
+
+            @*<div class="pull-left info">
+                        <p>
+                            @if (User.Identity.Name != null)
+                            {
+                                <text>@ProfileManager.CurrentUser.UserName</text>
+
+                            }
+                        </p>
 
 
-                                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-</div>
+                                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+        </div>*@
         </div>
         <!-- search form -->
         <form action="#" method="get" class="sidebar-form">
@@ -94,7 +107,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
-                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="926982"><i class="fa fa-circle-o text-olive"></i> Evidances Summary</a></li>
+                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="926982"><i class="fa fa-circle-o text-olive"></i> Evidences Summary</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
 
@@ -117,7 +130,7 @@
                 </a>
                 <ul class="treeview-menu">
                     @*<li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="BaselineGenerals" asp-action="index" asp-route-id="926982"><i class="fa fa-anchor "></i> Baseline </a></li>*@
-                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="352769"><i class="fa fa-circle-o text-olive"></i> Evidances Summary</a></li>
+                    <li><a asp-controller="projectupdates" asp-action="index" asp-route-id="352769"><i class="fa fa-circle-o text-olive"></i> Evidences Summary</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="index" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Update Progress</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Re Upload Queries</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="352769"><i class="fa fa-bar-chart"></i> Verifid List</a></li>
@@ -177,7 +190,7 @@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneVerifyEdu" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Verify Education Evidences</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Reupload Edu Queries</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="VerifiedEvidence" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Verified Edu List</a></li>
-                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneUnVerifyEdu" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Un Verify Edu Evidance</a></li>
+                    <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneUnVerifyEdu" asp-route-id="926982"><i class="fa fa-bar-chart"></i> Un Verify Edu Evidence</a></li>
                     @*Dev part*@
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="MneVerifyEdu" asp-route-id="352769"><i class="fa fa-home"></i> Verify Development Evidences</a></li>
                     <li class="@(Html.IsMenuActive("/Settings/Profile") ? "active" : "")"><a asp-controller="IncdicatorTrackings" asp-action="ReuploadEvidence" asp-route-id="352769"><i class="fa fa-home"></i> Reupload Dev Queries</a></li>
