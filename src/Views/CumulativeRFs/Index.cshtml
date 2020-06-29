@@ -27,7 +27,7 @@
         <tr>
            
             <th bgcolor=@GPEColor>
-                @Html.DisplayNameFor(model => model.GPEOrginalTarget)
+               @Html.DisplayNameFor(model => model.GPEOrginalTarget)
             </th>
             <th bgcolor=@GPEColor>
                 @Html.DisplayNameFor(model => model.GPERevisedTarget)
@@ -76,7 +76,7 @@
                     @Html.DisplayFor(modelItem => item.GPERevisedTarget)
                 </td>
                 <td bgcolor=@GPEtd>
-                    @Html.DisplayFor(modelItem => item.GPERevisedAchieved)
+                    <a href="http://mis.bep.org.pk" target="_blank"> @Html.DisplayFor(modelItem => item.GPERevisedAchieved)</a>    
                 </td>
                 <td bgcolor=@GPEtd>
                     @Html.DisplayFor(modelItem => item.GPEUnMetTarget)
@@ -85,7 +85,7 @@
                     @Html.DisplayFor(modelItem => item.EUTarget)
                 </td>
                 <td bgcolor=@EUtd>
-                    @Html.DisplayFor(modelItem => item.EUAchieved)
+                    <a href="http://eu.bep.org.pk/" target="_blank"> @Html.DisplayFor(modelItem => item.EUAchieved)</a> 
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CumulativeTarget)
