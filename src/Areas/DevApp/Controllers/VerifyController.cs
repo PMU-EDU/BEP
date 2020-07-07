@@ -54,7 +54,7 @@ namespace BES.Areas.DevApp.Controllers
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                          Proj_IncdicatorTracking.ReVerified == false && Proj_IncdicatorTracking.ReUpload == false && Indicators.IndicatorID >28
+                                          Proj_IncdicatorTracking.ReVerified == false && Proj_IncdicatorTracking.ReUpload == false && Indicators.IndicatorID > 28 && Indicators.IndicatorID !=35  && Indicators.IndicatorID < 40
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
@@ -93,6 +93,8 @@ namespace BES.Areas.DevApp.Controllers
             catch (Exception ex)
             { }
 
+
+            //applicationDbContext= applicationDbContext.Where(a)
             return View(await applicationDbContext.ToListAsync());
         }
 

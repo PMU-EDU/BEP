@@ -91,6 +91,7 @@
                     @Html.DisplayFor(modelItem => item.CumulativeTarget)
                 </td>
                 <td>
+                    <text> @(item.GPERevisedAchieved+item.EUAchieved)</text>
                     @*<a asp-action="Edit" asp-route-id="@item.IndiID">Edit</a> |
                         <a asp-action="Details" asp-route-id="@item.IndiID">Details</a> |
                         <a asp-action="Delete" asp-route-id="@item.IndiID">Delete</a>*@

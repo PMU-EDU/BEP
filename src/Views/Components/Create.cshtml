@@ -1,0 +1,59 @@
+﻿@model BES.Models.Data.Component
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div style="margin:20px">
+    <h4 style="font-weight:bold">Project Component</h4>
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-md-2">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ComponentCode" class="control-label"></label>
+                    <input asp-for="ComponentCode" class="form-control" readonly />
+                    <span asp-validation-for="ComponentCode" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add Component" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-md-6">                
+                <div class="form-group">
+                    <label asp-for="ComponentName" class="control-label"></label>
+                    <input asp-for="ComponentName" class="form-control" />
+                    <span asp-validation-for="ComponentName" class="text-danger"></span>
+                </div>                
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin-left:20px">
+    <a asp-action="Index">Back to List</a>
+</div>
+<div class="row" style="margin:20px">
+    <div class="col-md-4">
+        <h4 class="box-title">
+            <text style="font-weight:bold">List of Components </text>
+        </h4>
+    </div>
+    <div class="col-md-1" id="divLoading">
+        <img src="~/img/sspinner.gif" width="40" height="40" />
+    </div>
+</div>
+<div id="dynamicContentContainer" style="margin-left:25px;margin-right:25px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "Components")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

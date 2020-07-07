@@ -179,5 +179,11 @@ namespace BES.Data
         public DbSet<BES.Models.Data.Tool5> Tool5 { get; set; }
         public DbSet<BES.Models.Data.Tool5Detail> Tool5Detail { get; set; }
         public DbSet<BES.Models.Reports.CumulativeRF> CumulativeRF { get; set; }
+        public DbSet<BES.Models.Data.ScorecardActivity> ScorecardActivity { get; set; }
+        public DbSet<BES.Models.Data.ScorecardActivityStatus> ScorecardActivityStatus { get; set; }
+        public DbSet<BES.Models.Data.ScoreCardMeetingSchedule> ScoreCardMeetingSchedule { get; set; }
+        public DbSet<BES.Models.Data.Component> Component { get; set; }
+
+        
     }
 }

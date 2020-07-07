@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BES.Models.Data.ScoreCardMeetingSchedule>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LastMeetingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfReminderStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReminderSofar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastMeetingDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfReminderStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReminderSofar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ScoreCardMeetingScheduleID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ScoreCardMeetingScheduleID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ScoreCardMeetingScheduleID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

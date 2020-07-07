@@ -1,0 +1,117 @@
+﻿@model BES.Models.Data.ScorecardActivity
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ScorecardActivity</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivityNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActivityNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ComponentID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ComponentID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivityName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ActivityName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Target)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Target)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Achived)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Achived)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Responsibility)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Responsibility)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Section)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Section)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BaselineStartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BaselineStartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BaselineEndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BaselineEndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Progress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Progress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Predecessor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Predecessor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ParentID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParentID)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ScorecardActivityID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

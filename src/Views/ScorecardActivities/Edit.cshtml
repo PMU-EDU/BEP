@@ -1,0 +1,118 @@
+﻿@model BES.Models.Data.ScorecardActivity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div style="margin:20px">
+
+<h4 style="font-weight:bold">Update Scorecard Activity</h4>
+
+<form asp-action="Edit">
+    <div class="row">
+        <div class="col-md-5">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ScorecardActivityID" />
+            <input type="hidden" asp-for="ActivityNo" />
+            <input type="hidden" asp-for="SerialNo" />
+            <input type="hidden" asp-for="ComponentID" />
+            <input type="hidden" asp-for="ActivityName" />
+            <input type="hidden" asp-for="Responsibility" />
+            <input type="hidden" asp-for="SectionID" />
+            <input type="hidden" asp-for="StartDate" />
+            <input type="hidden" asp-for="EndDate" />
+            <input type="hidden" asp-for="BaselineStartDate" />
+            <input type="hidden" asp-for="BaselineEndDate" />
+            <input type="hidden" asp-for="Duration" />
+            <input type="hidden" asp-for="Progress" />
+            <input type="hidden" asp-for="Predecessor" />
+            <input type="hidden" asp-for="ParentID" />
+            <input type="hidden" asp-for="IsHead" />
+            
+            <div class="form-group">
+                <label asp-for="ComponentID" class="control-label"></label>
+                <select asp-for="ComponentID" class="form-control" asp-items="ViewBag.ComponentID" disabled="disabled"></select>
+            </div>
+            </div>
+        <div class="col-md-7">
+            <div class="form-group">
+                <label asp-for="ActivityName" class="control-label"></label>
+                <input asp-for="ActivityName" class="form-control" readonly/>
+                <span asp-validation-for="ActivityName" class="text-danger"></span>
+            </div>
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Section" class="control-label"></label>
+                <select asp-for="SectionID" class="form-control" asp-items="ViewBag.SectionID" disabled="disabled"></select>
+                <span asp-validation-for="Section" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Deadline</label>
+                <input asp-for="EndDate" class="form-control" readonly />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Responsibility" class="control-label"></label>
+                <input asp-for="Responsibility" class="form-control" readonly />
+                <span asp-validation-for="Responsibility" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Target" class="control-label"></label>
+                <input asp-for="Target" class="form-control" />
+                <span asp-validation-for="Target" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Achived" class="control-label"></label>
+                <input asp-for="Achived" class="form-control" />
+                <span asp-validation-for="Achived" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.Colors"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Comments" class="control-label"></label>
+                <textarea asp-for="Comments" class="form-control" text-wrap:normal" rows="5" cols="100" type="text" placeholder="Please add your remarks" maxlength="499"></textarea>
+                <span asp-validation-for="Comments" class="text-danger"></span>
+            </div>
+            @{
+                if (ViewBag.IsUpdated == false)
+                {
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-default" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label>Updated</label>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</form>
+    </div>
+<div style="margin-left:15px">
+    <a asp-action="Create">Back to List</a>
+</div>
+

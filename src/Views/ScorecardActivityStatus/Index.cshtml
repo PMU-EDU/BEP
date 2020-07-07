@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BES.Models.Data.ScorecardActivityStatus>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScoreCardMeetingScheduleID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScorecardActivity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScoreCardMeetingScheduleID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScorecardActivity.ScorecardActivityID)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ScorecardActivityStatusID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ScorecardActivityStatusID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ScorecardActivityStatusID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,51 @@
+﻿@model BES.Models.Data.ScoreCardMeetingSchedule
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ScoreCardMeetingSchedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LastMeetingDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastMeetingDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfReminderStart)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfReminderStart)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Frequency)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Frequency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReminderSofar)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReminderSofar)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ScoreCardMeetingScheduleID" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
