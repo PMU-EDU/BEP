@@ -42,8 +42,9 @@ namespace BES.Areas.DevApp.Controllers
         // GET: Verify
         public async Task<IActionResult> SchoolList(int id)
         {
-            bool verifed;
-            if (id != 1) verifed = false; else verifed = true;
+            bool verified;
+            if (id != 1) verified = false; else verified = true;
+            ViewBag.verified = verified;
             var applicationDbContext = (from Schools in _context.Schools
                                         join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
                                         join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
@@ -55,7 +56,7 @@ namespace BES.Areas.DevApp.Controllers
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                          Proj_IncdicatorTracking.ReVerified == verifed 
+                                          Proj_IncdicatorTracking.ReVerified == verified 
                                           && Indicators.IndicatorID > 28 
                                           && Indicators.IndicatorID !=35  && Indicators.IndicatorID < 40
                                         group new { Schools, Districts } by new
@@ -96,19 +97,22 @@ namespace BES.Areas.DevApp.Controllers
             catch (Exception ex)
             { }
 
-
             //applicationDbContext= applicationDbContext.Where(a)
             return View(await applicationDbContext.ToListAsync());
         }
 
-        public async Task<IActionResult>IndicatorList(int id)
+        public async Task<IActionResult>IndicatorList(int id, bool? v)
         {
+            v = v == true ? true : false;
             var indiTrack = _context.IncdicatorTracking.Where(a => a.SchoolID == id);
             var applicationDbContext = from Proj_Indicator in _context.Indicator
                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
                                        from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
                                        where
-                                         Proj_Indicator.IndicatorID>28 && Proj_Indicator.IndicatorID != 35 && Proj_Indicator.IndicatorID < 40
+                                         Proj_Indicator.IndicatorID>28 
+                                         && Proj_Indicator.IndicatorID != 35 
+                                         && Proj_Indicator.IndicatorID < 40
+                                         && Proj_IncdicatorTracking.ReVerified==v
                                         && (Proj_IncdicatorTracking.SchoolID == id )
                                        //Proj_IncdicatorTracking.SchoolID == null)
                                        orderby

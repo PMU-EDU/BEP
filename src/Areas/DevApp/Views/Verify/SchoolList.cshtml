@@ -91,7 +91,7 @@
                             }
                         </td>
                         <td>
-                            @Html.ActionLink("Verify", "IndicatorList", new { id = item.SchoolID })
+                            @Html.ActionLink("Verify", "IndicatorList", new { id = item.SchoolID, v=ViewBag.verified })
                         </td>
                     </tr>
                 }

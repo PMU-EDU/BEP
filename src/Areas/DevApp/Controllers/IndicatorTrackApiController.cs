@@ -109,9 +109,11 @@ namespace BES.Areas.DevApp.Controllers
                     CreateDate = DateTime.Now,
                     TotalFilesUploaded = repo.picture_count,
                 };
-                if (isDuplicate)
+                 short i = 1;
+               if (isDuplicate)
                 {
                     indicatorTracking = _context.IncdicatorTracking.First(a => a.SchoolID == repo.school_id && a.IndicatorID == repo.indicatorID);
+                    i += (short) _context.IndicatorDevApp.Where(a => a.SchoolID == repo.school_id && a.IndicatorID == repo.indicatorID).Max(a => a.ImageID);
                 }
                 else
                 _context.Add(indicatorTracking);
@@ -125,7 +127,6 @@ namespace BES.Areas.DevApp.Controllers
                 }
                 _context.Update(school);
 
-                short i = 1;
                 //
                 string District = _context.Schools.Include(a => a.UC.Tehsil.District)
                                  .Where(a => a.SchoolID == repo.school_id)
