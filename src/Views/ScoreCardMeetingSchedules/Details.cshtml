@@ -1,0 +1,48 @@
+﻿@model BES.Models.Data.ScoreCardMeetingSchedule
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ScoreCardMeetingSchedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LastMeetingDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastMeetingDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfReminderStart)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfReminderStart)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Frequency)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Frequency)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ReminderSofar)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ReminderSofar)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ScoreCardMeetingScheduleID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

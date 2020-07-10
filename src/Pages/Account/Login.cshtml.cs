@@ -12,6 +12,7 @@ using BES.Data;
 
 namespace BES.Pages.Account
 {
+  
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -69,14 +70,27 @@ namespace BES.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                
                 if (user != null) {
                     // This doesn't count login failures towards account lockout
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                  
+                    // Get the roles for the user
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+                    if(roles[0] == "DFS")
+                    {
+                        ModelState.AddModelError(string.Empty, "User is not Authorized for Dashboard");
+                        return Page();
+                    }
+
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User logged in.");
+                        if(roles[0]=="RE")
+                        {
+                            return LocalRedirect("/devapp/verify/schoollist");
+                        }
                         return LocalRedirect(Url.GetLocalUrl(returnUrl));
                     }
                     if (result.RequiresTwoFactor)
@@ -104,5 +118,7 @@ namespace BES.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        
     }
 }

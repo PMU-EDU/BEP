@@ -368,19 +368,21 @@
 <div id="dynamicContentContainer"></div>
 @section Scripts {
     <script src="~/libs/chart.js/Chart.min.js"></script>
-    <!-- FLOT CHARTS -->
-        <script src="~/libs/flot/jquery.flot.min.js"></script>
-        <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
-        <script src="~/libs/flot/jquery.flot.resize.min.js"></script>
-        <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
-        <script src="~/libs/flot/jquery.flot.pie.min.js"></script>
-        <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
-        <script src="~/libs/flot/jquery.flot.categories.min.js"></script>
+    <script src="~/libs/flot/jquery.flot.min.js"></script>
+    <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
+    <script src="~/libs/flot/jquery.flot.resize.min.js"></script>
+    <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
+    <script src="~/libs/flot/jquery.flot.pie.min.js"></script>
+    <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
+    <script src="~/libs/flot/jquery.flot.categories.min.js"></script>
+
+
     <script type="text/javascript">
 
         $(document).ready(function () {
 
             $(function () {
+                debugger;
                 $('.search').click(function () {
                     var url = $(this).data('url');
                     var route = url;
@@ -436,17 +438,17 @@
                  })
                  /* END BAR CHART */
                  /*
-         
+
                  /*
         * Custom Label formatter
         * ----------------------
         */
-          
+
              })
 
-         </script>
+    </script>
 
-    <script src="~/libs/chart.js/Chart.min.js"></script>
+
     <script>
         $(function () {
             /* ChartJS
@@ -558,13 +560,13 @@
                     color: '#00a65a',
                     highlight: '#00a65a',
                     label: 'Completed'
-                },                
+                },
                 {
                     value: @ViewBag.TotalGActivitiesProcess,
                     color: '#00c0ef',
                     highlight: '#00c0ef',
                     label: 'In Process'
-                },           
+                },
                 {
                     value: @ViewBag.TotalGActivitiesRemain,
                     color: '#d2d6de',
@@ -607,19 +609,19 @@
             // Get context with jQuery - using jQuery's .get() method.
             var pieChartCanvas = $('#pieChart2').get(0).getContext('2d')
             var pieChart = new Chart(pieChartCanvas)
-            var PieData = [                
+            var PieData = [
                 {
                     value: 1000000,
                     color: '#00a65a',
                     highlight: '#00a65a',
                     label: 'Savings'
-                },                
+                },
                 {
                     value: 1000,
                     color: '#00c0ef',
                     highlight: '#00c0ef',
                     label: 'Payment Release'
-                },               
+                },
                 {
                     value: @ViewBag.TotalGACommit,
                     color: '#d2d6de',

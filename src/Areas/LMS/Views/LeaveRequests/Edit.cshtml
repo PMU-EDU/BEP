@@ -1,0 +1,49 @@
+﻿@model BES.Areas.LMS.Models.LeaveRequest
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>LeaveRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="LeaveRequestID" />
+            <div class="form-group">
+                <label asp-for="DateFrom" class="control-label"></label>
+                <input asp-for="DateFrom" class="form-control" />
+                <span asp-validation-for="DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTo" class="control-label"></label>
+                <input asp-for="DateTo" class="form-control" />
+                <span asp-validation-for="DateTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalDays" class="control-label"></label>
+                <input asp-for="TotalDays" class="form-control" />
+                <span asp-validation-for="TotalDays" class="text-danger"></span>
+            </div>           
+            <div class="form-group">
+                <label asp-for="LeaveTypeID" class="control-label"></label>
+                <select asp-for="LeaveTypeID" class="form-control" asp-items="ViewBag.LeaveTypeID"></select>
+                <span asp-validation-for="LeaveTypeID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

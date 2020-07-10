@@ -6,15 +6,17 @@
     <AssemblyName>BES</AssemblyName>
     <RootNamespace>BES</RootNamespace>
   </PropertyGroup>
+
+  
   <ItemGroup>
-    <Compile Remove="wwwroot\Highcharts-7.2.0\**" />
-    <Content Remove="wwwroot\Highcharts-7.2.0\**" />
-    <EmbeddedResource Remove="wwwroot\Highcharts-7.2.0\**" />
-    <None Remove="wwwroot\Highcharts-7.2.0\**" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Remove="Controllers\ApiDevApp\IndicatorTrackApiController.cs" />
     <Compile Remove="Controllers\Data\SchoolsoldController.cs" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Content Remove="wwwroot\%2a%2a" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
@@ -25,15 +27,24 @@
     <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
 
     <PackageReference Include="Sendgrid" Version="9.9.0" />
+
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.1.0" />
+
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0-preview.3.20214.6" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\DevApp\Models\" />
     <Folder Include="Areas\Education\Controllers\" />
     <Folder Include="Areas\Education\Data\" />
     <Folder Include="Areas\Education\Models\" />
     <Folder Include="Areas\Education\Views\" />
+    <Folder Include="Areas\LMS\Data\" />
     <Folder Include="Areas\Procurement\Data\" />
+    <Folder Include="Controllers\ApiDevApp\" />
   </ItemGroup>
+
+  
 
   <ItemGroup>
     <Reference Include="CBSCustomerAPI">

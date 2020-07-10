@@ -1,0 +1,59 @@
+﻿@model IEnumerable<BES.Models.Data.ScorecardActivity>
+
+
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    <table id="example1" class="table table-striped dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    <text>Component</text>
+                </th>
+                <th>
+                    <text>Section</text>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActivityName)
+                </th>
+                <th>
+                    <text>Head</text>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Target)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Achived)
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn  btn-primary btn-sm" asp-route-id="@item.ScorecardActivityID">Update</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#example1').DataTable({
+
+            })
+        });
+    </script>

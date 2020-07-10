@@ -1,0 +1,142 @@
+﻿@model BES.Models.Data.Tool5
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@{
+    if (Model.Verified != true)
+    {
+        <h2>Verify Data</h2>
+
+    }
+    else
+    { <h2>Verified Data</h2>
+
+    } }
+<h4>Tool 5</h4>
+<hr />
+
+<div class="row">
+    <form asp-action="Edit">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SchoolID" />
+            <input type="hidden" asp-for="Quarter" />
+            <input type="hidden" asp-for="ProjectYear" />
+            <input type="hidden" asp-for="Date" />
+            <input type="hidden" asp-for="VisitorName" />
+            <input type="hidden" asp-for="CreatedBy" />
+            <input type="hidden" asp-for="CreatedDate" />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="SchoolID" disabled="disabled" />
+                    <div class="col-md-6">
+                        <label asp-for="SchoolID" class="control-label"></label>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="School.SName" disabled="disabled" />
+                    <div class="col-md-6">
+                        <label asp-for="School" class="control-label"></label>
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="Quarter" disabled="disabled" />
+                    <div class="col-md-6">
+                        <label asp-for="Quarter" class="control-label"></label>
+                        <span asp-validation-for="Quarter" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="Year" disabled="disabled" />
+                    <div class="col-md-6">
+                        <label asp-for="Year" class="control-label"></label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="Date" />
+                    <div class="col-md-6">
+                        <label asp-for="Date" class="control-label"></label>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="VisitorName" />
+                    <div class="col-md-6">
+                        <label asp-for="VisitorName" class="control-label"></label>
+                    </div>
+                </div>
+            </div>
+            <div class="box-tools pull-right" style="padding-right:50px">
+                @* @Html.ActionLink("Detail View of Raw Data", "RawData", null, new { @class = "btn btn-primary btn-xs", target = "_blank" })*@
+                @{
+                    if (Model.Verified != true)
+                    {
+                        <a asp-controller="Tool5Detail" asp-action="Create" asp-route-id=@Model.SchoolID asp-route-q=@Model.Quarter class="btn btn-success search">Edit Enrollment</a> @*of @subtotal*@
+                    }
+                }
+
+            </div>
+            @*<div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input asp-for="ReCollectData" /> @Html.DisplayNameFor(model => model.ReCollectData)
+                        </label>
+                    </div>
+                </div>*@
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="padding-left:50px">
+                <div id="dynamicContentContainer" style="margin:5px"></div>
+            </div>
+        </div>
+        @{
+            if (Model.Verified != true)
+            {
+                <div class=" col-md-12">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>
+                                <input asp-for="Verified" /> @Html.DisplayNameFor(model => model.Verified)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-default" />
+                    </div>
+                </div>
+
+            } }
+
+    </form>
+
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index","Tool5Detail")', { id: @Model.SchoolID, q:@Model.Quarter , v:1}, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

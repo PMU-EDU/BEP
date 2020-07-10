@@ -24,10 +24,12 @@ namespace BES.API
             this.Mask = mask;
             this.Message = message;
         }
-
-        public async void SendSingleSMS(string designation)
+        public ZongSMS()
+        {            
+        }
+        public async void SendSingleSMS(string msg, string sendTo)
         {
-            using (var stringContent = new StringContent("{\"loginId\":\"923188057099\",\"loginPassword\":\"Zong@123\",\"Destination\":\"923327822567\",\"Mask\":\"PMU\",\"Message\":\"Hello this is testing sms\",\"UniCode\":\"0\",\"ShortCodePrefered\":\"n\"}", System.Text.Encoding.UTF8, "application/json"))
+            using (var stringContent = new StringContent("{\"loginId\":\"923188057099\",\"loginPassword\":\"Gpeb##1234\",\"Destination\":\"" + sendTo + "\",\"Mask\":\"PMU\",\"Message\":\""+ msg +"\",\"UniCode\":\"0\",\"ShortCodePrefered\":\"n\"}", System.Text.Encoding.UTF8, "application/json"))
             using (var client = new HttpClient())
             {
                 try

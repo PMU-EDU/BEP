@@ -1,0 +1,58 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.AddendumWorkDetail>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-action="CreateList" method="post" enctype="multipart/form-data">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActualCost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sign)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddendumWorks)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.School)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <input type="hidden" asp-for="@item.AddendumWorkDetailId" />
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualCost)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sign)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddendumWorks.AddendumId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.School.SName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AddendumWorkDetailId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.AddendumWorkDetailId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AddendumWorkDetailId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>

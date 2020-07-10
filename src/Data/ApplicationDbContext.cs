@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Models.Data;
+using BES.Areas.LMS.Models;
+using BES.Models.Reports;
 
 namespace BES.Data
 {
@@ -35,9 +37,15 @@ namespace BES.Data
         public DbSet<BES.Models.Data.BLTeacherPresent> BLTeacherPresents { get; set; }
         public DbSet<BES.Models.Data.BLTeacherSection> BLTeacherSections { get; set; }
 
+        public DbSet<BES.Models.Data.ESSChecklist> ESSChecklist { get; set; }
+
         public DbSet<BES.Models.Reports.BLEUDetailView> BLEUDetailViews { get; set; }
+        public DbSet<BES.Models.Reports.IndicatorsSummary> IndicatorsSummaries { get; set; }
+        public DbSet<BES.Models.Reports.IndicatorsTotalTarget> indicatorsTotalTargets { get; set; }
+        public DbSet<BES.Models.Data.SchIndicatorStatus> schIndicatorStatuses { get; set; }
         public DbSet<BES.Models.Data.Contractor> Contractor { get; set; }
         public DbSet<BES.Models.Data.Partner> Partners { get; set; }
+        public DbSet<BES.Models.Data.Section> Section { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
 
 
@@ -56,6 +64,23 @@ namespace BES.Data
                 table.SchoolID,
                 table.IndicatorID
             });
+            builder.Entity<BES.Models.Data.IndicatorDevApp>().HasKey(table => new {
+                table.ImageID,
+                table.SchoolID,
+                table.IndicatorID
+            });
+
+            builder.Entity<BES.Models.Data.Tool5>().HasKey(table => new{
+                table.SchoolID,
+                table.Quarter
+            });
+
+            builder.Entity<BES.Models.Data.Tool5Detail>().HasKey(table => new {
+                table.SchoolID,
+                table.Quarter,
+                table.ClassID
+            });
+
         }
         //public DbSet<BES.Models.Data.>  { get; set; }
         //public DbSet<BES.Models.Data.>  { get; set; }
@@ -137,7 +162,28 @@ namespace BES.Data
         public DbSet<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail> VLotItemDetail { get; set; }
         public DbSet<BES.Models.Data.Indicator> Indicator { get; set; }
         public DbSet<BES.Models.Data.IndicatorTracking> IncdicatorTracking { get; set; }
+        public DbSet<BES.Models.Data.IndicatorDevApp> IndicatorDevApp { get; set; }
+
         public DbSet<BES.Models.Data.TeacherProfile> TeacherProfile { get; set; }
         public DbSet<BES.Areas.Procurement.Models.WorkSchool> WorkSchool { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.AddendumWorks> AddendumWorks { get; set; }
+        public DbSet<BES.Models.Data.Contact> Contact { get; set; }
+        public DbSet<BES.Areas.Procurement.Models.AddendumWorkDetail> AddendumWorkDetail { get; set; }
+        public DbSet<BES.Areas.LMS.Models.Employee> Employee { get; set; }
+        public DbSet<BES.Areas.LMS.Models.EmpLeaveSummary> EmpLeaveSummary { get; set; }
+        public DbSet<BES.Areas.LMS.Models.View_Models.LeaveSummaries> LeaveSummaries { get; set; }
+        public DbSet<BES.Areas.LMS.Models.LeaveType> LeaveType { get; set; }
+        public DbSet<BES.Areas.LMS.Models.LeaveRequest> LeaveRequest { get; set; }
+        public DbSet<BES.Models.Data.TeacherPost> TeacherPost { get; set; }
+        public DbSet<BES.Models.ApiDevApp.ApiUser> ApiUser { get; set; }
+        public DbSet<BES.Models.Data.Tool5> Tool5 { get; set; }
+        public DbSet<BES.Models.Data.Tool5Detail> Tool5Detail { get; set; }
+        public DbSet<BES.Models.Reports.CumulativeRF> CumulativeRF { get; set; }
+        public DbSet<BES.Models.Data.ScorecardActivity> ScorecardActivity { get; set; }
+        public DbSet<BES.Models.Data.ScorecardActivityStatus> ScorecardActivityStatus { get; set; }
+        public DbSet<BES.Models.Data.ScoreCardMeetingSchedule> ScoreCardMeetingSchedule { get; set; }
+        public DbSet<BES.Models.Data.Component> Component { get; set; }
+
+        
     }
 }

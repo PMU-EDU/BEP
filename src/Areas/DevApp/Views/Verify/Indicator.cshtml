@@ -1,0 +1,167 @@
+﻿
+@model List<BES.Models.Data.IndicatorDevApp>
+
+@{
+    ViewData["Title"] = "Indicator";
+}
+
+@section Styles  {
+    @*<head>*@
+    <style>
+        #myImg {
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+            #myImg:hover {
+                opacity: 0.7;
+            }
+
+        .img-responsive {
+            cursor: zoom-in;
+        }
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 50px;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+        }
+
+        /* Modal Content (image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 100%;
+            max-width: 800px;
+            max-height: 500px;
+        }
+
+        /* Caption of Modal Image */
+        #caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
+            height: 150px;
+        }
+
+        /* Add Animation */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: #bbb;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        /* 100% Image Width on Smaller Screens */
+        .modal-content {
+            width: 100%;
+        }
+    </style>
+
+    @*</head>*@
+
+}
+
+
+<h2>@ViewBag.SchoolName </h2>
+
+<h4>@ViewBag.IndicatorName</h4>
+<hr />
+<div class=" content-wrapper">
+    <form asp-action="Indicator">
+        <div class="row">
+            <div class="col-md-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @{
+                    int check = 0;
+                    for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <input type="hidden" asp-for="@Model[i].SchoolID" />
+                        <input type="hidden" asp-for="@Model[i].ImageID " />
+                        <input type="hidden" asp-for="@Model[i].IndicatorID " />
+                        <input type="hidden" asp-for="@Model[i].ImagePath " />
+                        <input type="hidden" asp-for="@Model[i].Longitude " />
+                        <input type="hidden" asp-for="@Model[i].Latitude " />
+                        <input type="hidden" asp-for="@Model[i].DateTime " />
+                        <input type="hidden" asp-for="@Model[i].SyncDate " />
+                        <input type="hidden" asp-for="@Model[i].Remarks " />
+
+
+                        <div class="col-lg-3">
+                            <div class="thumbnail">
+                                <div class="@(check == 0 ? "item active" : "item")">
+                                    <img id="@string.Format("myImg{0}", i+1)" class="img-responsive" src="@Url.Content(Model[i].ImagePath) " style="height:200px;width:240px;" alt=@Model[i].IndicatorID />
+                                    <br />
+                                    <input type="checkbox" asp-for="@Model[i].VerifyRE" /> Verified
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>           
+            <div class="form-group">
+                @{
+                    if (ViewBag.IsVerified==false)
+                    {
+                        <input type="submit" value="Submit Verification" class="btn btn-default" />
+
+                    }
+                }
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class=" row">
+        <button type="button" class="close" data-dismiss="modal">
+            X
+        </button>
+        <img class="modal-content" id="img01" style="width:100%;max-height:1150px">
+       
+    </div>
+    <div id="caption"></div>
+</div>
+
+@section Scripts
+    {
+   
+
+    <script src="~/js/popup.js"></script>
+    self.close();
+
+}

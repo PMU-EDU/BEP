@@ -1,0 +1,54 @@
+﻿@model BES.Models.Data.ScorecardActivityStatus
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ScorecardActivityStatus</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ScoreCardMeetingScheduleID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScoreCardMeetingScheduleID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Comments)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CurrentDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ScorecardActivity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ScorecardActivity.ScorecardActivityID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ScorecardActivityStatusID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

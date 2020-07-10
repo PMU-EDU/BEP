@@ -1,0 +1,181 @@
+﻿@model BES.Models.Data.ScorecardActivity
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div style="margin:20px">
+    <h4 style="font-weight:bold">Scorecard Activity</h4>
+    <form asp-action="Create">
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ActivityNo" />
+                <input type="hidden" asp-for="StartDate" />               
+                @*<div class="form-group">
+                        <label asp-for="ActivityNo" class="control-label"></label>
+                        <input asp-for="ActivityNo" class="form-control" />
+                        <span asp-validation-for="ActivityNo" class="text-danger"></span>
+                    </div>*@
+                <div class="form-group">
+                    <label asp-for="ComponentID" class="control-label"></label>
+                    <select asp-for="ComponentID" class="form-control" asp-items="ViewBag.ComponentID"></select>
+                </div>
+
+
+
+                @*<div class="form-group">
+                        <label asp-for="ParentID" class="control-label"></label>
+                        <input asp-for="ParentID" class="form-control" />
+                        <span asp-validation-for="ParentID" class="text-danger"></span>
+                    </div>*@
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="ActivityName" class="control-label"></label>
+                    <input asp-for="ActivityName" class="form-control" />
+                    <span asp-validation-for="ActivityName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <div class="checkbox" style="padding-top:25px">
+                        <label>
+                            <input asp-for="IsHead" /> Is Sub Component
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Sub Component Of</label>
+                    <select asp-for="ParentID" class="form-control" asp-items="Model.ParentNode"></select>
+                    <span asp-validation-for="ParentID" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 tt2">
+                <div class="form-group">
+                    <label asp-for="SerialNo" class="control-label"></label>
+                    <input asp-for="SerialNo" class="form-control" />
+                    <span asp-validation-for="SerialNo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 tt">
+                <div class="form-group">
+                    <label class="control-label">Deadline</label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 tt">
+                <div class="form-group">
+                    <label class="control-label">Status</label>
+                    <select asp-for="Status" class="form-control" asp-items="ViewBag.Colors"></select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row tt">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Target" class="control-label"></label>
+                    <input asp-for="Target" class="form-control" />
+                    <span asp-validation-for="Target" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Achived" class="control-label"></label>
+                    <input asp-for="Achived" class="form-control" />
+                    <span asp-validation-for="Achived" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="Responsibility" class="control-label"></label>
+                    <input asp-for="Responsibility" class="form-control" />
+                    <span asp-validation-for="Responsibility" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2 tt">
+                <div class="form-group">
+                    <label asp-for="SectionID" class="control-label"></label>
+                    <select asp-for="SectionID" class="form-control" asp-items="ViewBag.SectionID"></select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input type="submit" value="Add Activity" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div style="margin-left:15px">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<div class="row" style="margin:20px">
+    <div class="col-md-4">
+        <h4 class="box-title">
+            <text style="font-weight:bold">List of Activities </text>
+        </h4>
+    </div>
+    <div class="col-md-1" id="divLoading">
+        <img src="~/img/sspinner.gif" width="40" height="40" />
+    </div>
+</div>
+<div id="dynamicContentContainer" style="margin-left:25px;margin-right:25px"></div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $(".tt").hide();
+            $(".tt2").show();
+        });
+        $('#IsHead').click(function () {
+            var checked = $(this).is(":checked");
+            //alert(checked)
+            if (checked){
+                $(".tt").hide();
+                $(".tt2").show();
+            } else {
+                $(".tt").show();
+                $(".tt2").hide();
+            }
+        });
+        $('#ComponentID').change(function () {
+            var value = $(this).val();
+            //alert(value);
+            var url = '@Url.Content("~/ScorecardActivities/GetComponentHead/")';
+            var ddlsource = "#ComponentID";
+            $.getJSON(url, { componentId: $(ddlsource).val() }, function (data) {
+                var items = '';
+
+                $("#ParentID").empty();
+                $.each(data, function (i, componentHead) {
+                    items += "<option value='" + componentHead.value + "'>" + componentHead.text + "</option>";
+                });
+                $("#ParentID").html(items);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index2", "ScorecardActivities")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

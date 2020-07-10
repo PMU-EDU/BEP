@@ -26,8 +26,8 @@ namespace BES.Areas.Procurement.Controllers
 
         // GET: Procurement/Activities
         public async Task<IActionResult> Index(short PPID)
-        {            
-            var applicationDbContext = _context.Activity.Include(p => p.Method).Include(p => p.PProcurementPlan).Where(a => a.ProcurementPlanID == PPID);            
+        {
+            var applicationDbContext = _context.Activity.Include(p => p.Method).Include(p => p.PProcurementPlan).Where(a => a.ProcurementPlanID == PPID);
             ViewBag.TotalGActivities = applicationDbContext.Count(a => a.ProcurementPlanID == PPID).ToString();
             ViewBag.TotalGActivitiesCompleted = applicationDbContext.Count(a => a.ProcurementPlanID == PPID && a.Status == 3).ToString();
             ViewBag.TotalGActivitiesProcess = applicationDbContext.Count(a => a.ProcurementPlanID == PPID && a.Status == 2).ToString();
@@ -35,7 +35,7 @@ namespace BES.Areas.Procurement.Controllers
             ViewBag.TotalGActivitiesCancelled = applicationDbContext.Count(a => a.ProcurementPlanID == PPID && a.Status == 4).ToString();
             ViewBag.TotalGAECost = applicationDbContext.Where(a => a.ProcurementPlanID == PPID).Sum(a => ((int?)a.EstimatedCost)).ToString();
             ViewBag.TotalGAECost = string.IsNullOrEmpty(ViewBag.TotalGAECost) ? "0" : ViewBag.TotalGAECost;
-            ViewBag.TotalGAACost = _context.Lot.Include(s=>s.Activity).Where(a => a.Activity.ProcurementPlanID == PPID).Sum(a => ((int?)a.ActualCost ?? 0)).ToString();
+            ViewBag.TotalGAACost = _context.Lot.Include(s => s.Activity).Where(a => a.Activity.ProcurementPlanID == PPID).Sum(a => ((int?)a.ActualCost ?? 0)).ToString();
             ViewBag.TotalGAACost = string.IsNullOrEmpty(ViewBag.TotalGAACost) ? "0" : ViewBag.TotalGAACost;
             //ViewBag.TotalGACommit = (ppactivities.Where(a => a.ProcurementPlanID == 1 && a.Status == 3).Sum(a => (int?)a.ActualCost) ?? 0).ToString();
             ViewBag.TotalGACommit = _context.VLotItemDetail.Include(a => a.Activity.PProcurementPlan).Where(a => a.Activity.ProcurementPlanID == PPID).Sum(a => a.ActualUnitRate * a.FQuantity).ToString();
@@ -45,32 +45,45 @@ namespace BES.Areas.Procurement.Controllers
             //ZongSMS obj = new ZongSMS("","","","");
             //obj.SendSingleSMS("");
 
-            var ActivitySequence = _context.Activity.Where(a => a.ProcurementPlanID == PPID).OrderBy(a=>a.StepReferenceNo).Select(a => a.StepReferenceNo).ToList();
+            var ActivitySequence = _context.Activity.Where(a => a.ProcurementPlanID == PPID).OrderBy(a => a.StepReferenceNo).Select(a => a.StepReferenceNo).ToList();
             var ActivityOnStep = (from c in _context.ActivityDetail
-                           group c by c.Activity.StepReferenceNo into g
-                           select new
-                           {
-                               StepReferenceNo = g.Key,                               
-                               SerailNo = g.Max(a => a.Step.SerailNo)
-                           }).OrderBy(a=>a.StepReferenceNo).ToList();
+                                  group c by c.Activity.StepReferenceNo into g
+                                  select new
+                                  {
+                                      StepReferenceNo = g.Key,
+                                      SerailNo = g.Max(a => a.Step.SerailNo)
+                                  }).OrderBy(a => a.StepReferenceNo).ToList();
 
             int counter = 0;
             List<short> finalList = new List<short>();
-            foreach(var val in ActivitySequence)
+            foreach (var val in ActivitySequence)
             {
-                if(ActivityOnStep.Count > counter && val == ActivityOnStep.ElementAt(counter).StepReferenceNo)
+                if (ActivityOnStep.Count > counter && val == ActivityOnStep.ElementAt(counter).StepReferenceNo)
                 {
                     finalList.Add(ActivityOnStep.ElementAt(counter).SerailNo ?? 0);
                     counter++;
                 }
                 else
                 {
-                    finalList.Add(0); 
-                }               
+                    finalList.Add(0);
+                }
             }
             ViewBag.ActivitySequence = ActivitySequence;
             ViewBag.finalList = finalList;
             return View(await applicationDbContext.ToListAsync());
+            //var activities = _context.Activity.Where(a => a.ProcurementPlanID == 2).ToList();
+            //foreach(var activity in activities)
+            //{
+            //    string msg = "Procurement: Added New Activity(" + _context.ProcurementPlan.Find(activity.ProcurementPlanID).Name + ")\nSTEP Reference# " + activity.StepReferenceNo + "\nName: " + activity.Name + "\nmore detail: http://eu.bep.org.pk";
+            //    ZongSMS ObjSMS = new ZongSMS();
+            //    var contacts = _context.Contact.Where(a => a.IsActive == true).ToList();
+            //    foreach (var contact in contacts)
+            //    {
+            //        ObjSMS.SendSingleSMS(msg, contact.ContactNumber);
+            //    }
+            //}
+            //
+            //return View();
         }
         public ActionResult Popup(int? id, int? pointout)
         {
@@ -94,16 +107,35 @@ namespace BES.Areas.Procurement.Controllers
                 return NotFound();
             }
 
-            var pPActivityDetailList = _context.ActivityDetail.Include(a=>a.Step).Include(a => a.Activity.Method).Where(a => a.ActivityID == id).ToList();
-            var pPLotList = _context.Lot.Include(a => a.Contractor).Where(a => a.ActivityID == id).ToList();
-            var pPLotItemList = _context.LotItem.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno);
+            var ActivityDetailList = _context.ActivityDetail.Include(a=>a.Step).Include(a => a.Activity.Method).Where(a => a.ActivityID == id).ToList();            
+            var lotResult = (from p in _context.LotItem.Include(a => a.Lot.Activity).Include(a=>a.Lot.Contractor).Where(a => a.Lot.ActivityID == id)
+                          select new { p.Lot.ActivityID,p.Lot.Activity.StepReferenceNo, p.lotId,p.Lot.lotno,p.Lot.lotDescription,p.Lot.ItemTotal,p.Lot.ContractorID,p.Lot.Contractor.CompanyName,p.Lot.ExpiryDate,p.Lot.ActualCost,p.Lot.Attachment, p.Quantity, p.EstimatedUnitRate, p.ActualUnitRate } into x
+                          group x by new { x.lotId } into g
+                          select new LotInfo
+                          {
+                              ActivityID = g.Select(x=>x.ActivityID).FirstOrDefault(),
+                              StepReferenceNo = g.Select(x => x.StepReferenceNo).FirstOrDefault(),                              
+                              lotDescription = g.Select(x => x.lotDescription).FirstOrDefault(),
+                              ItemTotal = g.Select(x => x.ItemTotal).FirstOrDefault(),
+                              ContractorID = g.Select(x => x.ContractorID).FirstOrDefault() ?? 0,
+                              CompanyName = g.Select(x => x.CompanyName).FirstOrDefault(),
+                              ExpiryDate = g.Select(x => x.ExpiryDate).FirstOrDefault(),
+                              ActualCost = g.Select(x => x.ActualCost).FirstOrDefault(),
+                              Attachment = g.Select(x => x.Attachment).FirstOrDefault(),
+                              lotId = g.Key.lotId,
+                              lotno = g.Select(x=>x.lotno).FirstOrDefault(),
+                              EstimatedCost = g.Select(x => x.Quantity * x.EstimatedUnitRate).Sum()
+                          }).ToList();
+            
+            var LotList2 = _context.Lot.Include(a => a.Contractor).Where(a => a.ActivityID == id).ToList();
+            var LotItemList = _context.LotItem.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno);
             var query = (from e in _context.VLotItemDetail
                          group e by new { e.ActivityID, e.lotId } into eg
-                         select new { eg.Key.ActivityID, eg.Key.lotId, PPAddendumTypeId = eg.Max(rl => rl.AddendumTypeId), ActualDate = eg.Max(rl => rl.ActualDate), LExpiryDate = eg.Max(rl => rl.LExpiryDate), AExpiryDate = eg.Max(rl => rl.AExpiryDate), IQuantity = eg.Sum(rl => rl.IQuantity), FQuantity = eg.Sum(rl => rl.FQuantity), EstimatedUnitRate = eg.Sum(rl => (rl.EstimatedUnitRate * rl.IQuantity)), ActualUnitRate = eg.Sum(rl => (rl.ActualUnitRate * rl.FQuantity)), Attachment = eg.Max(rl => rl.Attachment), ContractorID = eg.Max(rl => rl.ContractorID), CompanyName = eg.Max(rl => rl.CompanyName), ItemName = eg.Max(rl => rl.ItemName), Unit = eg.Max(rl => rl.Unit), LotItemId = eg.Max(rl => rl.LotItemId), lotno = eg.Max(rl => rl.lotno), Addandum = eg.Max(rl => rl.Addandum) }).Where(a => a.ActivityID == id).ToList();
-            List<VLotItemDetail> pPItemDetailList = new List<VLotItemDetail>();
+                         select new { eg.Key.ActivityID, eg.Key.lotId, AddendumTypeId = eg.Max(rl => rl.AddendumTypeId), ActualDate = eg.Max(rl => rl.ActualDate), LExpiryDate = eg.Max(rl => rl.LExpiryDate), AExpiryDate = eg.Max(rl => rl.AExpiryDate), IQuantity = eg.Sum(rl => rl.IQuantity), FQuantity = eg.Sum(rl => rl.FQuantity), EstimatedUnitRate = eg.Sum(rl => (rl.EstimatedUnitRate * rl.IQuantity)), ActualUnitRate = eg.Sum(rl => (rl.ActualUnitRate * rl.FQuantity)), Attachment = eg.Max(rl => rl.Attachment), ContractorID = eg.Max(rl => rl.ContractorID), CompanyName = eg.Max(rl => rl.CompanyName), ItemName = eg.Max(rl => rl.ItemName), Unit = eg.Max(rl => rl.Unit), LotItemId = eg.Max(rl => rl.LotItemId), lotno = eg.Max(rl => rl.lotno), Addandum = eg.Max(rl => rl.Addandum) }).Where(a => a.ActivityID == id).ToList();
+            List<VLotItemDetail> ItemDetailList = new List<VLotItemDetail>();
             for (int i = 0; i < query.ToList().Count; i++)
             {
-                pPItemDetailList.Add(new VLotItemDetail
+                ItemDetailList.Add(new VLotItemDetail
                 {
                     ActivityID = query[i].ActivityID,
                     ActualUnitRate = query[i].ActualUnitRate,
@@ -111,7 +143,7 @@ namespace BES.Areas.Procurement.Controllers
                     Attachment = query[i].Attachment,
                     CompanyName = query[i].CompanyName,
                     ContractorID = query[i].ContractorID,
-                    AddendumTypeId = query[i].PPAddendumTypeId,
+                    AddendumTypeId = query[i].AddendumTypeId,
                     ActualDate = query[i].ActualDate,
                     LExpiryDate = query[i].LExpiryDate,
                     AExpiryDate = query[i].AExpiryDate,
@@ -125,12 +157,12 @@ namespace BES.Areas.Procurement.Controllers
                     IQuantity = query[i].IQuantity
                 });
             }
-            var pPAddendumLotItemList = _context.Addendum.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno).ToList();
-            if (pPActivityDetailList == null)
+            var AddendumLotItemList = _context.Addendum.Include(a => a.Lot.Contractor).Where(a => a.Lot.ActivityID == id).OrderBy(a => a.Lot.lotno).ToList();
+            if (ActivityDetailList == null)
             {
                 return NotFound();
             }
-            var result = (from p in _context.Addendum.Include(a => a.Lot).Where(a => a.Lot.ActivityID == id)
+            var result1 = (from p in _context.Addendum.Include(a => a.Lot).Where(a => a.Lot.ActivityID == id)
                           select new { p.LotId, p.AddendumId } into x
                           group x by new { x.LotId } into g
                           select new
@@ -139,17 +171,16 @@ namespace BES.Areas.Procurement.Controllers
                               TotalAddendum = g.Count()
                           }).ToList();
             List<int> data = new List<int>();
-            foreach (var obj in result)
+            foreach (var obj in result1)
             {
                 data.Add(obj.LotId);
                 data.Add(obj.TotalAddendum);
-
             }
             int[] arrStrings = data.ToArray();
             ViewData["Data"] = arrStrings;
             
             var activityObj = _context.Activity.Include(a=>a.Method).Where(a=>a.ActivityID == id);
-            var tuple = new Tuple<List<ActivityDetail>, List<Lot>, IEnumerable<Addendum>, IEnumerable<VLotItemDetail>,List<Activity>>(pPActivityDetailList, pPLotList, pPAddendumLotItemList.ToList(), pPItemDetailList,activityObj.ToList());
+            var tuple = new Tuple<List<ActivityDetail>,List<LotInfo>, IEnumerable<Addendum>, IEnumerable<VLotItemDetail>,List<Activity>>(ActivityDetailList,lotResult, AddendumLotItemList.ToList(), ItemDetailList,activityObj.ToList());
             return View(tuple);
         }
 
@@ -205,7 +236,15 @@ namespace BES.Areas.Procurement.Controllers
                         Obj.TotalSchool = activity.SchoolTotal;
                         _context.Add(Obj);
                         await _context.SaveChangesAsync();
-                    }                    
+                    }
+                    string msg = "Procurement: Added New Activity(" + _context.ProcurementPlan.Find(activity.ProcurementPlanID).Name + ")\nSTEP Reference# " + activity.StepReferenceNo + "\nName: " + activity.Name + "\nmore detail: http://eu.bep.org.pk";
+                    ZongSMS ObjSMS = new ZongSMS();
+                    var contacts = _context.Contact.Where(a => a.IsActive == true).ToList();
+                    foreach (var contact in contacts)
+                    {
+                        ObjSMS.SendSingleSMS(msg, contact.ContactNumber);
+                    }
+
                     return RedirectToAction(nameof(Index),new { PPID = id });                    
                 }
                 else

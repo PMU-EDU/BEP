@@ -77,7 +77,7 @@
                                 <input id="@("AAmount" + item.WorkSchoolID)" value="@item.ActualCost" type="text" class="form-control" readonly="readonly" />
                             </td>
                             <td><input id="@("btn" + item.WorkSchoolID)" style="float:right" type="button" value="Submit" class="btn btn-sm btn-primary" disabled="disabled" /></td>
-                            <td><img id="@("img" + item.WorkSchoolID)" src="~/img/tick.png" width="35" height="25" /></td>
+                            <td><img id="@("img" + item.WorkSchoolID)" src="~/img/tick.png" width="25" height="20" /></td>
                         }
                     }
 
@@ -115,8 +115,8 @@
                     btn.height = "20";
                     btn.onclick = "";
                     $('#EAmount' + workschoolid).prop('readonly', true);
-                    $('#EAmount' + workschoolid).prop('readonly', true);
-                    
+                    $('#AAmount' + workschoolid).prop('readonly', true);
+                    $('#btn' + workschoolid).prop('disabled', true);
                 } else {
                     // DoSomethingElse()
                     alert(response.responseText);

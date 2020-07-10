@@ -1,0 +1,210 @@
+﻿@model BES.Areas.LMS.Models.LeaveRequest
+
+@{
+    ViewData["Title"] = "Create";
+}
+@section Styles {
+    <style>
+      
+    </style>
+}
+    <form asp-action="Create" id="myForm" enctype="multipart/form-data">
+        <div class="row" style="margin: 20px 70px 20px 70px">
+            <div class="row">
+                <h4 style="font-weight:bold" class="text-center">Leave Request Form</h4>
+                <div class="col-md-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" id="Days" name="Days" />
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input type="text" class="form-control" value="@ViewBag.Name" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Supervisor/Section Head</label>
+                        <input type="text" class="form-control" value="@ViewBag.SectionHead" readonly="readonly" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="DateFrom" class="control-label"></label>
+                        <input asp-for="DateFrom" class="form-control" id="txtFromDate" required />
+                        <span asp-validation-for="DateFrom" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">Designation</label>
+                        <input type="text" class="form-control" value="@ViewBag.Designation" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LeaveTypeID" class="control-label"></label>
+                        <select asp-for="LeaveTypeID" id="LeaveID" class="form-control" asp-items="ViewBag.LeaveTypeID"></select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateTo" class="control-label"></label>
+                        <input asp-for="DateTo" class="form-control" id="txtToDate" required />
+                        <span asp-validation-for="DateTo" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-group">
+                        <label asp-for="NominatedID" class="control-label"></label>
+                        <select asp-for="NominatedID" class="form-control" asp-items="ViewBag.OnBehalfOfName"></select>
+                        <span asp-validation-for="NominatedID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Applied For:</label>
+                        <div class="form-control custom-radio" style="background-color:cadetblue;color:white">
+                            <input type="radio" name="appliedfor" id="self" checked="checked" value="self"> Self
+                            <input type="radio" name="appliedfor" id="other" value="other"> On the behalf of
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="OnBehalfOf" class="control-label"></label>
+                        <select asp-for="OnBehalfOf" id="OnBehalfOf" class="form-control" disabled="disabled" asp-items="ViewBag.OnBehalfOfName"></select>
+                        <span asp-validation-for="OnBehalfOf" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Remarks" class="control-label"></label>
+                        <textarea asp-for="Remarks" class="form-control" text-wrap:normal" type="text" placeholder="Please add your remarks" id="remarks" required></textarea>
+                        <span asp-validation-for="Remarks" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" id="btnValidate" value="Apply" class="btn btn-default" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Remaining Balance</label>
+                        <input type="text" id="balance" class="form-control" value="@ViewBag.ABalance" readonly="readonly" style="max-width:50px;font-size:14px;font-family:Verdana;color:green;font-weight:bold" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">                        
+                        <div class="custom-file" id="attach">
+                            <input type="file" class="custom-file-input" id="customFile" name="Attachment" accept="application/pdf">
+                            <label class="custom-file-label" for="customFile">Attach Medical Certificate</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+
+
+    <div style="margin-left:10px">
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+        if (@ViewBag.IsSupervisor == 1) {
+            $("#Supervisor").show();
+            $("#LeaveRequest").hide();
+            $("#PD").hide();
+            $("#inbox").text(@ViewBag.Inbox);
+            $("#accepted").text(@ViewBag.Accepted);
+            $("#rejected").text(@ViewBag.Rejected);
+            $("#refused").text(@ViewBag.Refused);
+        } else {
+            $("#Supervisor").hide();
+        }
+        if (@ViewBag.IsHRAdmin == 1) {
+            $("#HRAdmin").show();
+        } else {
+            $("#HRAdmin").hide();
+        }
+        $('#OnBehalfOf').val('');
+        $('input[type=radio][name=appliedfor]').on('change', function () {
+            switch ($(this).val()) {
+                case 'self':
+                    $('#OnBehalfOf').prop('disabled', 'disabled');
+                    break;
+                case 'other':
+                    $('#OnBehalfOf').prop('disabled', false);
+                    break;
+            }
+        });
+    });
+        </script>
+        <script>
+        $(function () {
+            $("#btnValidate").click(function () {
+                var fromdate = new Date($("#txtFromDate").val()); //Year, Month, Date
+                var todate = new Date($("#txtToDate").val()); //Year, Month, Date
+                if (fromdate == "Invalid Date" || todate == "Invalid Date")
+                {
+                    alert("Please fill required fields!");
+                    return;
+                }
+                if ($("#remarks").val() == "") {
+                    alert("Please enter remarks!");
+                    return;
+                }
+                if (todate >= fromdate) {
+
+                    var numOfDates = getBusinessDatesCount(fromdate, todate);
+                    var remaining = $("#balance").val() - numOfDates;
+                    //alert(remaining);
+                    if (remaining >= 0) {
+                        if ($("#LeaveID").val() == 2) {
+                            if (numOfDates > 2) {
+                                if ($('#customFile').get(0).files.length === 0) {
+                                    alert('Please attach medical certificate');
+                                    return;
+                                } 
+                            }
+                        }                               
+                        if ($("#other").prop("checked") == true && $('#OnBehalfOf').val() == null) {
+                            alert('Please specify concern person to whom you applied for');
+                            return;
+                        }                        
+                        //$("#myForm").submit();
+                    } else {
+                        alert("Insufficent balance for current request!");
+                    }
+                    function getBusinessDatesCount(startDate, endDate) {
+                        var count = 0;
+                        var curDate = startDate;
+                        while (curDate <= endDate) {
+                            var dayOfWeek = curDate.getDay();
+                            if (!((dayOfWeek == 6) || (dayOfWeek == 0)))
+                                count++;
+                            curDate.setDate(curDate.getDate() + 1);
+                        }
+                        $("#Days").val(count);
+                        return count;
+                    }
+                    $("#btnValidate").prop('disabled', true);
+                    $("#myForm").submit();
+                } else {
+                    alert("from date is greather then to date.");
+                }
+            });
+        });
+            $(document).ready(function () {
+                $('#attach').hide();
+            $("#LeaveID").change(function () {
+            var leaveId = this.value;
+            //do stuff to HTML based on selected value
+                if (leaveId == 1) {
+                    $('#balance').val(@ViewBag.ABalance);
+                    $('#attach').hide();
+                } else if(leaveId == 2){
+                    $('#balance').val(@ViewBag.SBalance);
+                    $('#attach').show();
+                }
+            //alert(leaveId)
+        });
+    });
+        </script>
+    }

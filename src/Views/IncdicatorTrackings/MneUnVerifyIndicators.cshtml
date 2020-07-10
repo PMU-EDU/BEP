@@ -1,0 +1,311 @@
+﻿@model IEnumerable<BES.Models.Data.IndicatorTracking>
+
+@{
+    ViewData["Title"] = "Update";
+    int dataLength = Model.Count();
+    int ii = 1;
+}
+@section Styles {
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="~/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css">
+}
+
+<input type="hidden" id="dataCnt" value="@dataLength" />
+<h2>
+   Un Verify Evidence of @ViewBag.Section @*Progress Tracking sheet*@
+
+    <br /><small>
+        @ViewBag.Sname
+    </small>
+</h2>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Indicator)
+            </th>
+
+            <th>
+                uploaded / Done
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfUpload)
+            </th>
+
+            <th>
+                Re Upload Evidence
+            </th>
+            <th>
+                Verified
+            </th>
+
+            <th> View Evidance </th>
+            <th>  </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Indicator)
+                </td>
+
+                <td>
+                    @{
+
+                        if (item.IsUpload == true)
+                        {
+                            if (item.isEvidence == true)
+                            {
+                                @Html.DisplayFor(modelItem => item.TotalFilesUploaded) <text> files </text>
+                            }
+                            else
+                            {
+                                <img src="~/img/checked-checkbox-16.png" />
+                            }
+                        }
+
+                        
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfUpload)
+
+
+                </td>
+                @*ReUpload*@
+                <td>
+                    @{
+                        if (item.IsUpload == true && item.Verified == false && item.ImageURL!=null)
+                        {
+                            if (item.ReUpload == true)
+                            {
+                                <img src="~/img/checked-checkbox-16.png" />
+                            }
+                            else
+                            {
+
+                                @*string reUpload = "reUpload" + @item.IndicatorID;
+                                <input type="checkbox" id=@reUpload />*@
+                            }
+                        }
+
+                    }
+
+                </td>
+               
+                @*Verified*@
+
+                <td>
+                    @{
+                        if (item.IsUpload == true && item.ImageURL != null)
+                        {
+                            if (item.Verified == true)
+                            {
+                                <img src="~/img/checked-checkbox-16.png" />
+                            }
+                            else if (item.ReUpload == false)
+                            {
+
+                                @*string verified = "verified" + @item.IndicatorID;
+
+                                <input type="checkbox" id=@verified />*@
+                            }
+                        }
+
+                    }
+
+                </td>
+
+                @*View Evidance Buttion*@
+                <td>
+
+                    @{
+                        if (item.IsUpload == true && item.ImageURL != null)
+                        {
+                            if (item.isEvidence == true)
+                            {
+                                if (item.EvidanceType == "image/*")
+                                {
+                                    var url = "/IncdicatorTrackings/Popup/" + item.SchoolID + "?iID=" + item.IndicatorID;
+
+                                    <a href="#" class="btn btn-default search" type="button" data-url=@url data-toggle="modal" data-title="@item.Indicator" data-target="#modal-default">View Evidance(s)</a> @*of @subtotal*@
+                                }
+                                else
+                                {
+                                    var url = item.ImageURL + "//" + item.SchoolID + "-1.pdf";
+                                    <a href='@url' class="btn btn-default search" type="button" target="_blank">View Evidance(s)</a> @*of @subtotal*@
+
+                                }
+                                @*<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                                        Modal
+                                    </button>*@
+                                @*<input type="submit" value="View" class="btn btn-default" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />*@
+                            }
+                        }
+                        else
+                        {
+                        }
+                    }
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+               
+                @*Un verify Button*@
+                <td>
+                    @{
+                        if (item.IsUpload == true && item.ImageURL != null && item.Verified == true && item.ReUpload == false )
+                        {
+                            <input type="submit" id="button" value="Un Verify" class="kk btn btn-primary" onclick="submit_by_Script(this,@item.IndicatorID, @item.SchoolID,@item.isEvidence.ToString().ToLower(), @ViewBag.SecID)" />
+
+                        }
+
+                    }
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+@*Partial view of Teachers Profile*@
+@*<div id="dynamicContentContainer" style="margin:5px"></div>*@
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog" role="document" style="width:800px;min-height:600px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <div id="partial">Loading....</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+@section Scripts {
+    <!-- bootstrap datepicker -->
+    <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    @*<script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>*@
+
+    <script type="text/javascript">
+
+        function submit_by_Script(elmnt, iId, sId, isEvid, SecID,ii) {
+            debugger;
+           
+
+
+            var flag = true;
+            //var dateVal = datepick.value;
+
+           
+
+            //var id = fileInput[0].id;
+            //var files = fileUpload.files;
+
+            if (flag == true) {
+                //var fileData = new FormData();
+                //if (isEvid == true) {
+                //    //alert("Ready to post with Pix");
+
+                //    // Looping over all files and add it to FormData object
+                //    for (var i = 0; i < fileUpload.files.length; i++) {
+                //        fileData.append(fileUpload.files[i].name, fileUpload.files[i]);
+                //    }
+                //}
+                    //// Adding one more key to FormData object
+                    //fileData.append('username', 'Manas');
+                    $.ajax({
+                        type: "POST",
+                        contentType: false, // Not to set any content header
+                        processData: false, // Not to process data
+                        //data: fileData,
+                        url: "/IncdicatorTrackings/MneUnVerifyIndicatorsPost?sID=" + sId + "&iId=" + iId + "&verified=" + false + "&reUpload=" + true,
+                        dataType: 'json',
+
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.responseText);
+                                window.location.href = "/IncdicatorTrackings/MneUnVerifyIndicators/" + sId + "?SecID=" + SecID;
+                            } else {
+                                // DoSomethingElse()
+                                alert(response.responseText);
+                                //window.location.href =
+                            }
+                        },
+                        error: function (response) {
+                            alert("error!");  //
+                        }
+
+                    });
+
+                @*else {
+                    window.location.assign("/IncdicatorTrackings/UpdatePost?sID=" + sId + "&iId=" + iId + "&EDate=" + dateVal+ "&SecID="+@ViewBag.SecID);
+                }*@
+            }
+
+        }
+
+
+    $(document).ready(function () {
+        //Date picker
+        var model = JSON.parse('@Html.Raw(Json.Serialize(Model.Select(a=>a.Indicator).ToList()))');
+        var ids = @Html.Raw(Json.Serialize(ViewData["ids"]));
+        //alert(@ViewBag.SecID);
+        var hiddenLength = document.getElementById("dataCnt");
+
+        for (var i = 0; i < ids.length; i++) {
+           // alert(ids[i]);
+            var dt = "#datepicker" + ids[i];
+            $(dt).datepicker({
+                autoclose: true
+            })
+        }
+        // alert(hiddenLength.value);
+
+
+        //for (var i = 1; i < hiddenLength.value; i++) {
+        //    var dt = "#datepicker" + i;
+        //    $(dt).datepicker({
+        //        autoclose: true
+        //    })
+        //}
+
+
+        $(function () {
+            $('.search').click(function () {
+               //alert("Reached here");
+                var url = $(this).data('url');
+                var route = url;
+                $('#partial').load(route);
+            });
+        });
+        });
+
+        $('#modal-default').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var modal = $(this);
+            var title = button.data('title')+ " Evidances"; //alert(title);
+            modal.find('.modal-title').text(title)
+        });
+    </script>
+}

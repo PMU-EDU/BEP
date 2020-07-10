@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BES.Areas.Procurement.Models;
 using BES.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Areas.Procurement.Controllers
 {
@@ -25,6 +26,7 @@ namespace BES.Areas.Procurement.Controllers
         {
             return View(await _context.ProcurementPlan.ToListAsync());
         }
+
         public ActionResult Dashboard()
         {
             return View();

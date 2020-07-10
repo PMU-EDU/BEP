@@ -1,0 +1,127 @@
+﻿@model IEnumerable<BES.Models.Reports.CumulativeRF>
+
+@{
+    ViewData["Title"] = "Index";
+    var GPEColor = "#A4DCD1";
+    var EUColor = "#AFDBF5";
+    bool rowFlag = true;
+    string GPEtd = "";
+    string EUtd = "";
+}
+
+<h2>Cumulative Result Framework</h2>
+
+@*<p>
+        <a asp-action="Create">Create New</a>
+    </p>*@
+<table class="table table-striped table-bordered  dataTables-example">
+    <thead>
+        <tr>
+            <tH rowspan="2"  style="text-align: center; vertical-align: middle;">
+                <h2> @Html.DisplayNameFor(model => model.IndicatorName)</h2>
+            </tH>
+            <th colspan="2" bgcolor=@GPEColor style="text-align: center; vertical-align: middle;"><h2>GPE</h2></th>
+            <th colspan="2" bgcolor=@EUColor style="text-align: center; vertical-align: middle;"><h2>EU</h2></th>
+            <th colspan="2" style="text-align: center; vertical-align: middle;"><h2>Cumulative</h2></th>
+        </tr>
+        <tr>
+           
+            <th bgcolor=@GPEColor>
+               @Html.DisplayNameFor(model => model.GPEOrginalTarget)
+            </th>
+            @*<th bgcolor=@GPEColor>
+                @Html.DisplayNameFor(model => model.GPERevisedTarget)
+            </th>*@
+            <th bgcolor=@GPEColor>
+                @Html.DisplayNameFor(model => model.GPERevisedAchieved)
+            </th>
+            @*<th bgcolor=@GPEColor>
+                @Html.DisplayNameFor(model => model.GPEUnMetTarget)
+            </th>*@
+            <th bgcolor=@EUColor>
+                @Html.DisplayNameFor(model => model.EUTarget)
+            </th>
+            <th bgcolor=@EUColor>
+                @Html.DisplayNameFor(model => model.EUAchieved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CumulativeTarget)
+            </th>
+            <th>Achieved</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if(rowFlag)
+            {
+                rowFlag = false;
+                GPEtd = "";
+                EUtd = "";
+            }
+            else
+            {
+                rowFlag = true;
+                GPEtd = GPEColor;
+                EUtd = EUColor;
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IndicatorName)
+                </td>
+                <td bgcolor=@GPEtd>
+                    @String.Format("{0:#,##}", item.GPEOrginalTarget)
+                </td>
+                @*<td bgcolor=@GPEtd>
+                    @Html.DisplayFor(modelItem => item.GPERevisedTarget)
+                </td>*@
+                <td bgcolor=@GPEtd>
+                    <a href="http://mis.bep.org.pk" target="_blank"> @String.Format("{0:#,##}", item.GPERevisedAchieved)</a>    
+                </td>
+                @*<td bgcolor=@GPEtd>
+                    @Html.DisplayFor(modelItem => item.GPEUnMetTarget)
+                </td>*@
+                <td bgcolor=@EUtd>
+                    @String.Format("{0:#,##}", item.EUTarget)
+                </td>
+                <td bgcolor=@EUtd>
+                    <a href="http://eu.bep.org.pk/" target="_blank"> @String.Format("{0:#,##}", item.EUAchieved)</a> 
+                </td>
+                <td>
+                    @String.Format("{0:#,##}", item.CumulativeTarget)
+                </td>
+                <td>
+                    <text>
+                        @String.Format("{0:#,##}", (item.GPERevisedAchieved+item.EUAchieved))</text>
+                    @*<a asp-action="Edit" asp-route-id="@item.IndiID">Edit</a> |
+    <a asp-action="Details" asp-route-id="@item.IndiID">Details</a> |
+    <a asp-action="Delete" asp-route-id="@item.IndiID">Delete</a>*@
+
+               
+</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div id="dynamicContentContainer"></div>
+@section Scripts {
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+     
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $(document).ready(function () {
+                // $('#Region-DropdownID').val(null).change();
+                // alert('JQuery Entered')
+                //alert('Table Generated')
+            });
+            //alert('Table Generated')
+      
+
+    </script>
+
+}

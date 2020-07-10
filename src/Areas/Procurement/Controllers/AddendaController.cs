@@ -93,8 +93,9 @@ namespace BES.Areas.Procurement.Controllers
                     string AName = _context.Lot.Include(a => a.Activity).Where(a => a.lotId == id).Select(a => a.Activity.Name).FirstOrDefault().ToString();
                     AName = AName.Replace("&", "n");
                     var PPName = _context.ProcurementPlan.Find(_context.Activity.Find(AID).ProcurementPlanID).Name;
-                    addendum.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Addendum//" + addendum.AddendumId.ToString() + "//" + fileName);//Server Path                
-                    string sPath = Path.Combine(rootPath + PPName + "/" + AName + "//Addendum//" + addendum.AddendumId.ToString());
+                    int NextID = (_context.Addendum.Max(a => (int?)a.AddendumId) ?? 1) + 1;
+                    addendum.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//Addendum//" + NextID.ToString() + "//" + fileName);//Server Path                
+                    string sPath = Path.Combine(rootPath + PPName + "/" + AName + "//Addendum//" + NextID.ToString());
                     if (!System.IO.Directory.Exists(sPath))
                     {
                         System.IO.Directory.CreateDirectory(sPath);

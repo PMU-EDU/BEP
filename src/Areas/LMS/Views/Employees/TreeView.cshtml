@@ -1,0 +1,273 @@
+﻿@model List<BES.Areas.LMS.Models.View_Models.EmployeeTreeView>
+
+@{
+    ViewData["Title"] = "TreeView";
+}
+@section Styles {
+    <style>
+        /* MENU-LEFT
+        -------------------------- */
+        /* layout */
+        .bs-example {
+            margin: 0 5px;
+        }
+
+        #left ul.nav {
+            margin-bottom: 2px;
+            font-size: 12px; /* to change font-size, please change instead .lbl */
+        }
+
+            #left ul.nav ul,
+            #left ul.nav ul li {
+                list-style: none !important;
+                list-style-type: none !important;
+                margin-top: 1px;
+                margin-bottom: 1px;
+            }
+
+            #left ul.nav ul {
+                padding-left: 0;
+                width: auto;
+            }
+
+                #left ul.nav ul.children {
+                    padding-left: 12px;
+                    width: auto;
+                }
+
+                    #left ul.nav ul.children li {
+                        margin-left: 0px;
+                    }
+
+            #left ul.nav li a:hover {
+                text-decoration: none;
+            }
+
+                #left ul.nav li a:hover .lbl {
+                    color: #999 !important;
+                }
+
+            #left ul.nav li.current > a .lbl {
+                background-color: #999;
+                color: #fff !important;
+            }
+
+            /* parent item */
+            #left ul.nav li.parent a {
+                padding: 0px;
+                color: #ccc;
+            }
+
+            #left ul.nav > li.parent > a {
+                border: solid 1px #999;
+                text-transform: uppercase;
+            }
+
+            #left ul.nav li.parent a:hover {
+                background-color: #fff;
+                -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+            }
+
+            /* link tag (a)*/
+            #left ul.nav li.parent ul li a {
+                color: #222;
+                border: none;
+                display: block;
+                padding-left: 5px;
+            }
+
+                #left ul.nav li.parent ul li a:hover {
+                    background-color: #fff;
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
+                }
+
+            /* sign for parent item */
+            #left ul.nav li .sign {
+                display: inline-block;
+                width: 14px;
+                padding: 5px 8px;
+                background-color: transparent;
+                color: #fff;
+            }
+
+            #left ul.nav li.parent > a > .sign {
+                margin-left: 0px;
+                background-color: #999;
+            }
+
+            /* label */
+            #left ul.nav li .lbl {
+                padding: 5px 12px;
+                display: inline-block;
+            }
+
+            #left ul.nav li.current > a > .lbl {
+                color: #fff;
+            }
+
+            #left ul.nav li a .lbl {
+                font-size: 12px;
+            }
+
+            /* THEMATIQUE
+        ------------------------- */
+
+
+            /* theme 2 */
+            #left ul.nav > li.item-8.parent > a {
+                border: solid 1px #3c8dbc;
+            }
+
+                #left ul.nav > li.item-8.parent > a > .sign,
+                #left ul.nav > li.item-8 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #3c8dbc;
+                }
+
+            #left ul.nav > li.item-8 .lbl {
+                color: #3c8dbc;
+            }
+
+            #left ul.nav > li.item-8 li.current > a .lbl {
+                background-color: #3c8dbc;
+                color: #fff !important;
+            }
+
+            /* theme 3 */
+            #left ul.nav > li.item-15.parent > a {
+                border: solid 1px #94cf00;
+            }
+
+                #left ul.nav > li.item-15.parent > a > .sign,
+                #left ul.nav > li.item-15 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #94cf00;
+                }
+
+            #left ul.nav > li.item-15 .lbl {
+                color: #94cf00;
+            }
+
+            #left ul.nav > li.item-15 li.current > a .lbl {
+                background-color: #94cf00;
+                color: #fff !important;
+            }
+
+            /* theme 4 */
+            #left ul.nav > li.item-22.parent > a {
+                border: solid 1px #ef409c;
+            }
+
+                #left ul.nav > li.item-22.parent > a > .sign,
+                #left ul.nav > li.item-22 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #ef409c;
+                }
+
+            #left ul.nav > li.item-22 .lbl {
+                color: #ef409c;
+            }
+
+            #left ul.nav > li.item-22 li.current > a .lbl {
+                background-color: #ef409c;
+                color: #fff !important;
+            }
+    </style>
+}
+
+<div style="margin:10px 10px 0 10px">
+    <div class="row">
+        <h4 class="text-center" style="font-weight:bold">Leave Management System</h4>
+        <div class="col-sm-5 col-md-5 col-lg-5">
+            <div id="left" class="span3">
+                <ul id="menu-group-1" class="nav menu">
+                    <li class="item-8 deeper parent">
+                        <a class="" href="#">
+                            <span data-toggle="collapse" data-parent="#menu-group-1" href="#sub-item-100" class="sign"><i class="icon-plus icon-white"></i></span>
+                            <span class="lbl">PMU (@ViewBag.totalStaff)</span>
+                        </a>
+                        <ul class="children nav-child unstyled small" id="sub-item-100">
+                            @{ int counterOuter = 0, counterInner = 1;}
+                            @foreach (var item in Model)
+                            {
+                                <li class="item-0 deeper parent">
+                                    <a class="" href="#">
+                                        <span data-toggle="collapse" data-parent="#menu-group-@counterOuter" href="#sub-item-@counterOuter" class="sign"><i class="icon-plus icon-white"></i></span>
+                                        <span class="lbl">@item.Name (@item.EmployeeList.Count)</span>
+                                    </a>
+                                    <ul class="children nav-child unstyled small collapse" id="sub-item-@counterOuter">
+                                        @foreach (var emp in item.EmployeeList)
+                                        {
+                                            <li class="item-@counterInner bs-example" data-toggle="popover" >
+                                                <a asp-area="LMS" asp-controller="LeaveRequests" asp-action="LeaveSummaryForHR" asp-route-id="@emp.EmployeeID">
+                                                    @*<span class="sign"><i class="icon-play"></i></span>*@
+                                                    <span class="lbl"><text style="font-weight:bold">@emp.Designation</text> - @emp.Name</span>
+                                                </a>
+                                            </li>
+                                            counterInner = counterInner + 1;
+                                        }
+                                    </ul>
+                                </li>
+                                counterOuter = counterOuter + 1;
+                            }
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    @*<h4 class="text-center" style="font-weight:bold">
+        PMU Staff
+        <img src="~/img/sspinner.gif" width="40" height="40" id="divLoading" />
+    </h4>
+    <div id="dynamicContentContainer"></div>*@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            if (@ViewBag.IsHRAdmin == 1) {
+                $("#Supervisor").hide();
+                $("#HRAdmin").show();
+                $("#LMS").hide();
+                $("#PD").hide();
+                $("#LeaveRequest").show();
+                $("#inboxHRAdmin").text(@ViewBag.Inbox);
+                $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+                $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } else {
+                $("#LeaveRequest").hide();
+            }       
+            $('[data-toggle="popover"]').popover({
+                placement: 'top',
+                trigger: 'hover'
+            });
+
+            @*$.get('@Url.Action("Index2", "Employees")', function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });*@
+        });
+    </script>
+    <script type="text/javascript">
+        !function ($) {
+            $(document).on("click", "#left ul.nav li.parent > a > span.sign", function () {
+                $(this).find('i:first').toggleClass("icon-minus");
+            });
+
+            // Open Le current menu
+            $("#left ul.nav li.parent.active > a > span.sign").find('i:first').addClass("icon-minus");
+            $("#left ul.nav li.current").parents('ul.children').addClass("in");
+
+        }(window.jQuery);
+    </script>
+   
+}

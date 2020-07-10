@@ -1,0 +1,162 @@
+﻿@model BES.Models.Data.ESSChecklist
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ESSChecklist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SchoolID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SchoolID)
+        </dd>
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UserID)
+        </dt>*@
+        @*<dd>
+            @Html.DisplayFor(model => model.UserID)
+        </dd>*@
+        <dt>
+            @Html.DisplayNameFor(model => model.a1Landmutation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.a1Landmutation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.a2IsSoilErosion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.a2IsSoilErosion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.a3IsFloodPath)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.a3IsFloodPath)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.a4IsSalineLand)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.a4IsSalineLand)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.b1ClusterTrees)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.b1ClusterTrees)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.b2HowManyTrees)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.b2HowManyTrees)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c1IsHighway)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c1IsHighway)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c2IsTransmissionLine)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c2IsTransmissionLine)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c3TypeTransmissionLine)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c3TypeTransmissionLine)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c4HeightTransmissionLine)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c4HeightTransmissionLine)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c5ElectricityPolPermises)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c5ElectricityPolPermises)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c6TypeOfPole)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c6TypeOfPole)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c7FunctionHandwash)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c7FunctionHandwash)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.c8WashingRepairs)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.c8WashingRepairs)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d1WaterSchoolPremises)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d1WaterSchoolPremises)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d2WaterSourceType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d2WaterSourceType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d3WaterSourceVicinity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d3WaterSourceVicinity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d4TypeWaterVicinity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d4TypeWaterVicinity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d5DistanceWaterSource)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d5DistanceWaterSource)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.d5Date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.d5Date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Verified)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Verified)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Verifiedby)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Verifiedby)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ESMPSitingID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

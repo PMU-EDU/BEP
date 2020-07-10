@@ -1,0 +1,295 @@
+﻿@model BES.Models.Data.ESSChecklist
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>ESSChecklist</h4>
+<hr />
+<div class="row" style="margin:0 15px 0 15px">
+    <div class="col-lg-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <select asp-for="SchoolID" class="form-control" asp-items="ViewBag.SchoolID"></select>
+                @*<select asp-for="SchoolID" asp-items="ViewBag.SchoolID" class="form-control" />*@
+                <span asp-validation-for="SchoolID" class="text-danger"></span>
+            </div>
+
+            <h4><b><i> <u>Description of Possible Impact on Land and soil</u></i></b></h4>
+            <div class="form-group">
+                <label asp-for="a1Landmutation" class="control-label"></label>
+                <select class="form-control" id="a1Landmutation" name="a1Landmutation">
+                    <option>Select Land mutation status</option>
+                    <option>Finalized</option>
+                    <option>NotRequired</option>
+                    <option>InProcesses</option>
+                </select>
+
+                @*<input asp-for="a1Landmutation" class="form-control" />*@
+                <span asp-validation-for="a1Landmutation" class="text-danger"></span>
+            </div>
+
+            @*<select class="form-control" id="StudentGender" name="StudentGender">
+                    <option>Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>*@
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a2IsSoilErosion" /> @Html.DisplayNameFor(model => model.a2IsSoilErosion)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a3IsFloodPath" /> @Html.DisplayNameFor(model => model.a3IsFloodPath)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a4IsSalineLand" /> @Html.DisplayNameFor(model => model.a4IsSalineLand)
+                    </label>
+                </div>
+            </div>
+
+            <h4><b><i> <u>Description of Possible Impact on Natural Vegetation</u></i></b></h4>
+            <div class="form-group">
+                <div class="checkbox">
+
+
+                    <label>
+                        <input asp-for="b1ClusterTrees" id="Treecheck" /> @Html.DisplayNameFor(model => model.b1ClusterTrees)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" id="tbTree" style="display:none">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="b2HowManyTrees" /> @Html.DisplayNameFor(model => model.b2HowManyTrees)
+                    </label>
+                </div>
+            </div>
+
+            <h4><b><i> <u>Description of Possible Impact on Health and Safety</u></i></b></h4>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c1IsHighway" /> @Html.DisplayNameFor(model => model.c1IsHighway)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c2IsTransmissionLine" /> @Html.DisplayNameFor(model => model.c2IsTransmissionLine)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c3TypeTransmissionLine" class="control-label"></label>
+
+                <select class="form-control" id="c3TypeTransmissionLine" name="c3TypeTransmissionLine">
+                    <option>Select Transmission Line Type </option>
+                    <option>High Tension</option>
+                    <option>Low Tension</option>
+                    <option>Service Line</option>
+                </select>
+
+                @*<input asp-for="c3TypeTransmissionLine" class="form-control" />*@
+                <span asp-validation-for="c3TypeTransmissionLine" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="c4HeightTransmissionLine" class="control-label"></label>
+                <input asp-for="c4HeightTransmissionLine" class="form-control" />
+                <span asp-validation-for="c4HeightTransmissionLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c5ElectricityPolPermises" /> @Html.DisplayNameFor(model => model.c5ElectricityPolPermises)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c6TypeOfPole" class="control-label"></label>
+
+                <select class="form-control" id="c6TypeOfPole" name="c6TypeOfPole">
+                    <option>Select Type of Pole</option>
+                    <option>High Tension(HT)</option>
+                    <option>Low Tension(LT)</option>
+
+                </select>
+                @*<input asp-for="c6TypeOfPole" class="form-control" />*@
+                <span asp-validation-for="c6TypeOfPole" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c7FunctionHandwash" /> @Html.DisplayNameFor(model => model.c7FunctionHandwash)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c8WashingRepairs" class="control-label"></label>
+
+                <select class="form-control" id="c8WashingRepairs" name="c8WashingRepairs">
+                    <option>Need Repair HandWash Area </option>
+                    <option>Miner</option>
+                    <option>Moderate</option>
+                    <option>Havey</option>
+                    <option>N/A</option>
+                </select>
+
+                @*<input asp-for="c8WashingRepairs" class="form-control" />*@
+                <span asp-validation-for="c8WashingRepairs" class="text-danger"></span>
+            </div>
+
+
+            <h4><b><i> <u>Description of Possible Impact on  Water</u></i></b></h4>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="d1WaterSchoolPremises" /> @Html.DisplayNameFor(model => model.d1WaterSchoolPremises)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="d2WaterSourceType" class="control-label"></label>
+
+                <select class="form-control" id="d2WaterSourceType" name="d2WaterSourceType">
+                    <option>Water soruce Available in schoool premises  </option>
+                    <option>Hand pump</option>
+                    <option>Bore</option>
+                    <option>Well</option>
+                    <option>Water Pond</option>
+                </select>
+
+                @*<input asp-for="d2WaterSourceType" class="form-control" />*@
+                <span asp-validation-for="d2WaterSourceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="d3WaterSourceVicinity" /> @Html.DisplayNameFor(model => model.d3WaterSourceVicinity)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="d4TypeWaterVicinity" class="control-label"></label>
+
+                <select class="form-control" id="d4TypeWaterVicinity" name="d4TypeWaterVicinity">
+                    <option>Water soruce Available in schoool Vicinity  </option>
+                    <option>Bore</option>
+                    <option>Community Water Supply</option>
+                    <option>Scheme</option>
+                    <option>PHED Scheme</option>
+                    <option>WaterTanker</option>
+                    <option>Hand Pump</option>
+                    <option>Spring</option>
+                    <option>Stream</option>
+                    <option>Dam</option>
+                    <option>Kareez</option>
+                    <option>WASA</option>
+                    <option>Canal</option>
+                    <option>Well</option>
+                    <option>WaterPond</option>
+                    <option>River</option>
+                    <option>Other</option>
+                </select>
+
+                @*<input asp-for="d4TypeWaterVicinity" class="form-control" />*@
+                <span asp-validation-for="d4TypeWaterVicinity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="d5DistanceWaterSource" class="control-label"></label>
+                <input asp-for="d5DistanceWaterSource" class="form-control" />
+                <span asp-validation-for="d5DistanceWaterSource" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="d5Date" class="control-label"></label>
+                <input asp-for="d5Date" class="form-control" required/>
+                <span asp-validation-for="d5Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Verified" /> @Html.DisplayNameFor(model => model.Verified)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Verifiedby" class="control-label"></label>
+                <input asp-for="Verifiedby"  value="Kiran Mushtak" class="form-control" />
+                <span asp-validation-for="Verifiedby" class="text-danger"></span>
+            </div>
+            @*<div class="form-group" >
+                    <label asp-for="UserID" class="control-label"></label>
+                    <input asp-for="UserID" class="form-control" />
+                    <span asp-validation-for="UserID" class="text-danger"></span>
+                </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $("b2HowManyTrees").val(0);
+        });
+        $('#Treecheck').change(function () {
+            if (this.checked) {
+                $("#tbTree").show();
+            }
+            else {
+                $("#tbTree").hide();
+                $("b2HowManyTrees").val(0);
+            }
+        });
+        
+    </script>
+}
+
+@*<script type="text/javascript">
+        $(function () {
+
+            $(".Treecheck").change(function () {
+                if ($(this).is(":checked")) {
+                    $(".TreeCount").show();
+                }
+                else {
+                    $(".TreeCount").hide();
+                }
+            });
+
+        })
+    </script>*@

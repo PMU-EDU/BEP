@@ -1,0 +1,36 @@
+﻿@model BES.Models.Data.ScoreCardMeetingSchedule
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="margin:20px">
+    <form asp-action="Create">
+        <h4 style="font-weight:bold">Last Attended Meeting On Scorecard</h4>
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Frequency" />
+                <input type="hidden" asp-for="CurrentDate" />
+                <input type="hidden" asp-for="ReminderSofar" />
+                <div class="form-group">
+                    <label asp-for="LastMeetingDate" class="control-label"></label>
+                    <input asp-for="LastMeetingDate" class="form-control" />
+                    <span asp-validation-for="LastMeetingDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfReminderStart" class="control-label"></label>
+                    <input asp-for="DateOfReminderStart" class="form-control" />
+                    <span asp-validation-for="DateOfReminderStart" class="text-danger"></span>
+                </div>            
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div style="margin-left:15px">
+    <a asp-controller="ScorecardActivities" asp-action="Index">Back to Scorecard</a>
+</div>
+

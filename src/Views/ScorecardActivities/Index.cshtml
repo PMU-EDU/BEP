@@ -1,0 +1,271 @@
+﻿@model IEnumerable<BES.Models.Data.ScorecardActivity>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    <style>
+        .badge {
+            padding: 7px 12px;
+            min-width: 100px
+        }
+
+        .dot {
+            height: 25px;
+            width: 25px;
+            background-color: InfoText;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .dt-button{
+            background-color:cadetblue;
+            color:white;       
+        }
+    </style>
+}
+<div class="callout callout-info text-center" style="margin:0;background-color:lightblue">
+    <h4><div><span class="dot"><i class="icon fa fa-dashboard"></i></span> Scorecard</div>Balochistan Education Support Project BESP - Implementation Tracking Scorecard</h4>
+    @*<p class="text-center" style="font-size:16px;font-weight:bold">
+            Balochistan Education Support Project BESP - Implementation Tracking Scorecard
+        </p>*@
+</div>
+<div style="margin:20px 20px 0 20px">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <h4 style="font-weight:bold">Activity Status <span style="font-size:13px;font-weight:bold">(Color Code)</span></h4>
+            <ul class="list-inline">
+                <li style="background-color:whitesmoke;padding:10px;font-weight:bold"><a asp-action="Index" asp-route-id="0">TOTAL ACTIVITIES &nbsp;<span class="badge bg-info" style="padding: 7px 15px;min-width:25px">@ViewBag.Total</span></a></li>
+                <li style="background-color:cornsilk;padding:10px;"><a asp-action="Index"  asp-route-id="1">ON-TRACK &nbsp;<span class="badge bg-green" style="padding: 7px 15px;min-width:25px">@ViewBag.OnTrack</span></a></li>
+                <li style="background-color:azure;padding:10px"><a asp-action="Index"  asp-route-id="2">FALLING BEHIND &nbsp;<span class="badge bg-yellow" style="padding: 7px 15px;min-width:25px">@ViewBag.Behind</span></a></li>
+                <li style="background-color:lavenderblush;padding:10px"><a asp-action="Index"  asp-route-id="3">DELAY &nbsp;<span class="badge bg-red" style="padding: 7px 15px;min-width:25px">@ViewBag.Delay</span></a></li>
+                <li style="background-color:aliceblue;padding:10px"><a asp-action="Index"  asp-route-id="4">COMPLETE &nbsp;<span class="badge bg-gray" style="padding: 7px 15px;min-width:25px">@ViewBag.Completed</span></a></li>                
+                <li><img src="~/images/loading.gif" width="40" height="40" /></li>
+            </ul>
+        </div>     
+    </div>
+    <table class="table table-striped table-bordered  dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    <text>Sub</text>
+                </th>
+                <th style="min-width:280px">
+                    @Html.DisplayNameFor(model => model.ActivityName)
+                </th>
+                <th>
+                    <text>Status</text>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Section)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Responsibility)
+                </th>
+                <th style="min-width:70px">
+                    <text>Deadline</text>
+                </th>
+                @*<th style="min-width:80px">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>*@
+                <th style="min-width:60px">
+                    @Html.DisplayNameFor(model => model.Target)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Achived)
+                </th>
+                
+                @{
+                    @foreach (var mdate in ViewBag.MeetingDates)
+                    {
+                        <th style="min-width:60px">@mdate.LastMeetingDate.ToString("MMM dd")</th>
+                    }
+                }
+                <th>
+    @Html.DisplayNameFor(model => model.Comments)
+</th>
+                @*<th></th>*@
+            </tr>
+        </thead>
+        @{
+            string[] state = { "On-Track", "Behind", "Delay", "Complete" };
+            string[] colorCode = { "badge bg-green", "badge bg-yellow", "badge bg-red", "badge bg-gray" };
+            string[] colorCodeVal = { "background-color:#00A65A", "background-color:#F39C12", "background-color:#DD4B39", "background-color:#D2D6DE" };
+        }
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var yourStyle = "";
+                if (item.IsHead)
+                {
+                    yourStyle = "background-color:lightblue;font-weight:bold;";
+                }
+                else
+                {
+                    yourStyle = "background-color:whitesmoke;";
+                    //any other conditions and logic
+                }
+            <tr style="@yourStyle">
+                <td>
+                    @{
+                        if (item.IsHead)
+                        {
+                            @Html.DisplayFor(modelItem => item.SerialNo)
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityName)
+                </td>
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @*<span class="dot"></span>*@
+                            <span class="@colorCode[item.Status - 1]">@state[(item.Status - 1)]</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @Html.DisplayFor(modelItem => item.Section.Name)
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @Html.DisplayFor(modelItem => item.Responsibility)
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        }
+                    }
+                </td>
+                @*<td>
+            @{
+                if (item.IsHead == false)
+                {
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                }
+            }
+        </td>*@
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @Html.DisplayFor(modelItem => item.Target)
+                        }
+                    }
+                </td>
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            @Html.DisplayFor(modelItem => item.Achived)
+                        }
+                    }
+                </td>
+                @{
+                    @foreach (var mdate in ViewBag.MeetingDates)
+                    {
+                        if (item.IsHead)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td style="@colorCodeVal[item.Status - 1]"></td>
+                        }
+                    }
+                }
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            <button type="button" class="btnShow btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" data-activityselector="@item.ActivityName" data-selector="@item.Comments">View Remarks</button>
+                        }
+                    }
+                </td>
+
+                @*<td>
+            <a asp-action="Edit" asp-route-id="@item.ScorecardActivityID">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ScorecardActivityID">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ScorecardActivityID">Delete</a>
+        </td>*@
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 id="activity" class="modal-title" style="font-weight:bold"></h4>
+            </div>
+            <div class="modal-body">
+                <p id="remarks" style="font-weight:bold;color:firebrick;padding-left:20px"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.buttons.min.js"></script>
+    <script src="~/libs/datatables/js/jszip.min.js"></script>
+    <script src="~/libs/datatables/js/buttons.html5.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {            
+            $('.dataTables-example').DataTable({
+                "scrollX": true,
+                //order: [[0, "asc"]],
+                paging: false,
+                //"pageLength": 100,
+                bSort: false,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'EU-Scorecard - ' + new Date(),
+                        text: 'Download',                        
+                    }
+                ]
+            });
+        
+            $(".btnShow").click(function () {
+                var selector = $(this).data('selector');
+                if (selector == "") {
+                    selector = "Nothing";
+                }
+
+                $("#remarks").text("Remarks: " + selector);
+                var activityselector = $(this).data('activityselector');
+                $("#activity").text("Activity: " + activityselector);
+            });
+        });
+    </script>
+
+}

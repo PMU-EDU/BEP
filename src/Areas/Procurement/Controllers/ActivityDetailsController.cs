@@ -103,6 +103,7 @@ namespace BES.Areas.Procurement.Controllers
                 var val = _context.Lot.Where(a => a.ActivityID == activity.ActivityID && a.IsMatched == false).Count();
                 ViewBag.Status = (val > 0 ? "0" : "1");
             }
+            ViewData["ContractorID"] = new SelectList(_context.Contractor.Where(a => a.ContractorTypeID == 1).ToList(), "ContractorID", "CompanyName");
             return View(activityDetail);
         }
 
@@ -111,7 +112,7 @@ namespace BES.Areas.Procurement.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(string PPName, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment)
+        public async Task<IActionResult> Create(string PPName, [Bind("StepID,ActivityID,NotApplicable,PlannedDate,ActualDate,Attachment,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate")] ActivityDetail activityDetail, IFormFile Attachment, DateTime ExpiryDate, short CID)
         {
             if (ModelState.IsValid)
             {
@@ -129,8 +130,12 @@ namespace BES.Areas.Procurement.Controllers
                             Directory.GetCurrentDirectory(), "wwwroot\\Documents\\Procurement\\");
                         string fileName = Path.GetFileName(Attachment.FileName);
                         fileName = fileName.Replace("&", "n");
+                        fileName = fileName.Replace(" ", "");
+                        fileName = fileName.Replace("#", "H");
                         string AName = _context.Activity.Find(activityDetail.ActivityID).Name;
                         AName = AName.Replace("&", "n");
+                        AName = AName.Replace(" ", "");
+                        AName = AName.Replace("#", "H");
                         //var PPName = _context.ProcurementPlan.Find(activityDetail.Step.ProcurementPlanID).Name;
                         activityDetail.Attachment = Path.Combine("/Documents/Procurement/", PPName + "/" + "//" + AName + "//" + activityDetail.StepID + "//" + fileName);//Server Path                
                                                                                                                                                           //_context.ActivityDetail.Add(activityDetail);
@@ -157,9 +162,18 @@ namespace BES.Areas.Procurement.Controllers
                     Obj.Status = 2;
                     _context.Update(Obj);
 
-                }                
+                }
+                if (activityDetail.StepID == 21)
+                {
+                    ActivityDetailWork Obj = _context.ActivityDetailWork.Where(a => a.ActivityID == activityDetail.ActivityID).FirstOrDefault();
+                    Obj.ContractorID = CID;
+                    Obj.ExpiryDate = ExpiryDate;
+                    _context.Update(Obj);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Edit),"Activities",new { id = activityDetail.ActivityID});
-            }           
+            }
+            ViewData["ContractorID"] = new SelectList(_context.Contractor.Where(a => a.ContractorTypeID == 1).ToList(), "ContractorID", "CompanyName");
             return View(activityDetail);
         }
         

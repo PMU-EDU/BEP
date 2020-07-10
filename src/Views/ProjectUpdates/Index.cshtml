@@ -1,0 +1,167 @@
+﻿@model IEnumerable<BES.Models.Data.BaselineGeneral>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles {
+    <style>
+        #divLoading {
+            position: absolute;
+            display: none;
+            top: 20%;
+            left: 20%;
+            right: 5%;
+            bottom: 10%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
+@*<div class="box-header with-border">*@
+<h2> @ViewBag.Section @ViewBag.SummaryType </h2>
+
+<!-- /.box-header -->
+@*</div>*@
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+
+<section class="content">
+
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <form id="myform" autocomplete="off">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Region</label>
+                            <select id="RegionID" class="form-control" asp-items="ViewBag.RegionID" tabindex="1"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">District</label>
+                            <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"DistrictID","DistrictName"))" tabindex="2"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            @*<label class="control-label">Duration</label>
+                                @Html.TextBox("fromDate", ((DateTime)ViewBag.fromDate).ToString("dd-MMM-yyyy"), new { @class = "datepicker", @type = "text" })
+                                to
+                                @Html.TextBox("toDate", ((DateTime)ViewBag.toDate).ToString("dd-MMM-yyyy"), new { @class = "datepicker", @type = "text" })*@
+                        </div>
+                    </div>
+
+
+                </div>
+            </form>
+            <div class="box-tools pull-right">
+                @* @Html.ActionLink("Detail View of Raw Data", "RawData", null, new { @class = "btn btn-primary btn-xs", target = "_blank" })*@
+                @*<a href="/BaselineGenerals/RawData/" class="btn btn-success search" type="button" target="_blank">Detail View of Raw Data</a> @*of @subtotal*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="dynamicContentContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="divLoading">
+        <div id="loading-div" class="ui-corner-all text-center fa-align-center" style="margin-top:10%; color:white">
+            <div id="loadingbar"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+            <h3 style="color:white;font-weight:normal;">Generating Analysis....</h3>
+        </div>
+    </div>
+
+    <div id="dynamicContentContainer"></div>
+    @*<div id="ProcurementContainer"></div>*@
+</section>
+@section Scripts {
+    <!-- jQuery Knob -->
+    @* <script src="~/libs/jquery-knob/jquery.knob.min.js"></script>*@
+    <!-- Sparkline -->
+    <script src="~/libs/jquery-sparklines/jquery.sparkline.min.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+      //  debugger;
+        $("#divLoading").show();
+
+        //clearTimeout(5000);
+@*//Procurement Pratial View
+        $.get('@Url.Action("Procurement")', function (content) {
+            $("#ProcurementContainer").html(content);
+            //$("#divLoading").hide();
+        });*@
+
+          $.get('@Url.Action("FilterView",new { id = @ViewBag.SectionID, verify = ViewBag.Verify })', function (content) {
+            $("#dynamicContentContainer").html(content);
+            $("#divLoading").hide();
+        });
+
+
+
+        // on Region ID
+        $('#RegionID').change(function () {
+            var url = '@Url.Content("~/baselinegenerals")' + "/GetDistrict";
+            var ddlsource = "#RegionID";
+            $.getJSON(url, { RegionID: $(ddlsource).val() }, function (data) {
+                var items = '';
+
+                $("#DistrictID").empty();
+                $.each(data, function (i, designation) {
+                items += "<option value='" + designation.value + "'>" + designation.text + "</option>";
+                });
+                $("#DistrictID").html(items);
+            });
+            //FilterView Code
+            var RID = $(this).val();
+            //var verify = @ViewBag.Verify;
+            //alert(RegionID);
+            $("#divLoading").show();
+            $.get('@Url.Action("FilterView")', { id:@ViewBag.SectionID, RID: RID, verify:'@ViewBag.Verify'}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+          $('#DistrictID').change(function () {
+            var DID = $(this).val();
+            $("#divLoading").show();
+            $.get('@Url.Action("FilterView")', {id:@ViewBag.SectionID, DID: DID,verify:'@ViewBag.Verify'}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+
+       //Date time Picker
+    //$(".datepicker").datepicker({ dateFormat: "d-M-yy"});
+
+    //model.fl
+    // on date change
+    $('#fromDate').change( function () {
+       // var RID = $('#Region-DropdownID option:selected').val();
+        //var DID = $('#District-DropdownID option:selected').val();
+        var toDate = $('#toDate').val();
+        var fromDate = $('#fromDate').val();
+        var RID = $('#Region option:selected').val();
+        var DID = $('#District option:selected').val();
+
+       // alert(@ViewBag.DistrictID)
+        $('#AttendanceTeacher').load('@Url.Action("AttendanceTeacher")?DID=' + @ViewBag.DistrictID + '&toDate=' + toDate + '&fromDate=' + fromDate);
+    });
+
+    $('#toDate').change(function () {
+        var RID = $('#Region option:selected').val();
+        var DID = $('#District option:selected').val();
+        var toDate = $('#toDate').val();
+        var fromDate = $('#fromDate').val();
+        //alert(fromDate + ' to ' + toDate)
+        $('#AttendanceTeacher').load('@Url.Action("AttendanceTeacher")?DID=' + @ViewBag.DistrictID + '&toDate=' + toDate + '&fromDate=' + fromDate);
+    });
+    </script>
+}

@@ -1,0 +1,109 @@
+﻿@model IEnumerable<BES.Areas.LMS.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+@section Styles {
+    <style>
+        .dt-button {
+            background-color:#3c8dbc;
+            color:white
+        }
+    </style>
+<link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+}
+<div style="margin:30px 10px 0 10px">
+    <h4 class="text-center" style="font-weight:bold">PMU Staff</h4>
+    <table id="example1" class="table table-striped dataTables-example">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Section)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Designation)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Gender)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContactNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Section.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Designation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContactNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td><a asp-action="Edit" asp-route-id="@item.EmployeeID">Edit</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.buttons.min.js"></script>
+    <script src="~/libs/datatables/js/jszip.min.js"></script>
+    <script src="~/libs/datatables/js/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+           if(@ViewBag.IsHRAdmin == 1){
+                $("#Supervisor").hide();
+                $("#LMS").hide();
+                $("#PD").hide();
+                $("#LeaveRequest").show();
+               $("#inboxHRAdmin").text(@ViewBag.Inbox);
+               $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+               $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } else {
+                $("#LeaveRequest").hide();
+            } 
+            $('#example1').DataTable({            
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        title: 'Data export - ' + new Date(),
+                        text: 'Download',
+                    }
+                ]
+            })
+        });
+    </script>
+}

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BES.Models.Data;
 using BES.Data;
 using BES.Models.Reports;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BES.Controllers.Data
 {
@@ -21,6 +22,7 @@ namespace BES.Controllers.Data
         }
 
         // GET: BaselineGenerals
+        [Authorize(Roles = "Administrator,M&E,Education,Development")]
         public IActionResult Index()
         {
             List<Region> RegionList = new List<Region>();

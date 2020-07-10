@@ -1,0 +1,119 @@
+﻿@model IEnumerable<BES.Areas.LMS.Models.View_Models.LeaveSummaries>
+
+    @{
+    ViewData["Title"] = "Index";
+    }
+    @section Styles {
+        <!-- DataTables -->
+        <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    }
+    <div class="row" style="margin: 10px 10px 0 10px">
+        <h4 style="font-weight:bold">PMU Staff - Leave Summary</h4>
+
+        <table class="table table-striped dataTables-example">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Designation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Section)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AnnualTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AnnualAvailed)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SickTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SickAvailed)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaternityTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaternityAvailed)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OthersTotal)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OthersAvailed)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                <tr>
+                    <td style="min-width:160px">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="min-width:180px">
+                        @Html.DisplayFor(modelItem => item.Designation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Section)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnnualTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnnualAvailed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SickTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SickAvailed)
+                    </td>
+                    <td>
+                        @{
+                            if(item.Gender == "Male"){
+                            <text>5</text>
+                            }
+                            else{
+                            @Html.DisplayFor(modelItem => item.PaternityTotal)
+                            }
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PaternityAvailed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OthersTotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OthersAvailed)
+                    </td>
+                </tr>
+}
+            </tbody>
+        </table>
+    </div>
+    
+    @section Scripts {
+        <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                $('.dataTables-example').DataTable({
+                    "scrollX": true
+                });
+
+            });
+        </script>       
+    }

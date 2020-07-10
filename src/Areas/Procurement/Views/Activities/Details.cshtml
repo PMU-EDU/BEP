@@ -1,4 +1,4 @@
-﻿@model Tuple<List<BES.Areas.Procurement.Models.ActivityDetail>, List<BES.Areas.Procurement.Models.Lot>, IEnumerable<BES.Areas.Procurement.Models.Addendum>, IEnumerable<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail>, List<BES.Areas.Procurement.Models.Activity>>
+﻿@model Tuple<List<BES.Areas.Procurement.Models.ActivityDetail>, List<BES.Areas.Procurement.Models.ModelViews.LotInfo>, IEnumerable<BES.Areas.Procurement.Models.Addendum>, IEnumerable<BES.Areas.Procurement.Models.ModelViews.VLotItemDetail>, List<BES.Areas.Procurement.Models.Activity>>
 
 @{
     ViewBag.Title = "Details";
@@ -23,12 +23,13 @@
     <div class="row">
         <div class="col-lg-12">
             <div>
-                <div class="ibox-title">
-                    <h3 class="box-title">Activity No.@Model.Item5.ElementAt(0).StepReferenceNo - @Model.Item5.ElementAt(0).Name</h3>
+                <div class="callout callout-success">
+                    <h4>Activity</h4>
+                    <p>@Model.Item5.ElementAt(0).Name</p>
                 </div>
                 <div>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <div>
                                 <dl class="dl-horizontal">
                                     <dt class="btn btn-primary btn-sm">
@@ -116,17 +117,59 @@
                                 </dl>
                             </div>
                         </div>
-                        <div class="col-lg-6">
-                            <div class="jumbotron" style="background-color:lightgray;padding:10px">
-                                <h2>Activity No.@Model.Item5.ElementAt(0).StepReferenceNo </h2>
-                                <p style="font-size:15px"><b>Activity: </b>@Model.Item5.ElementAt(0).Description </p>
+                        <div class="col-lg-8">
+
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h4><i class="icon fa fa-info"></i> STEP Reference# @Model.Item5.ElementAt(0).StepReferenceNo</h4>
+                                <b>Description: </b>@Model.Item5.ElementAt(0).Description
                             </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <h3 class="box-title">List of Activity Steps</h3>
+                <div class="callout callout-info">
+                    <h4>Activity STEP's</h4>
                 </div>
+                @*<ul class="stepper horizontal" id="horizontal-stepper">
+            <li class="step active">
+                <div class="step-title waves-effect waves-dark">Step 1</div>
+                <div class="step-new-content">
+                    <div class="row">
+                        <div class="md-form col-12 ml-auto">
+                            <input id="email-horizontal" type="email" class="validate form-control" required>
+                            <label for="email-horizontal">Email</label>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
+                    </div>
+                </div>
+            </li>
+            <li class="step">
+                <div class="step-title waves-effect waves-dark">Step 2</div>
+                <div class="step-new-content">
+                    <div class="row">
+                        <div class="md-form col-12 ml-auto">
+                            <input id="password-horizontal" type="password" class="validate form-control" required>
+                            <label for="password-horizontal">Your password</label>
+                        </div>
+                    </div>
+                    <div class="step-actions">
+                        <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="someFunction21">CONTINUE</button>
+                        <button class="waves-effect waves-dark btn btn-sm btn-secondary previous-step">BACK</button>
+                    </div>
+                </div>
+            </li>
+            <li class="step">
+                <div class="step-title waves-effect waves-dark">Step 3</div>
+                <div class="step-new-content">
+                    Finish!
+                    <div class="step-actions">
+                        <button class="waves-effect waves-dark btn-sm btn btn-primary m-0 mt-4" type="button">SUBMIT</button>
+                    </div>
+                </div>
+            </li>
+        </ul>*@
                 <div class="ibox-content">
                     <table class="table table-striped table-bordered  dataTables-example">
                         <thead>
@@ -200,8 +243,91 @@
 
                     </table>
                 </div>
-                <div class="ibox-title">
-                    <h4>List of Activity Lots</h4>
+                <div class="callout callout-info">
+                    <h4>Number of Lots</h4>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-striped table-bordered  dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <text>Lot No</text>
+                                </th>
+                                <th>
+                                    <text>Description</text>
+                                </th>
+                                <th>
+                                    <text>Items</text>
+                                </th>
+                                <th>
+                                    <text>Contract Agreement</text>
+                                </th>
+                                <th>
+                                    <text>Estimated Cost</text>
+                                </th>
+                                <th>
+                                    <text>Actual Cost</text>
+                                </th>
+                                <th>
+                                    <text>Contract Expiry</text>
+                                </th>
+                                @*<th>
+            <text>Items</text>
+        </th>*@
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int counter = 1;}
+                            @foreach (var item in Model.Item2)
+                            {
+                            <tr>
+                                <td>Lot-@counter</td>
+                                @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
+        <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>*@
+                                <td>@item.lotDescription</td>
+                                <td>@item.ItemTotal</td>
+                                @{
+                                    if (item.Attachment != null)
+                                    {
+                                        <td>
+                                            <a href='@Url.Content(item.Attachment)' target="_blank">
+                                                View Evidence
+                                            </a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            <text>No Attachment</text>
+                                        </td>
+                                    }
+                                }
+                                <td>@item.EstimatedCost</td>
+                                @{
+                                    if (item.ActualCost == null)
+                                    {
+                                        <td style="color:brown">Pending</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.ActualCost</td>
+                                    }
+                                }
+                                @{
+                                    if (item.ExpiryDate == null)
+                                    {
+                                        <td style="color:brown">Pending</td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.ExpiryDate</td>
+                                    }
+                                }
+                                @{ counter = counter + 1;}
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
                 <div class="ibox-content">
                     <table class="table table-striped table-bordered  dataTables-example">
@@ -229,68 +355,68 @@
                                     <text>Contract Expiry</text>
                                 </th>
                                 @*<th>
-                                        <text>Items</text>
-                                    </th>*@
+                            <text>Items</text>
+                        </th>*@
                             </tr>
                         </thead>
                         <tbody>
-                            @{ int counter = 1;}
+                            @{  counter = 1;}
                             @foreach (var item in Model.Item4)
                             {
-                            <tr>
-                                <td>Lot-@item.lotno <a class="search btn-primary btn-sm" data-url='/Procurement/LotItems/details/@item.lotId' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a></td>                                                    
-                                <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
-                                <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>
-                                @{
-                                    if (item.Attachment != null)
-                                    {
-                                        <td>
-                                            <a href='@Url.Content(item.Attachment)' target="_blank">
-                                                View Evidence
-                                            </a>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            <text>No Attachment</text>
-                                        </td>
-                                    }
-                                }
-                                @{ int val = 0;
-                                    if (ViewData["Data"] != null)
-                                    {
-                                        val = 1;
-                                    }
-                                }
-                                <td>
+                                <tr>
+                                    <td>Lot-@item.lotno <a class="search btn-primary btn-sm" data-url='/Procurement/LotItems/details/@item.lotId' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a></td>
+                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.EstimatedUnitRate)</a></td>
+                                    <td><a class="search" data-url='@Url.Action("details", "Contractors", new { area = "", id = item.ContractorID })' data-toggle="modal" data-target="#exampleModalLong1">@item.CompanyName</a></td>
                                     @{
-                                        if (val > 0)
+                                        if (item.Attachment != null)
                                         {
-                                            <text>(@val) Addendum </text><a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPAddendums", new {id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a>
+                                            <td>
+                                                <a href='@Url.Content(item.Attachment)' target="_blank">
+                                                    View Evidence
+                                                </a>
+                                            </td>
                                         }
                                         else
                                         {
-                                            <text>No</text>
+                                            <td>
+                                                <text>No Attachment</text>
+                                            </td>
                                         }
                                     }
-                                </td>
-                                <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "2" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.ActualUnitRate)</a></td>
-                                <td>
-                                    @{
-                                        if (item.AddendumTypeId == null || item.AddendumTypeId == 1)
+                                    @{ int val = 0;
+                                        if (ViewData["Data"] != null)
                                         {
-                                            <text>10 Oct 2019@*@item.ActualDate.Value.ToString("dd MMMM yyyy")*@</text>
-                                        }
-                                        else
-                                        {
-                                            <text>@item.LExpiryDate</text>
+                                            val = 1;
                                         }
                                     }
-                                </td>
-                                @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">View Detail</a></td>*@
-                                @{ counter = counter + 2;}
-                            </tr>
+                                    <td>
+                                        @{
+                                            if (val > 0)
+                                            {
+                                                <text>(@val) Addendum </text><a class="search btn-primary btn-sm" data-url='@Url.Action("details", "PPAddendums", new {id = item.lotId })' data-toggle="modal" data-target="#exampleModalLong1"><i class="fa fa-binoculars"></i></a>
+                                            }
+                                            else
+                                            {
+                                                <text>No</text>
+                                            }
+                                        }
+                                    </td>
+                                    <td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "2" })' data-toggle="modal" data-target="#exampleModalLong1">@String.Format("{0:#,##}", item.ActualUnitRate)</a></td>
+                                    <td>
+                                        @{
+                                            if (item.AddendumTypeId == null || item.AddendumTypeId == 1)
+                                            {
+                                                <text>10 Oct 2019@*@item.ActualDate.Value.ToString("dd MMMM yyyy")*@</text>
+                                            }
+                                            else
+                                            {
+                                                <text>@item.LExpiryDate</text>
+                                            }
+                                        }
+                                    </td>
+                                    @*<td><a class="search" data-url='@Url.Action("index2", "PPItemDetails", new { id = item.lotId, param = "1" })' data-toggle="modal" data-target="#exampleModalLong1">View Detail</a></td>*@
+                                    @{ counter = counter + 2;}
+                                </tr>
                             }
                         </tbody>
                     </table>

@@ -1,0 +1,169 @@
+﻿@model BES.Models.Data.ESSChecklist
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>ESSChecklist</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ESMPSitingID" />
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+                <input asp-for="SchoolID" class="form-control" />
+                <span asp-validation-for="SchoolID" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="a1Landmutation" class="control-label"></label>
+                <input asp-for="a1Landmutation" class="form-control" />
+                <span asp-validation-for="a1Landmutation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a2IsSoilErosion" /> @Html.DisplayNameFor(model => model.a2IsSoilErosion)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a3IsFloodPath" /> @Html.DisplayNameFor(model => model.a3IsFloodPath)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="a4IsSalineLand" /> @Html.DisplayNameFor(model => model.a4IsSalineLand)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="b1ClusterTrees" /> @Html.DisplayNameFor(model => model.b1ClusterTrees)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="b2HowManyTrees" /> @Html.DisplayNameFor(model => model.b2HowManyTrees)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c1IsHighway" /> @Html.DisplayNameFor(model => model.c1IsHighway)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c2IsTransmissionLine" /> @Html.DisplayNameFor(model => model.c2IsTransmissionLine)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c3TypeTransmissionLine" class="control-label"></label>
+                <input asp-for="c3TypeTransmissionLine" class="form-control" />
+                <span asp-validation-for="c3TypeTransmissionLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="c4HeightTransmissionLine" class="control-label"></label>
+                <input asp-for="c4HeightTransmissionLine" class="form-control" />
+                <span asp-validation-for="c4HeightTransmissionLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c5ElectricityPolPermises" /> @Html.DisplayNameFor(model => model.c5ElectricityPolPermises)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c6TypeOfPole" class="control-label"></label>
+                <input asp-for="c6TypeOfPole" class="form-control" />
+                <span asp-validation-for="c6TypeOfPole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="c7FunctionHandwash" /> @Html.DisplayNameFor(model => model.c7FunctionHandwash)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="c8WashingRepairs" class="control-label"></label>
+                <input asp-for="c8WashingRepairs" class="form-control" />
+                <span asp-validation-for="c8WashingRepairs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="d1WaterSchoolPremises" /> @Html.DisplayNameFor(model => model.d1WaterSchoolPremises)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="d2WaterSourceType" class="control-label"></label>
+                <input asp-for="d2WaterSourceType" class="form-control" />
+                <span asp-validation-for="d2WaterSourceType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="d3WaterSourceVicinity" /> @Html.DisplayNameFor(model => model.d3WaterSourceVicinity)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="d4TypeWaterVicinity" class="control-label"></label>
+                <input asp-for="d4TypeWaterVicinity" class="form-control" />
+                <span asp-validation-for="d4TypeWaterVicinity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="d5DistanceWaterSource" class="control-label"></label>
+                <input asp-for="d5DistanceWaterSource" class="form-control" />
+                <span asp-validation-for="d5DistanceWaterSource" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="d5Date" class="control-label"></label>
+                <input asp-for="d5Date" class="form-control" />
+                <span asp-validation-for="d5Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Verified" /> @Html.DisplayNameFor(model => model.Verified)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Verifiedby" class="control-label"></label>
+                <input asp-for="Verifiedby" class="form-control" />
+                <span asp-validation-for="Verifiedby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

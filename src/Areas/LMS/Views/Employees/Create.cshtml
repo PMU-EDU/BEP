@@ -1,0 +1,116 @@
+﻿@model BES.Areas.LMS.Models.Employee
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="row" style="margin:30px">
+    <h4 style="font-weight:bold;" class="text-center">Add New Employee</h4>
+    <form asp-action="Create">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SectionID" class="control-label"></label>
+                <select asp-for="SectionID" class="form-control" asp-items="ViewBag.SectionID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>  
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <select asp-for="Gender" class="form-control" asp-items="ViewBag.Gender"></select>
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add Employee" class="btn btn-default" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="EmpCode" class="control-label"></label>
+                <input asp-for="EmpCode" class="form-control" required />
+                <span asp-validation-for="EmpCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Designation" class="control-label"></label>
+                <input asp-for="Designation" class="form-control" required />
+                <span asp-validation-for="Designation" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SupervisorID" class="control-label"></label>
+                <select asp-for="SupervisorID" class="form-control" asp-items="ViewBag.SupervisorID"></select>
+                <span asp-validation-for="SupervisorID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactNo" class="control-label"></label>
+                <input asp-for="ContactNo" class="form-control" placeholder="92----------" />
+                <span asp-validation-for="ContactNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="JoiningDate" class="control-label"></label>
+                <input asp-for="JoiningDate" class="form-control" required/>
+                <span asp-validation-for="JoiningDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContractStartDate" class="control-label"></label>
+                <input asp-for="ContractStartDate" class="form-control" required/>
+                <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ContractEndDate" class="control-label"></label>
+                <input asp-for="ContractEndDate" class="form-control" required />
+                <span asp-validation-for="ContractEndDate" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div style="margin-left:10px">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Supervisor").hide();
+            $("#LMS").hide();
+             if (@ViewBag.IsHRAdmin) {
+                $("#Supervisor").hide();
+                $("#PD").hide();
+                $("#HRAdmin").show();
+                $("#LeaveRequest").show();
+                 $("#inboxHRAdmin").text(@ViewBag.Inbox);
+                 $("#acceptedHRAdmin").text(@ViewBag.Accepted);
+                 $("#rejectedHRAdmin").text(@ViewBag.Rejected);
+            } else {
+                $("#LeaveRequest").hide();
+            }     
+        });
+        $('#SectionID').change(function () {            
+            var url = '@Url.Content("~/lms/")' + "employees/GetSectionEmployee";
+            var ddlsource = "#SectionID";
+            $.getJSON(url, { sectionID: $(ddlsource).val()}, function (data) {
+                var items = '';
+
+                $("#SupervisorID").empty();
+                $.each(data, function (i, employee) {
+                    items += "<option value='" + employee.value + "'>" + employee.text + "</option>";
+                });
+                $("#SupervisorID").html(items);
+            });
+        });
+    </script>
+}

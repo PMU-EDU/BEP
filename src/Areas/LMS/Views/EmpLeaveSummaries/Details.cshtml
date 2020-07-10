@@ -1,0 +1,42 @@
+﻿@model BES.Areas.LMS.Models.EmpLeaveSummary
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmpLeaveSummary</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Availed)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Availed)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Employee)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Employee.EmployeeID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LeaveType.LeaveTypeID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EmpLeaveSummaryID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

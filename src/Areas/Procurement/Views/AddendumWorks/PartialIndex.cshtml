@@ -1,0 +1,73 @@
+﻿
+@model IEnumerable<BES.Areas.Procurement.Models.AddendumWorks>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AddendumType.Name)
+            </th>
+            <th>
+                <text>Expiry Date</text>
+            </th>
+            <th>
+                <text>Contract Agreement</text>
+            </th>            
+            <th>Actual Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddendumType.Name)
+                </td>
+                @{
+                    if (item.AddendumTypeId != 1)
+                    {
+                        <td>@item.ExpiryDate</td>
+                    }
+                    else
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.ExpiryDate)</td>
+                    }
+                }
+
+                @{
+                    if (item.Attachment != null)
+                    {
+                        <td>
+                            <a href='@Url.Content(item.Attachment)' target="_blank">
+                                View Evidence
+                            </a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <text>No Attachment</text>
+                        </td>
+                    }
+                }                
+                @{
+                    if (item.AddendumTypeId == 2)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActivityDetailWork.Activity.ActualCost)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a  asp-action="CreateList" asp-controller="AddendumWorkDetails" asp-route-id="@item.ActivityDetailWorkID" asp-route-AddendumId ="@item.AddendumId">
+                                <img src='@Url.Content("~/images/plus.png")' width="30" height="30" />
+                            </a>
+                        </td>
+
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>

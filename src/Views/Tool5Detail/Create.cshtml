@@ -1,0 +1,80 @@
+﻿@model BES.Models.Data.Tool5Detail
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>@ViewBag.SchoolName</h2>
+
+<h4>Add Enrollment Details of Tool 5 against Quarter</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SchoolID" />
+            <input type="hidden" asp-for="Quarter" />
+            <input type="hidden" asp-for="ClassID" />
+
+            <div class="col-md-2">
+                <label asp-for="ClassID" class="control-label" ></label>
+                <input asp-for="ClassID" class="form-control" disabled="disabled" />
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewEnrolltGirls" class="control-label"></label>
+                <input asp-for="NewEnrolltGirls" class="form-control" />
+                <span asp-validation-for="NewEnrolltGirls" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="NewEnrollBoys" class="control-label"></label>
+                <input asp-for="NewEnrollBoys" class="form-control" />
+                <span asp-validation-for="NewEnrollBoys" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="AttendRegGirls" class="control-label"></label>
+                <input asp-for="AttendRegGirls" class="form-control" />
+                <span asp-validation-for="AttendRegGirls" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label asp-for="AttendRegBoys" class="control-label"></label>
+                <input asp-for="AttendRegBoys" class="form-control" />
+                <span asp-validation-for="AttendRegBoys" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-2">
+                <br />
+                @{
+                    if (Model.ClassID == ViewBag.MaxClass)
+                    {
+                        @*@Html.ActionLink("Next", "Edit", "Tool5", new { id = Model.SchoolID, q = Model.Quarter })*@
+                        <a asp-controller="Tool5" asp-action="Edit" asp-route-id=@Model.SchoolID asp-route-q=@Model.Quarter class="btn btn-success search">Next</a> @*of @subtotal*@
+
+                    }
+                    else
+                    {
+                        <input type="submit" value="Save" class="btn btn-Primary" />
+
+                    }
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div id="dynamicContentContainer" style="margin:5px"></div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.get('@Url.Action("Index")', { id: @Model.SchoolID, q:@Model.Quarter }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+    }
+
+
+

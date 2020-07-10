@@ -1,0 +1,407 @@
+﻿@model Tuple< IEnumerable<BES.Areas.LMS.Models.EmpLeaveSummary>, BES.Areas.LMS.Models.LeaveRequest>
+
+@section Styles {
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    <style>
+        /* MENU-LEFT
+        -------------------------- */
+        /* layout */
+        .bs-example {
+            margin: 0 5px;
+        }
+
+        #left ul.nav {
+            margin-bottom: 2px;
+            font-size: 12px; /* to change font-size, please change instead .lbl */
+        }
+
+            #left ul.nav ul,
+            #left ul.nav ul li {
+                list-style: none !important;
+                list-style-type: none !important;
+                margin-top: 1px;
+                margin-bottom: 1px;
+            }
+
+            #left ul.nav ul {
+                padding-left: 0;
+                width: auto;
+            }
+
+                #left ul.nav ul.children {
+                    padding-left: 12px;
+                    width: auto;
+                }
+
+                    #left ul.nav ul.children li {
+                        margin-left: 0px;
+                    }
+
+            #left ul.nav li a:hover {
+                text-decoration: none;
+            }
+
+                #left ul.nav li a:hover .lbl {
+                    color: #999 !important;
+                }
+
+            #left ul.nav li.current > a .lbl {
+                background-color: #999;
+                color: #fff !important;
+            }
+
+            /* parent item */
+            #left ul.nav li.parent a {
+                padding: 0px;
+                color: #ccc;
+            }
+
+            #left ul.nav > li.parent > a {
+                border: solid 1px #999;
+                text-transform: uppercase;
+            }
+
+            #left ul.nav li.parent a:hover {
+                background-color: #fff;
+                -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+            }
+
+            /* link tag (a)*/
+            #left ul.nav li.parent ul li a {
+                color: #222;
+                border: none;
+                display: block;
+                padding-left: 5px;
+            }
+
+                #left ul.nav li.parent ul li a:hover {
+                    background-color: #fff;
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
+                }
+
+            /* sign for parent item */
+            #left ul.nav li .sign {
+                display: inline-block;
+                width: 14px;
+                padding: 5px 8px;
+                background-color: transparent;
+                color: #fff;
+            }
+
+            #left ul.nav li.parent > a > .sign {
+                margin-left: 0px;
+                background-color: #999;
+            }
+
+            /* label */
+            #left ul.nav li .lbl {
+                padding: 5px 12px;
+                display: inline-block;
+            }
+
+            #left ul.nav li.current > a > .lbl {
+                color: #fff;
+            }
+
+            #left ul.nav li a .lbl {
+                font-size: 12px;
+            }
+
+            /* THEMATIQUE
+        ------------------------- */
+
+
+            /* theme 2 */
+            #left ul.nav > li.item-8.parent > a {
+                border: solid 1px #3c8dbc;
+            }
+
+                #left ul.nav > li.item-8.parent > a > .sign,
+                #left ul.nav > li.item-8 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #3c8dbc;
+                }
+
+            #left ul.nav > li.item-8 .lbl {
+                color: #3c8dbc;
+            }
+
+            #left ul.nav > li.item-8 li.current > a .lbl {
+                background-color: #3c8dbc;
+                color: #fff !important;
+            }
+
+            /* theme 3 */
+            #left ul.nav > li.item-15.parent > a {
+                border: solid 1px #94cf00;
+            }
+
+                #left ul.nav > li.item-15.parent > a > .sign,
+                #left ul.nav > li.item-15 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #94cf00;
+                }
+
+            #left ul.nav > li.item-15 .lbl {
+                color: #94cf00;
+            }
+
+            #left ul.nav > li.item-15 li.current > a .lbl {
+                background-color: #94cf00;
+                color: #fff !important;
+            }
+
+            /* theme 4 */
+            #left ul.nav > li.item-22.parent > a {
+                border: solid 1px #ef409c;
+            }
+
+                #left ul.nav > li.item-22.parent > a > .sign,
+                #left ul.nav > li.item-22 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #ef409c;
+                }
+
+            #left ul.nav > li.item-22 .lbl {
+                color: #ef409c;
+            }
+
+            #left ul.nav > li.item-22 li.current > a .lbl {
+                background-color: #ef409c;
+                color: #fff !important;
+            }
+    </style>
+}
+<div style="margin:10px 10px 0 10px">
+    <div class="row" style="margin-bottom:0">
+        <h4 class="text-center" style="font-weight:bold">Leave Management System - @Model.Item2.Employee.Name</h4>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3" style="margin-top:30px">
+            <div>
+                <div>
+                    <h5 style="font-weight:bold; color:gray" class="text-center">Leaves - Summary</h5>
+                    <canvas id="myChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5" style="margin-top:30px">
+            <div>
+                <div>
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <form asp-action="SubmitLeave" id="myForm">
+        <div class="row" style="margin:10px 10px 0 10px">
+            <div class="row">
+                <h4 class="text-center" style="font-weight:bold">Process Leave Request</h4>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                        <input type="text" class="form-control" value="@Model.Item2.Employee.Name" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">Designation</label>
+                        <input type="text" class="form-control" value="@Model.Item2.Employee.Designation" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">Leave Type</label>
+                        <input type="text" class="form-control" value="@Model.Item2.LeaveType.Name" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label class="control-label">Days</label>
+                        <input type="text" class="form-control" style="font-weight:bold;background-color:cornflowerblue;color:white" value="@Model.Item2.TotalDays.ToString("D2")" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">From</label>
+                        <input type="text" class="form-control" value="@Model.Item2.DateFrom.ToString("dd/MM/yyyy")" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">To</label>
+                        <input type="text" class="form-control" value="@Model.Item2.DateTo.ToString("dd/MM/yyyy")" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label>Remarks: </label>
+                    </div>
+                </div>
+                <div class="col-md-11">
+                    <div class="form-group">
+                        <input type="text" class="form-control" value="@Model.Item2.Remarks" readonly="readonly" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <input type="button" value="Verified" class="btn btn-success" onclick="process(1)" />
+                        <input type="button" value="Unverified" class="btn btn-danger"onclick="process(2)" />
+                    </div>
+                </div>  
+                <div class="col-md-9">                   
+                    <div class="form-group">                        
+                        <textarea class="form-control" text-wrap:normal" type="text" placeholder="Please add your remarks" id="remarks" required></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+        if (@ViewBag.IsSupervisor == 1 || @ViewBag.IsPD == 1) {
+            $("#Supervisor").show();
+            $("#inbox").text(@ViewBag.Inbox);
+            $("#accepted").text(@ViewBag.Accepted);
+            $("#rejected").text(@ViewBag.Rejected);
+        } else {
+            $("#Supervisor").hide();
+            }
+         if (@ViewBag.IsHRAdmin == 1) {
+            $("#HRAdmin").show();
+        } else {
+            $("#HRAdmin").hide();
+            }
+        if (@ViewBag.IsPD == 0) {
+            $("#LMS").show();
+        } else {
+            $("#LMS").hide();
+        }
+            $('.dataTables-example').DataTable({
+                "bPaginate": false,
+                "ordering": false,
+                dom: '<"html5buttons"B>lTfigtp',
+            });
+
+            $('[data-toggle="popover"]').popover({
+                placement: 'top',
+                trigger: 'hover'
+            });
+        });
+        function process(val) { 
+            var remarks = $("#remarks").val();            
+            if (remarks == "") {
+                alert("Please enter your remarks");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                data: { id: @Model.Item2.LeaveRequestID, val: val, remarks: remarks, emplyeeID: @Model.Item2.EmployeeID },
+                url: "/LMS/LeaveRequests/SubmitLeave",               
+                dataType: "json",
+                success: function (response) {
+                    alert("Response: " + response);
+                    window.location = "/LMS/LeaveRequests/Index/0";
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });  
+        }  
+    </script>
+    <script type="text/javascript">
+        !function ($) {
+            $(document).on("click", "#left ul.nav li.parent > a > span.sign", function () {
+                $(this).find('i:first').toggleClass("icon-minus");
+            });
+
+            // Open Le current menu
+            $("#left ul.nav li.parent.active > a > span.sign").find('i:first').addClass("icon-minus");
+            $("#left ul.nav li.current").parents('ul.children').addClass("in");
+
+        }(window.jQuery);
+    </script>
+    <script type="text/javascript">
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Remaining", "Pending", "Availed"],
+                datasets: [{
+                    backgroundColor: [
+                        "#00a65a",
+                        "#3c8dbc",
+                        "#f56954"
+                    ],
+                    data: [@ViewBag.Remaning, @ViewBag.Pending, @ViewBag.Availed]
+                }]
+            }
+        });
+    </script>
+    <script>
+        var barChartData = {
+            labels: ['Annual', 'Sick', 'Paternity', 'Special','Others'],
+            datasets: [{
+                label: 'Availed',
+                backgroundColor: '#f56954',
+                data: [@Model.Item1.ElementAt(0).Availed,@Model.Item1.ElementAt(1).Availed,@Model.Item1.ElementAt(2).Availed,@Model.Item1.ElementAt(3).Availed,@Model.Item1.ElementAt(4).Availed]
+            }, {
+                label: 'Remaining',
+                    backgroundColor: '#00a65a',
+                data: [@Model.Item1.ElementAt(0).Total,@Model.Item1.ElementAt(1).Total,@Model.Item1.ElementAt(2).Total,@Model.Item1.ElementAt(3).Total,@Model.Item1.ElementAt(4).Total]
+            }]
+
+        };
+        window.onload = function () {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Leave Status - Type Wise'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+        };
+
+
+    </script>
+}

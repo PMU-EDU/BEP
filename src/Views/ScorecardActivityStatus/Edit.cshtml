@@ -1,0 +1,56 @@
+﻿@model BES.Models.Data.ScorecardActivityStatus
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>ScorecardActivityStatus</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ScorecardActivityStatusID" />
+            <div class="form-group">
+                <label asp-for="ScoreCardMeetingScheduleID" class="control-label"></label>
+                <input asp-for="ScoreCardMeetingScheduleID" class="form-control" />
+                <span asp-validation-for="ScoreCardMeetingScheduleID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScorecardActivityID" class="control-label"></label>
+                <select asp-for="ScorecardActivityID" class="form-control" asp-items="ViewBag.ScorecardActivityID"></select>
+                <span asp-validation-for="ScorecardActivityID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentStatus" class="control-label"></label>
+                <input asp-for="CurrentStatus" class="form-control" />
+                <span asp-validation-for="CurrentStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comments" class="control-label"></label>
+                <input asp-for="Comments" class="form-control" />
+                <span asp-validation-for="Comments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedBy" class="control-label"></label>
+                <input asp-for="UpdatedBy" class="form-control" />
+                <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CurrentDate" class="control-label"></label>
+                <input asp-for="CurrentDate" class="form-control" />
+                <span asp-validation-for="CurrentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,426 @@
+﻿@model Tuple<IEnumerable<BES.Areas.LMS.Models.LeaveRequest>, IEnumerable<BES.Areas.LMS.Models.EmpLeaveSummary>>
+
+@section Styles {
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    <style>
+        /* MENU-LEFT
+        -------------------------- */
+        /* layout */
+        .bs-example {
+            margin: 0 5px;
+        }
+
+        #left ul.nav {
+            margin-bottom: 2px;
+            font-size: 12px; /* to change font-size, please change instead .lbl */
+        }
+
+            #left ul.nav ul,
+            #left ul.nav ul li {
+                list-style: none !important;
+                list-style-type: none !important;
+                margin-top: 1px;
+                margin-bottom: 1px;
+            }
+
+            #left ul.nav ul {
+                padding-left: 0;
+                width: auto;
+            }
+
+                #left ul.nav ul.children {
+                    padding-left: 12px;
+                    width: auto;
+                }
+
+                    #left ul.nav ul.children li {
+                        margin-left: 0px;
+                    }
+
+            #left ul.nav li a:hover {
+                text-decoration: none;
+            }
+
+                #left ul.nav li a:hover .lbl {
+                    color: #999 !important;
+                }
+
+            #left ul.nav li.current > a .lbl {
+                background-color: #999;
+                color: #fff !important;
+            }
+
+            /* parent item */
+            #left ul.nav li.parent a {
+                padding: 0px;
+                color: #ccc;
+            }
+
+            #left ul.nav > li.parent > a {
+                border: solid 1px #999;
+                text-transform: uppercase;
+            }
+
+            #left ul.nav li.parent a:hover {
+                background-color: #fff;
+                -webkit-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                -moz-box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+                box-shadow: inset 0 3px 8px rgba(0,0,0,0.125);
+            }
+
+            /* link tag (a)*/
+            #left ul.nav li.parent ul li a {
+                color: #222;
+                border: none;
+                display: block;
+                padding-left: 5px;
+            }
+
+                #left ul.nav li.parent ul li a:hover {
+                    background-color: #fff;
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
+                }
+
+            /* sign for parent item */
+            #left ul.nav li .sign {
+                display: inline-block;
+                width: 14px;
+                padding: 5px 8px;
+                background-color: transparent;
+                color: #fff;
+            }
+
+            #left ul.nav li.parent > a > .sign {
+                margin-left: 0px;
+                background-color: #999;
+            }
+
+            /* label */
+            #left ul.nav li .lbl {
+                padding: 5px 12px;
+                display: inline-block;
+            }
+
+            #left ul.nav li.current > a > .lbl {
+                color: #fff;
+            }
+
+            #left ul.nav li a .lbl {
+                font-size: 12px;
+            }
+
+            /* THEMATIQUE
+        ------------------------- */
+
+
+            /* theme 2 */
+            #left ul.nav > li.item-8.parent > a {
+                border: solid 1px #3c8dbc;
+            }
+
+                #left ul.nav > li.item-8.parent > a > .sign,
+                #left ul.nav > li.item-8 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #3c8dbc;
+                }
+
+            #left ul.nav > li.item-8 .lbl {
+                color: #3c8dbc;
+            }
+
+            #left ul.nav > li.item-8 li.current > a .lbl {
+                background-color: #3c8dbc;
+                color: #fff !important;
+            }
+
+            /* theme 3 */
+            #left ul.nav > li.item-15.parent > a {
+                border: solid 1px #94cf00;
+            }
+
+                #left ul.nav > li.item-15.parent > a > .sign,
+                #left ul.nav > li.item-15 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #94cf00;
+                }
+
+            #left ul.nav > li.item-15 .lbl {
+                color: #94cf00;
+            }
+
+            #left ul.nav > li.item-15 li.current > a .lbl {
+                background-color: #94cf00;
+                color: #fff !important;
+            }
+
+            /* theme 4 */
+            #left ul.nav > li.item-22.parent > a {
+                border: solid 1px #ef409c;
+            }
+
+                #left ul.nav > li.item-22.parent > a > .sign,
+                #left ul.nav > li.item-22 li.parent > a > .sign {
+                    margin-left: 0px;
+                    background-color: #ef409c;
+                }
+
+            #left ul.nav > li.item-22 .lbl {
+                color: #ef409c;
+            }
+
+            #left ul.nav > li.item-22 li.current > a .lbl {
+                background-color: #ef409c;
+                color: #fff !important;
+            }
+    </style>
+}
+<div style="margin:10px 20px 0 20px">
+    <div class="row">
+        <h4 class="text-center" style="font-weight:bold">Leave Management System</h4>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-4" style="margin-top:30px">
+            <div>
+                <div>
+                    <h5 style="font-weight:bold; color:gray" class="text-center">Leaves - Summary</h5>
+                    <canvas id="myChart" height="180"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" style="margin-top:30px">
+            <div>
+                <div>
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <table class="table table-striped dataTables-example" style="margin-bottom:0">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).AppliedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).LeaveType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).TotalDays)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).DateFrom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).DateTo)
+                    </th>
+                    @{
+                        if (ViewBag.IsSupervisor != 1)
+                        {
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedBySection)
+                            </th>
+                        }
+                    }
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedByHR)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Item1.ElementAt(0).ApprovedByPD)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Item1)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AppliedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDays)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTo)
+                    </td>
+
+                    @{
+                        if (ViewBag.IsSupervisor != 1)
+                        {
+                            if (item.ApprovedBySection == 0)
+                            {
+                                <td><span style="color:dodgerblue;font-weight:bold">Pending</span></td>
+                            }
+                            else if (item.ApprovedBySection == 1)
+                            {
+                                <td><span style="color:#00a65a;font-weight:bold">Accepted</span></td>
+                            }
+                            else
+                            {
+                                <td><span style="color:firebrick;font-weight:bold">Rejected</span> }</td>
+                            }
+                        }
+                    }
+
+                    <td>
+                        @{
+                            if (item.ApprovedByHR == 0)
+                            {
+                                <span style="color:dodgerblue;font-weight:bold">Pending</span>
+                            }
+                            else if (item.ApprovedByHR == 1)
+                            {
+                                <span style="color:#00a65a;font-weight:bold">Accepted</span> }
+                            else
+                            { <span style="color:firebrick;font-weight:bold">Refused</span> }
+                        }
+                    </td>
+                    <td>
+                        @{
+                            if (item.ApprovedByPD == 0)
+                            {
+                                <span style="color:dodgerblue;font-weight:bold">Pending</span>
+                            }
+                            else if (item.ApprovedByPD == 1)
+                            {
+                                <span style="color:#00a65a;font-weight:bold">Accepted</span> }
+                            else
+                            { <span style="color:firebrick;font-weight:bold">Rejected</span> }
+                        }
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot><tr><td style="padding-bottom:60px"></td></tr></tfoot>
+        </table>
+    </div>
+    </div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#PD").hide();
+            $("#refused").text(@ViewBag.Refused);
+        if (@ViewBag.IsSupervisor == 1) {
+            $("#Supervisor").show();
+            $("#LeaveRequest").hide();            
+            $("#inbox").text(@ViewBag.Inbox);
+            $("#accepted").text(@ViewBag.Accepted);
+            $("#rejected").text(@ViewBag.Rejected);
+            $("#refused").text(@ViewBag.Refused);
+        } else {
+            $("#Supervisor").hide();
+            }
+         if (@ViewBag.IsHRAdmin == 1) {
+            $("#HRAdmin").show();
+             $("#LeaveRequest").show();
+             $("#PD").hide();
+         }
+         else {
+            $("#HRAdmin").hide();
+                $("#LeaveRequest").hide();
+            }
+        if (@ViewBag.IsPD == 1) {
+            $("#PD").show();
+        }
+            $('.dataTables-example').DataTable({
+                "bPaginate": false,
+                "ordering": false,
+                dom: '<"html5buttons"B>lTfigtp',
+            });
+
+            $('[data-toggle="popover"]').popover({
+                placement: 'top',
+                trigger: 'hover'
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        !function ($) {
+            $(document).on("click", "#left ul.nav li.parent > a > span.sign", function () {
+                $(this).find('i:first').toggleClass("icon-minus");
+            });
+
+            // Open Le current menu
+            $("#left ul.nav li.parent.active > a > span.sign").find('i:first').addClass("icon-minus");
+            $("#left ul.nav li.current").parents('ul.children').addClass("in");
+
+        }(window.jQuery);
+    </script>
+    <script type="text/javascript">
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Remaining", "Pending", "Availed"],
+                datasets: [{
+                    backgroundColor: [
+                        "#00a65a",
+                        "#3c8dbc",
+                        "#f56954"
+                    ],
+                    data: [@ViewBag.Remaning, @ViewBag.Pending, @ViewBag.Availed]
+                }]
+            }
+        });
+    </script>
+    <script>
+        var barChartData = {
+            labels: ['Annual', 'Sick', 'Paternity', 'Special','Others'],
+            datasets: [{
+                label: 'Availed',
+                backgroundColor: '#f56954',
+                data: [@Model.Item2.ElementAt(0).Availed,@Model.Item2.ElementAt(1).Availed,@Model.Item2.ElementAt(2).Availed,@Model.Item2.ElementAt(3).Availed,@Model.Item2.ElementAt(4).Availed]
+            }, {
+                label: 'Remaining',
+                    backgroundColor: '#00a65a',
+                data: [@Model.Item2.ElementAt(0).Total,@Model.Item2.ElementAt(1).Total,@Model.Item2.ElementAt(2).Total,@Model.Item2.ElementAt(3).Total,@Model.Item2.ElementAt(4).Total]
+            }]
+
+        };
+        window.onload = function () {
+            var ctx = document.getElementById('canvas').getContext('2d');
+            window.myBar = new Chart(ctx, {
+                type: 'bar',
+                data: barChartData,
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Leave Status - Type Wise'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+            });
+        };
+
+
+    </script>
+}

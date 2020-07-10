@@ -1,0 +1,71 @@
+﻿@model IEnumerable<BES.Areas.Procurement.Models.AddendumWorks>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Attachment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActualAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityDetailWork)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddendumType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Attachment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpiryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityDetailWork.ActivityDetailWorkID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddendumType.AddendumTypeId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AddendumId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AddendumId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AddendumId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

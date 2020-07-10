@@ -1,0 +1,97 @@
+﻿@model BES.Models.Data.Tool5
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Add new Data </h2>
+
+<h4>of Tool 5</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SchoolID" class="control-label"></label>
+             @*   <select asp-for="SchoolID" class ="form-control" asp-items="ViewBag.SchoolID"></select>*@
+                <input asp-for="SchoolID" class ="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Quarter" class="control-label"></label>
+                <input asp-for="Quarter" class="form-control" />
+                <span asp-validation-for="Quarter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="ProjectYear" class="control-label"></label>
+                <input asp-for="ProjectYear" class="form-control" />
+                <span asp-validation-for="ProjectYear" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VisitorName" class="control-label"></label>
+                <input asp-for="VisitorName" class="form-control" />
+                <span asp-validation-for="VisitorName" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="ReCollectData" /> @Html.DisplayNameFor(model => model.ReCollectData)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="Verified" /> @Html.DisplayNameFor(model => model.Verified)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="VerifiedBy" class="control-label"></label>
+                <input asp-for="VerifiedBy" class="form-control" />
+                <span asp-validation-for="VerifiedBy" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedBy" class="control-label"></label>
+                <input asp-for="UpdatedBy" class="form-control" />
+                <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedDate" class="control-label"></label>
+                <input asp-for="UpdatedDate" class="form-control" />
+                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save & Next" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

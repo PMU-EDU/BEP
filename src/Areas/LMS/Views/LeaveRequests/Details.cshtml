@@ -1,0 +1,43 @@
+﻿@model BES.Areas.LMS.Models.LeaveRequest
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>LeaveRequest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFrom)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateFrom)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateTo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalDays)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalDays)
+        </dd>
+       
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LeaveType.LeaveTypeID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.LeaveRequestID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

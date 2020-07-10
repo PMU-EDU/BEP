@@ -73,6 +73,8 @@ namespace BES.Models.Data
        public short RepairToilets       {get;set;}
        public bool NewConstruction     {get;set;}
        public bool RepairRennovation   {get;set;}
+       public short? CurrentStage   {get;set;}
+       public short? RepairRennovationStatus { get;set;}
        public bool ExternalDevelopment {get;set;}
 
         //[DisplayName("Notification Date")]
@@ -155,5 +157,19 @@ namespace BES.Models.Data
         public string Latitude { get; set; }
 
         public string Longitude { get; set; }
+    }
+
+    public class SchIndicatorStatus
+    {
+        public int RegionID { get; set; }
+        public string DistrictName { get; set; }
+                 [Key]
+         public int SchoolID { get; set; }
+        public string SName { get; set; }
+         public int ClusterBEMIS { get; set; }
+        public string BEMIS { get; set; }
+        public string SLevel { get; set; }
+        public string Type { get; set; }
+        public int IsUploaded { get; set; }
     }
 }

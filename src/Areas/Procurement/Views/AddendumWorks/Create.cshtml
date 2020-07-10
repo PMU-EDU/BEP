@@ -1,0 +1,94 @@
+﻿@model BES.Areas.Procurement.Models.AddendumWorks
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="margin:0 15px 0 15px">
+    <h3>Add New Addendum</h3>
+    @{
+        if (ViewBag.Pending == null)
+        {
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="ActivityDetailWorkID" />
+        <div class="row">
+            <div class="col-sm-6 col-lg-6 col-md-6">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label class="control-label">Activity Name</label>
+                    <input value="@ViewBag.AName" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+            <div class="col-sm-2 col-lg-2 col-md-2">
+                <div class="form-group">
+                    <label asp-for="AddendumTypeId" class="control-label"></label>
+                    <select asp-for="AddendumTypeId" class="form-control" asp-items="ViewBag.AddendumTypeId"></select>
+                </div>
+            </div>
+            <div class="col-sm-2 col-lg-2 col-md-2">
+                <div class="form-group" id="EDate">
+                    <label asp-for="ExpiryDate" class="control-label"></label>
+                    <input asp-for="ExpiryDate" class="form-control" />
+                    <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-lg-2 col-md-2">
+                <div class="form-group">
+                    <label asp-for="Attachment" class="control-label"></label>
+                    <input type="file" name="Attachment" accept="application/pdf" required />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add New" class="btn btn-primary" />
+                </div>
+            </div>
+            <div class="col-sm-8 col-lg-8 col-md-8">
+                <div class="form-group">
+                    <label asp-for="Remarks" class="control-label"></label>
+                    <input asp-for="Remarks" class="form-control" />
+                    <span asp-validation-for="Remarks" class="text-danger"></span>
+                </div>
+                <div id="divLoading">
+                    <img src="~/img/sspinner.gif" width="40" height="40" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+            <h4 style="font-weight:bold">List of Already Assigned Addendums</h4>
+            <div id="dynamicContentContainer"></div>
+        }
+        else
+        {
+            <text><b>@ViewBag.Pending</b></text>
+        }
+    }
+    <div>
+        <a asp-controller="Activities" asp-action="edit" asp-route-id="@ViewBag.AID">Back to List</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            var lot = $("#LotId").val();
+            $.get('@Url.Action("PartialIndex", "AddendumWorks")', { id: @ViewBag.AID }, function (content) {
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+
+            $(function () {
+                $('#EDate').hide();
+                $('#AddendumTypeId').change(function () {
+                    if ($('#AddendumTypeId').val() == 1) {
+                        $('#EDate').hide();
+                    } else {
+                        $('#EDate').show();
+                    }
+                });
+            });
+        });
+    </script>
+}

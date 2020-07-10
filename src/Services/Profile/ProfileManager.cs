@@ -29,7 +29,10 @@ namespace BES.Services.Profile
             {
                 if (_currentUser == null)
                     _currentUser = _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User).Result;
-
+                var roles =   _signInManager.UserManager.GetRolesAsync(_currentUser);
+               // var r = roles[0];
+              
+                //CurrentUser.Role = roles[0];
                 return _currentUser;
             }
         }
