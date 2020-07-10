@@ -18,13 +18,13 @@ namespace BES.Models.Reports
         [DisplayName("Indicator")]
         public string IndicatorName { get; set; }
 
-        [DisplayName("Orginal Target")]
+        [DisplayName("Target")]
         public int? GPEOrginalTarget { get; set; }
         
         [DisplayName("Revised Target")]
         public int? GPERevisedTarget { get; set; }
 
-        [DisplayName("Revised Achieved")]
+        [DisplayName("Achieved")]
         public int? GPERevisedAchieved { get; set; }
 
         [DisplayName("Unmet Target")]

@@ -20,24 +20,24 @@
             <tH rowspan="2"  style="text-align: center; vertical-align: middle;">
                 <h2> @Html.DisplayNameFor(model => model.IndicatorName)</h2>
             </tH>
-            <th colspan="4" bgcolor=@GPEColor style="text-align: center; vertical-align: middle;"><h2>GPE</h2></th>
+            <th colspan="2" bgcolor=@GPEColor style="text-align: center; vertical-align: middle;"><h2>GPE</h2></th>
             <th colspan="2" bgcolor=@EUColor style="text-align: center; vertical-align: middle;"><h2>EU</h2></th>
-            <th colspan="2" style="text-align: center; vertical-align: middle;"><h2>Cumulaive</h2></th>
+            <th colspan="2" style="text-align: center; vertical-align: middle;"><h2>Cumulative</h2></th>
         </tr>
         <tr>
            
             <th bgcolor=@GPEColor>
                @Html.DisplayNameFor(model => model.GPEOrginalTarget)
             </th>
-            <th bgcolor=@GPEColor>
+            @*<th bgcolor=@GPEColor>
                 @Html.DisplayNameFor(model => model.GPERevisedTarget)
-            </th>
+            </th>*@
             <th bgcolor=@GPEColor>
                 @Html.DisplayNameFor(model => model.GPERevisedAchieved)
             </th>
-            <th bgcolor=@GPEColor>
+            @*<th bgcolor=@GPEColor>
                 @Html.DisplayNameFor(model => model.GPEUnMetTarget)
-            </th>
+            </th>*@
             <th bgcolor=@EUColor>
                 @Html.DisplayNameFor(model => model.EUTarget)
             </th>
@@ -70,32 +70,35 @@
                     @Html.DisplayFor(modelItem => item.IndicatorName)
                 </td>
                 <td bgcolor=@GPEtd>
-                    @Html.DisplayFor(modelItem => item.GPEOrginalTarget)
+                    @String.Format("{0:#,##}", item.GPEOrginalTarget)
                 </td>
-                <td bgcolor=@GPEtd>
+                @*<td bgcolor=@GPEtd>
                     @Html.DisplayFor(modelItem => item.GPERevisedTarget)
-                </td>
+                </td>*@
                 <td bgcolor=@GPEtd>
-                    <a href="http://mis.bep.org.pk" target="_blank"> @Html.DisplayFor(modelItem => item.GPERevisedAchieved)</a>    
+                    <a href="http://mis.bep.org.pk" target="_blank"> @String.Format("{0:#,##}", item.GPERevisedAchieved)</a>    
                 </td>
-                <td bgcolor=@GPEtd>
+                @*<td bgcolor=@GPEtd>
                     @Html.DisplayFor(modelItem => item.GPEUnMetTarget)
+                </td>*@
+                <td bgcolor=@EUtd>
+                    @String.Format("{0:#,##}", item.EUTarget)
                 </td>
                 <td bgcolor=@EUtd>
-                    @Html.DisplayFor(modelItem => item.EUTarget)
-                </td>
-                <td bgcolor=@EUtd>
-                    <a href="http://eu.bep.org.pk/" target="_blank"> @Html.DisplayFor(modelItem => item.EUAchieved)</a> 
+                    <a href="http://eu.bep.org.pk/" target="_blank"> @String.Format("{0:#,##}", item.EUAchieved)</a> 
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CumulativeTarget)
+                    @String.Format("{0:#,##}", item.CumulativeTarget)
                 </td>
                 <td>
-                    <text> @(item.GPERevisedAchieved+item.EUAchieved)</text>
+                    <text>
+                        @String.Format("{0:#,##}", (item.GPERevisedAchieved+item.EUAchieved))</text>
                     @*<a asp-action="Edit" asp-route-id="@item.IndiID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.IndiID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.IndiID">Delete</a>*@
-                </td>
+    <a asp-action="Details" asp-route-id="@item.IndiID">Details</a> |
+    <a asp-action="Delete" asp-route-id="@item.IndiID">Delete</a>*@
+
+               
+</td>
             </tr>
         }
     </tbody>

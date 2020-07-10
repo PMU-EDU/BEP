@@ -76,15 +76,16 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Achived)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comments)
-                </th>
+                
                 @{
                     @foreach (var mdate in ViewBag.MeetingDates)
                     {
                         <th style="min-width:60px">@mdate.LastMeetingDate.ToString("MMM dd")</th>
                     }
                 }
+                <th>
+    @Html.DisplayNameFor(model => model.Comments)
+</th>
                 @*<th></th>*@
             </tr>
         </thead>
@@ -175,14 +176,6 @@
                         }
                     }
                 </td>
-                <td>
-                    @{
-                        if (item.IsHead == false)
-                        {
-                            <button type="button" class="btnShow btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" data-activityselector="@item.ActivityName" data-selector="@item.Comments">View Remarks</button>
-                        }
-                    }
-                </td>
                 @{
                     @foreach (var mdate in ViewBag.MeetingDates)
                     {
@@ -196,6 +189,15 @@
                         }
                     }
                 }
+                <td>
+                    @{
+                        if (item.IsHead == false)
+                        {
+                            <button type="button" class="btnShow btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" data-activityselector="@item.ActivityName" data-selector="@item.Comments">View Remarks</button>
+                        }
+                    }
+                </td>
+
                 @*<td>
             <a asp-action="Edit" asp-route-id="@item.ScorecardActivityID">Edit</a> |
             <a asp-action="Details" asp-route-id="@item.ScorecardActivityID">Details</a> |

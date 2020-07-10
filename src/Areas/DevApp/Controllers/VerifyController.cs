@@ -40,9 +40,10 @@ namespace BES.Areas.DevApp.Controllers
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
         // GET: Verify
-        public async Task<IActionResult> SchoolList()
+        public async Task<IActionResult> SchoolList(int id)
         {
-            
+            bool verifed;
+            if (id != 1) verifed = false; else verifed = true;
             var applicationDbContext = (from Schools in _context.Schools
                                         join Proj_IncdicatorTracking in _context.IncdicatorTracking on Schools.SchoolID equals Proj_IncdicatorTracking.SchoolID
                                         join Indicators in _context.Indicator on Proj_IncdicatorTracking.IndicatorID equals Indicators.IndicatorID
@@ -54,7 +55,9 @@ namespace BES.Areas.DevApp.Controllers
                                               on new { Tehsils.DistrictID, Column1 = Tehsils.DistrictID }
                                           equals new { Districts.DistrictID, Column1 = Districts.DistrictID }
                                         where
-                                          Proj_IncdicatorTracking.ReVerified == false && Proj_IncdicatorTracking.ReUpload == false && Indicators.IndicatorID > 28 && Indicators.IndicatorID !=35  && Indicators.IndicatorID < 40
+                                          Proj_IncdicatorTracking.ReVerified == verifed 
+                                          && Indicators.IndicatorID > 28 
+                                          && Indicators.IndicatorID !=35  && Indicators.IndicatorID < 40
                                         group new { Schools, Districts } by new
                                         {
                                             Schools.SchoolID,
@@ -105,7 +108,7 @@ namespace BES.Areas.DevApp.Controllers
                                        join Proj_IncdicatorTracking in _context.IncdicatorTracking on Proj_Indicator.IndicatorID equals Proj_IncdicatorTracking.IndicatorID into Proj_IncdicatorTracking_join
                                        from Proj_IncdicatorTracking in Proj_IncdicatorTracking_join.DefaultIfEmpty()
                                        where
-                                         Proj_Indicator.IndicatorID>28
+                                         Proj_Indicator.IndicatorID>28 && Proj_Indicator.IndicatorID != 35 && Proj_Indicator.IndicatorID < 40
                                         && (Proj_IncdicatorTracking.SchoolID == id )
                                        //Proj_IncdicatorTracking.SchoolID == null)
                                        orderby
@@ -126,6 +129,8 @@ namespace BES.Areas.DevApp.Controllers
                                            EvidanceType = Proj_Indicator.EvidanceType,
                                            ReUpload = Proj_IncdicatorTracking.ReUpload,
                                            Verified = Proj_IncdicatorTracking.Verified,
+                                           ReVerified= Proj_IncdicatorTracking.ReVerified,
+                                           DevVerified = Proj_IncdicatorTracking.DevVerified
                                            //SchoolID = Proj_IncdicatorTracking.SchoolID == id ? id : Proj_IncdicatorTracking.SchoolID ==  null ? (int?)null : 0,
                                            // Proj_Indicator.SequenceNo
                                        };
@@ -135,8 +140,13 @@ namespace BES.Areas.DevApp.Controllers
         
         public async Task<IActionResult> Indicator(int id, int iid)
         {
+            ViewBag.SchoolName = _context.Schools.First(a => a.SchoolID==id).SName;
+            ViewBag.IndicatorName = _context.Indicator.First(a => a.IndicatorID == iid).IndicatorName;
+
+            ViewBag.IsVerified = _context.IncdicatorTracking.First(a => a.IndicatorID == iid && a.SchoolID == id).ReVerified;
             var applicationDbContext = _context.IndicatorDevApp.Where(a => a.SchoolID == id & a.IndicatorID == iid);
-           // imagesList.devAppList =  _context.IndicatorDevApp.Where(a => a.SchoolID == id & a.IndicatorID == iid);
+            // imagesList.devAppList =  _context.IndicatorDevApp.Where(a => a.SchoolID == id & a.IndicatorID == iid);
+
             return View(await applicationDbContext.ToListAsync ());
 
         }

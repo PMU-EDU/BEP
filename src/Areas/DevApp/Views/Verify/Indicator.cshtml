@@ -93,9 +93,9 @@
 }
 
 
-<h2>Indicator</h2>
+<h2>@ViewBag.SchoolName </h2>
 
-<h4>ImagesList</h4>
+<h4>@ViewBag.IndicatorName</h4>
 <hr />
 <div class=" content-wrapper">
     <form asp-action="Indicator">
@@ -123,15 +123,22 @@
                                 <div class="@(check == 0 ? "item active" : "item")">
                                     <img id="@string.Format("myImg{0}", i+1)" class="img-responsive" src="@Url.Content(Model[i].ImagePath) " style="height:200px;width:240px;" alt=@Model[i].IndicatorID />
                                     <br />
-                                    <input type="checkbox" asp-for="@Model[i].VerifyRE" /> Verify
+                                    <input type="checkbox" asp-for="@Model[i].VerifyRE" /> Verified
                                 </div>
                             </div>
                         </div>
                     }
                 }
 
-            </div>            <div class="form-group">
-                <input type="submit" value="Submit Verification" class="btn btn-default" />
+            </div>           
+            <div class="form-group">
+                @{
+                    if (ViewBag.IsVerified==false)
+                    {
+                        <input type="submit" value="Submit Verification" class="btn btn-default" />
+
+                    }
+                }
             </div>
 
         </div>

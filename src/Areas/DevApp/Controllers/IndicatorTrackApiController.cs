@@ -97,6 +97,7 @@ namespace BES.Areas.DevApp.Controllers
                     isDuplicate = true;
                 }
 
+              
                 IndicatorTracking indicatorTracking = new IndicatorTracking
                 {
                     IndicatorID = repo.indicatorID,
@@ -108,11 +109,17 @@ namespace BES.Areas.DevApp.Controllers
                     CreateDate = DateTime.Now,
                     TotalFilesUploaded = repo.picture_count,
                 };
+                if (isDuplicate)
+                {
+                    indicatorTracking = _context.IncdicatorTracking.First(a => a.SchoolID == repo.school_id && a.IndicatorID == repo.indicatorID);
+                }
+                else
                 _context.Add(indicatorTracking);
+
                 var school = _context.Schools.Find(repo.school_id);
-                if (school.NewConstruction && repo.indicatorID < 35)
+                if (school.NewConstruction && repo.indicatorID < 35 && !isDuplicate)
                 { school.CurrentStage += 1; }
-                if (school.RepairRennovation && repo.indicatorID > 35)
+                if (school.RepairRennovation && repo.indicatorID > 35 && !isDuplicate)
                 {
                     school.RepairRennovationStatus += 1;
                 }
