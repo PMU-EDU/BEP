@@ -70,13 +70,12 @@
                 @*<th style="min-width:80px">
             @Html.DisplayNameFor(model => model.EndDate)
         </th>*@
-                <th style="min-width:60px">
+                <th style="min-width:50px">
                     @Html.DisplayNameFor(model => model.Target)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Achived)
                 </th>
-                
                 @{
                     @foreach (var mdate in ViewBag.MeetingDates)
                     {
@@ -84,15 +83,15 @@
                     }
                 }
                 <th>
-    @Html.DisplayNameFor(model => model.Comments)
-</th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
                 @*<th></th>*@
             </tr>
         </thead>
         @{
             string[] state = { "On-Track", "Behind", "Delay", "Complete" };
             string[] colorCode = { "badge bg-green", "badge bg-yellow", "badge bg-red", "badge bg-gray" };
-            string[] colorCodeVal = { "background-color:#00A65A", "background-color:#F39C12", "background-color:#DD4B39", "background-color:#D2D6DE" };
+            string[] colorCodeVal = { "background-color:#00A65A", "background-color:#F39C12", "background-color:#DD4B39", "background-color:#D2D6DE", "background-color:white" };
         }
         <tbody>
             @foreach (var item in Model)
@@ -123,8 +122,14 @@
                     @{
                         if (item.IsHead == false)
                         {
-                            @*<span class="dot"></span>*@
-                            <span class="@colorCode[item.Status - 1]">@state[(item.Status - 1)]</span>
+                            if (item.IsUpdated == true)
+                            {
+                                <span class="@colorCode[item.Status - 1]">@state[(item.Status - 1)]</span>
+                            }
+                            else
+                            {
+                                <span class="@colorCode[item.Status - 1]">Pending</span>
+                            }
                         }
                     }
                 </td>
@@ -176,7 +181,10 @@
                         }
                     }
                 </td>
+
                 @{
+                    var values = item.meetingStatusList;
+                    var counter = 0;
                     @foreach (var mdate in ViewBag.MeetingDates)
                     {
                         if (item.IsHead)
@@ -184,9 +192,10 @@
                             <td></td>
                         }
                         else
-                        {
-                            <td style="@colorCodeVal[item.Status - 1]"></td>
+                        {                            
+                            <td style="@colorCodeVal[(int.Parse(values.Substring(counter, 1)))-1]"></td>
                         }
+                        counter = counter + 2;
                     }
                 }
                 <td>
@@ -197,7 +206,6 @@
                         }
                     }
                 </td>
-
                 @*<td>
             <a asp-action="Edit" asp-route-id="@item.ScorecardActivityID">Edit</a> |
             <a asp-action="Details" asp-route-id="@item.ScorecardActivityID">Details</a> |

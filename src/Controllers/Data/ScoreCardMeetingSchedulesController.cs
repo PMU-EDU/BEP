@@ -80,7 +80,7 @@ namespace BES.Controllers.Data
                     }
                     else
                     {
-                        //obj.meetingStatusList = obj.meetingStatusList + ",9";
+                        obj.meetingStatusList = obj.meetingStatusList + ",5";
                         obj.IsUpdated = false;
                     }
                     _context.Update(obj);

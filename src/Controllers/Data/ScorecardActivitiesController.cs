@@ -209,6 +209,7 @@ namespace BES.Controllers.Data
                 {
                     scorecardActivity.meetingStatusList = scorecardActivity.meetingStatusList + "," + scorecardActivity.Status.ToString();
                     scorecardActivity.IsUpdated = true;
+                    scorecardActivity.meetingStatusList.Replace("5", scorecardActivity.Status.ToString());
                     _context.Update(scorecardActivity);                    
                     await _context.SaveChangesAsync();
                 }
